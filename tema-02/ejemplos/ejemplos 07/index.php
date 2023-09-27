@@ -4,11 +4,8 @@
 Descripcion: Controlador ejemplo
 Autor: Julian
 */
+include 'modelUsuario.php';
+include 'viewUsuario.php';
 
-$alumno ="Julian";
-print "El alumno es:";
-print $alumno;
-
-echo <br/>;
-
+//Esto es un comentario con atajo teclado
 ?>
