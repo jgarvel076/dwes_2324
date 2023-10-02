@@ -2,7 +2,7 @@
 /* 
 
     Modelo: suma.php
-    Descripcion: suma los valores del formulario
+    Descripcion: divide los valores del formulario
 
 */
 //Creo dos variables para almacenar los valores enviados POST por el formulario
