@@ -1,14 +1,17 @@
-<?php
+<?php 
+/* 
 
-    /*
-        Modelo: sumar.php
-        descripcion: sumar los valores del formulario
-    */
+    Modelo: suma.php
+    Descripcion: suma los valores del formulario
 
-    $valor1 = $_POST['valor1'];
-    $valor2 = $_POST['valor2'];;
+*/
+//Creo dos variables para almacenar los valores enviados POST por el formulario
+$valor1 = $_POST['valor1'];
+$valor2 = $_POST['valor2'];
 
-    $operacion= "Sumar";
+// Creo otra variable para guardar la operacion realizada
+$operacion = "Suma";
 
-    $resultado= $valor1 + $valor2;
+// Realizo los cálculos y lo almaceno en la variable resultado
+$resultado = $valor1 + $valor2;
 ?>
