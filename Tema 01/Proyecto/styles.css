@@ -1,0 +1,81 @@
+@import url('https://fonts.google.com/specimen/Roboto?preview.text=Real%20Madrid&preview.text_type=custom');
+
+a{
+    text-decoration: none;
+    color: inherit; 
+}
+
+.container {
+    height:100vh; /*vertical*/
+    margin: 10px;
+    background-color: white;
+    padding: 10px;
+    overflow: auto;
+}
+
+.divCabecera {
+    height:100px;
+    margin:10px;
+    background-color: lightblue;
+    border: 2px solid darkblue;
+    border-radius: 10px;
+    font-family: 'Roboto';
+}
+
+.divPrincipal {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /*1fr (1parte)*/
+    height: 100%;
+    margin: 10px;
+    background-color: white;
+    
+}
+
+.zonaNavegacion{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 10px;
+    font-family: 'Roboto';
+}
+
+.zonaNavegacion div{
+    width: 1fr;
+    min-height: 50px;
+    height: auto;
+    margin: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 6px;
+}
+
+#divInicio:hover{
+    background-color: lightblue;
+}
+
+#divResumen:hover{
+    background-image: url("camiseta\ recorte.jpg");
+    background-repeat: no-repeat;
+}
+
+#divColores:hover{
+    background-color: lightblue;
+}
+
+#divTipografia:hover{
+    background-image: url("vitrina.jpg");
+    background-repeat: no-repeat;
+    color: whitesmoke;
+}
+
+#divIconografia:hover{
+    background-image: url("cesped.jpg");
+    background-repeat: no-repeat;
+}
+
+.zonaContenido{
+    grid-column: 2 / 5;
+    margin: 10px;
+    padding: 5px;
+    border: 6px;
+}
