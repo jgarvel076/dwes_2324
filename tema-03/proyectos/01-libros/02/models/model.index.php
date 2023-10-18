@@ -1,36 +1,42 @@
 <?php
 
-/*
 
-Modelo: model.index.php
-Descripcion: genera un array de libros
-
-*/
-
-$libros = array(
-    array(
+$libros = [
+    [
         'id' => 1,
-        'titulo' => 'El nombre del viento',
-        'autor' => 'Patrick Rothfuss',
-        'genero' => 'Fantasía',
-        'precio' => 20.99
-    ),
-    array(
+        'titulo' => 'El arte de la guerra',
+        'autor' => 'Sun Tzu',
+        'genero' => 'Novela',
+        'precio' => 20.50
+    ],
+    [
         'id' => 2,
-        'titulo' => 'Cien años de soledad',
-        'autor' => 'Gabriel García Márquez',
-        'genero' => 'Realismo mágico',
-        'precio' => 18.50
-    ),
-    array(
+        'titulo' => 'La piedra filosofal',
+        'autor' => 'Santiago Segura',
+        'genero' => 'Ficcion',
+        'precio' => 34
+    ],
+    [
         'id' => 3,
-        'titulo' => '1984',
-        'autor' => 'George Orwell',
-        'genero' => 'Ciencia ficción',
-        'precio' => 12.75
-    ),
-    // Puedes agregar más libros aquí
-);
-
+        'titulo' => 'Los pilares de la tierra',
+        'autor' => 'Isaac Asimov',
+        'genero' => 'Ciencia Ficción',
+        'precio' => 67.98
+    ],
+    [
+        'id' => 4,
+        'titulo' => 'Dracula',
+        'autor' => 'Bram Stoker',
+        'genero' => 'Terror',
+        'precio' => 12.50
+    ],
+    [
+        'id' => 5,
+        'titulo' => 'Harry Potter y el cáliz de fuego',
+        'autor' => 'J.K. Rowling',
+        'genero' => 'Fantasia',
+        'precio' => 24.99
+    ]
+];
 
 ?>
