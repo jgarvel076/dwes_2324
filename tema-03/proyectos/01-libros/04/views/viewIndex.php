@@ -14,8 +14,12 @@
       <i class="bi bi-rocket-takeoff-fill"></i>
       <span class="fs-4">Proyecto 3.2 - Gestión de libros</span>
     </header>
-
     <legend>Tabla Libros</legend>
+
+    <!-- Menú Principal -->
+    <?php include 'views/partials/menu_prin.php' ?>
+ 
+    <!-- Muestra datos de la tabla -->
     <table class="table">
       <!-- Encabezado tabla -->
       <thead>
@@ -46,9 +50,15 @@
                 <?= $campo ?>
               </td>
             <?php endforeach; ?>
+            <!-- boton eliminar  -->
             <td>
-              <a href="eliminar.php?id=<?= $libro['id'] ?>">
+              <a href="eliminar.php?id=<?= $libro['id'] ?>" title="Eliminar">
               <i class="bi bi-trash3"></i></a>
+            
+            <!-- boton editar  -->
+            
+              <a href="editar.php?id=<?= $libro['id'] ?>" title="Editar">
+              <i class="bi bi-pencil-square"></i></a>
             </td>
           </tr>
         <?php endforeach; ?>
