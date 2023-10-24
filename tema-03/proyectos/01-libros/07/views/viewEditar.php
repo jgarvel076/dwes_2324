@@ -19,40 +19,42 @@
         <legend>Formulario Edición Libro</legend>
 
         <!-- Formulario Nuevo Libro -->
-        <form action="mostrar.php">
+        <form action="update.php?id=<?= $id ?>" method="POST">
             <!-- id -->
             <div class="mb-3">
-                <label for="id" class="form-label">Id</label>
-                <input type="text" class="form-control" value="<?= $libro['id'] ?>" disabled>
+                <label for="titulo" class="form-label">Id</label>
+                <input type="text" class="form-control" name="id" value="<?= $libro['id'] ?>" readonly>
                 <!-- <div class="form-text">Introduzca identificador del libro</div> -->
             </div>
             <!-- Título -->
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
-                <input type="text" class="form-control" value="<?= $libro['titulo'] ?>" disabled>
+                <input type="text" class="form-control" name="titulo" value="<?= $libro['titulo'] ?>">
                 <!-- <div class="form-text">Introduzca título libro existente</div> -->
             </div>
             <!-- Autor -->
             <div class="mb-3">
                 <label for="autor" class="form-label">Autor</label>
-                <input type="text" class="form-control" value="<?= $libro['autor'] ?>" disabled>
+                <input type="text" class="form-control" name="autor" value="<?= $libro['autor'] ?>">
                 <!-- <div class="form-text">Introduzca Autor del libro</div> -->
             </div>
             <!-- Género -->
             <div class="mb-3">
                 <label for="genero" class="form-label">Género</label>
-                <input type="text" class="form-control" value="<?= $libro['genero'] ?>" disabled>
+                <input type="text" class="form-control" name="genero" value="<?= $libro['genero'] ?>">
                 <!-- <div class="form-text">Género del libro</div> -->
             </div>
             <!-- Precio -->
             <div class="mb-3">
                 <label for="precio" class="form-label">Precio (€)</label>
-                <input type="number" class="form-control" step="0.01" value="<?= $libro['precio'] ?>" disabled>
+                <input type="number" class="form-control" name="precio" step="0.01" value="<?= $libro['precio'] ?>">
                 <!-- <div class="form-text">Introduzca Precio</div> -->
             </div>
 
 
-            <a class="btn btn-secondary" href="index.php" role="button">Volver</a>
+            <a class="btn btn-secondary" href="index.php" role="button">Cancelar</a>
+            <button type="reset" class="btn btn-danger">Borrar</button>
+            <button type="submit" class="btn btn-primary">Actualizar</button>
 
         </form>
 

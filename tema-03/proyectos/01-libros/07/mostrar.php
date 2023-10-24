@@ -5,10 +5,10 @@ include 'libs/crud_funciones.php';
 
 // Model
 include 'models/modelIndex.php';
-include 'models/modelEditar.php';
+include 'models/modelMostrar.php';
 
 // Cargo la vista
-include "views/viewEditar.php";
+include "views/viewMostrar.php";
 
 
 

@@ -27,8 +27,8 @@
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+            <form class="d-flex" role="search" method="GET" action="buscar.php">
+                <input class="form-control me-2" type="search" placeholder="prompt" aria-label="Search" name="expresion">
                 <button class="btn btn-outline-secondary" type="submit">Buscar</button>
             </form>
         </div>
