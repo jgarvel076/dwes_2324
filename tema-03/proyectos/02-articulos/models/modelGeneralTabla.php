@@ -1,6 +1,0 @@
-<?php 
-
-
-    generar_Tabla();
-
-?>
