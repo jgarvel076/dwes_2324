@@ -4,9 +4,10 @@
 include("class/class.calculadora.php");
 
 #Cargo el modelo
+include("models/model.calcular.php");
 
 #Cargo la vista
-include("views/view.index.php");
+include("views/view.resultado.php");
 
 
 ?>
