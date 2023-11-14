@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'views/layouts/head.html' ?>
-    <title>Proyecto 3.2 - Gestión de articulos</title>
+    <title>Proyecto 4.2 - Gestión de articulos</title>
 </head>
 
 <body>
@@ -11,10 +11,7 @@
     <div class="container">
 
         <!-- cabecera documento -->
-        <header class="pb-3 mb-4 border-bottom">
-            <i class="bi bi-calculator"></i>
-            <span class="fs-6">Proyecto 3.2 - Gestión de articulos</span>
-        </header>
+        <?php include 'views/partials/header.php'; ?>
 
         <legend>Formulario Nuevo Articulo</legend>
 
@@ -64,18 +61,17 @@
             </div>
             <!-- Categoria -->
             <div class="mb-3">
-                <label for="categoria" class="form-label">Categoría</label>
-                <select class="form-select" aria-label="Default select example" name="categoria">
-                    <option selected disabled>Seleccione una categoría</option>
-                    <?php foreach ($categorias as $key => $categoria): ?>
+                <label for="categorias" class="form-label">Seleccione Categorías</label>
+                <div class="form-control">
+                    <?php foreach ($categorias as $indice => $categoria): ?>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="<? $indice ?>" name="categorias[]">
+                            <input class="form-check-input" type="checkbox" value="<?= $indice ?>" name="categorias[]">
                             <label class="form-check-label" for="">
-                            <?= $categoria ?>
+                                <?= $categoria ?>
                             </label>
                         </div>
                     <?php endforeach; ?>
-                </select>
+                </div>
             </div>
 
 
@@ -88,16 +84,17 @@
         <br>
         <br>
         <br>
+    </div>
 
 
 
 
         <!-- Pié del documento -->
-
+        <!-- javascript bootstrap 532 -->
+        <?php include 'views/layouts/javascript.html' ?>
     </div>
 
-    <!-- javascript bootstrap 532 -->
-    <?php include 'views/layouts/javascript.html' ?>
+    
 </body>
 
 </html>
