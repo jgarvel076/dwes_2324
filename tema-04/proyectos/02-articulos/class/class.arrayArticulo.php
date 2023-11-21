@@ -178,7 +178,3 @@ class ArrayArticulos
     }
 }
 ?>
-
-
-/*
-$alumno = new Alumno( 97, 'Julian', 'Garcia Velazquez', 'jgarvel076@g.educaand.es', '01/12/2004', 2, [3, 7, 8] ); */
