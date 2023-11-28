@@ -1,33 +1,39 @@
-<?php 
+<?php
+
 $servidor = 'localhost';
 $user = 'root';
 $password = '';
 $bd = 'fp';
 
-
-#conexion
+#Conexión
 $conexion = new mysqli($servidor, $user, $password, $bd);
 
-if($conexion -> connect_errno){
-    echo "Error de conexion nº: ". $conexion -> connect_errno;
-    echo '</br>';
-    echo "Error en la base de datos". $conexion -> connect_errno;
+if ($conexion->connect_errno) {
+    echo'Error de conexión Nº '.$conexion->connect_errno;
+    echo '<br>';
+    echo'Error en la conexion'.$conexion->connect_error;
     exit();
 }
 
-echo 'Conexion establecida con exito.';
+echo'Conexión establecida con éxito';
 
-#creamos variable para la ejecuciob comando sql
-$sql = 'select * from alumnos order by id';
+#Creamos variable para la ejecucion del comando sql
+$sql ='select * from alumnos order by id';
 
-#metodo query devolvemos un objeto de la clase result
-$result = $conexion -> query($sql);
+#Con el método query devolvemos un objeto de la clase resul
+$result = $conexion->query($sql);
 
-echo '</br>';
-echo 'Numero de registros:'. $result -> num_rows;
-echo '</br>';
-echo 'Numero de columnas:'. $result -> field_count;
-echo '</br>';
+echo'<br>';
+echo'Número de registros: '. $result->num_rows;
+echo'<br>';
+echo'Número de columnas: '. $result->field_count;
+echo '<br>';
 
-var_dump($result);
+$alumnos = $result->fetch_all(MYSQLI_ASSOC); 
+#Constante MYSQLI_ASSOC con la cual se le indica la forma que extraeremos los datos
+foreach ($alumnos as $alumno) {
+    print_r($alumno);
+    echo '<br>';
+}
+
 ?>

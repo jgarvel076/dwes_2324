@@ -1,20 +1,33 @@
-<?php 
+<?php
+
 $servidor = 'localhost';
 $user = 'root';
 $password = '';
-$bd = 'fp654654';
+$bd = 'fp';
 
+#Conexión
+$conexion = new mysqli($servidor, $user, $password, $bd);
 
-#conexion
-$conexion = mysqli_connect($servidor, $user, $password, $bd);
-
-if(mysqli_connect_errno()){
-    echo "Error de conexion nº: ";
-    echo '</br>';
-    echo "Error en la base de datos". mysqli_connect_error();
+if ($conexion->connect_errno) {
+    echo'Error de conexión Nº '.$conexion->connect_errno;
+    echo '<br>';
+    echo'Error en la conexion'.$conexion->connect_error;
     exit();
 }
 
-echo 'Conexion establecida con exito.'
+echo'Conexión establecida con éxito';
 
+#Creamos variable para la ejecucion del comando sql
+$sql ='select * from alumnos order by id';
+
+#Con el método query devolvemos un objeto de la clase resul
+$result = $conexion->query($sql);
+
+echo'<br>';
+echo'Número de registros: '. $result->num_rows;
+echo'<br>';
+echo'Número de columnas: '. $result->field_count;
+echo '<br>';
+
+var_dump($result);
 ?>
