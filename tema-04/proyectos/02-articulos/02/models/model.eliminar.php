@@ -1,5 +1,3 @@
-/*modeleliminar*/
-
 <?php
 
 // Model: model.eliminar.php

@@ -1,5 +1,3 @@
-/*modelordenar */
-
 <?php
 
 $articulos = generar_Tabla();

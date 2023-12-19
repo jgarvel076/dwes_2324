@@ -1,5 +1,3 @@
-/*class.articulo.php*/
-
 <?php
 
 /*

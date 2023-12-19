@@ -1,5 +1,3 @@
-/*modelnuevo */
-
 <?php
 
 /**

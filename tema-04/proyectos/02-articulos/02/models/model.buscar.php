@@ -1,5 +1,3 @@
-
-/*modelbuscar*/
 <?php 
 
     /* 

@@ -1,5 +1,3 @@
-/*class.arrayArticulo.php*/
-
 <?php
 
 /**

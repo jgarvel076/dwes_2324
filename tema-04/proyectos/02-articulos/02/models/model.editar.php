@@ -1,5 +1,3 @@
-/*modeleditar*/
-
 <?php
 // Obtener categorías, marcas y cargar los artículos
 $categorias = ArrayArticulo::getCategorias();
