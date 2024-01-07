@@ -2,7 +2,7 @@
 
     class Model {
 
-        function constructor() {
+        function __construct() {
 
             $this->db = new Database();
 

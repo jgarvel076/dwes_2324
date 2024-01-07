@@ -2,7 +2,7 @@
 
     class View {
 
-        function constructor() {
+        function __construct() {
    
 
         }

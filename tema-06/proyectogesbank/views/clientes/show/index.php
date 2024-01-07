@@ -44,7 +44,7 @@
             </div>
             <!-- Telefono -->
             <div class="mb-3">
-                <label for="telefono" class="form-label">Telefono</label>
+                <label for="telefono" class="form-label">Teléfono</label>
                 <input type="tel" class="form-control" name="telefono" value="<?= $this->cliente->telefono ?>" disabled>
             </div>
             <!-- Ciudad -->

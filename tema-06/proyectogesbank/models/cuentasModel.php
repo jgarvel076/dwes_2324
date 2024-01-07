@@ -25,7 +25,6 @@ class cuentasModel extends Model
 
         try {
 
-            # comando sql
             $sql = "SELECT 
                         cuentas.id,
                         cuentas.num_cuenta,
@@ -42,23 +41,15 @@ class cuentasModel extends Model
                         cuentas.id";
 
 
-            # conectamos con la base de datos
-
-            // $this->db es un objeto de la clase database
-            // ejecuto el método connect de esa clase
 
             $conexion = $this->db->connect();
 
-            # ejecutamos mediante prepare
             $pdost = $conexion->prepare($sql);
 
-            # establecemos  tipo fetch
             $pdost->setFetchMode(PDO::FETCH_OBJ);
 
-            #  ejecutamos 
             $pdost->execute();
 
-            # devuelvo objeto pdostatement
             return $pdost;
 
         } catch (PDOException $e) {
@@ -206,18 +197,14 @@ class cuentasModel extends Model
 
             $conexion = $this->db->connect();
 
-            # ejecutamos mediante prepare
             $pdost = $conexion->prepare($sql);
 
             $pdost->bindParam(':criterio', $criterio, PDO::PARAM_INT);
 
-            # establecemos  tipo fetch
             $pdost->setFetchMode(PDO::FETCH_OBJ);
 
-            #  ejecutamos 
             $pdost->execute();
 
-            # devuelvo objeto pdostatement
             return $pdost;
 
         } catch (PDOException $e) {

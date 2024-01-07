@@ -40,7 +40,6 @@ class clientesModel extends Model
                         id
                     ";
 
-            # conectamos con la base de datos
 
             // $this->db es un objeto de la clase database
             // ejecuto el método connect de esa clase
@@ -181,7 +180,6 @@ class clientesModel extends Model
     {
         try {
 
-            # comando sql
             $sql = "SELECT 
                         clientes.id,
                         clientes.nombre,
@@ -242,7 +240,6 @@ class clientesModel extends Model
                         clientes.id
                     ";
 
-            # Conectar con la base de datos
             $conexion = $this->db->connect();
 
             $pdost = $conexion->prepare($sql);

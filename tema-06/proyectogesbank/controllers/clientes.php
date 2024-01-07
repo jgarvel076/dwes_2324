@@ -15,11 +15,8 @@ class Clientes extends Controller
     function render()
     {
 
-        # Creo la propiedad title de la vista
         $this->view->title = "Tabla de clientes";
 
-        # Creo la propiedad clientes dentro de la vista
-        # Del modelo asignado al controlador ejecuto el método get();
         $this->view->clientes = $this->model->get();
 
         $this->view->render('clientes/main/index');
@@ -28,10 +25,8 @@ class Clientes extends Controller
     function new()
     {
 
-        # etiqueta title de la vista
         $this->view->title = "Añadir - Gestión clientes";
 
-        # cargo la vista con el formulario nuevo cliente
         $this->view->render('clientes/new/index');
     }
 
@@ -61,31 +56,22 @@ class Clientes extends Controller
     function edit($param = [])
     {
 
-        # obtengo el id del cliente que voy a editar
-        // cliente/edit/4
-
         $id = $param[0];
 
-        # asigno id a una propiedad de la vista
         $this->view->id = $id;
 
-        # title
         $this->view->title = "Editar - Panel de control Clientes";
 
-        # obtener objeto de la clase cliente
         $this->view->cliente = $this->model->read($id);
 
-        # cargo la vista
         $this->view->render('clientes/edit/index');
 
     }
 
     function update($param = [])
     {
-        # Cargo id del cliente
         $id = $param[0];
 
-        # Con los detalles del formulario creo objeto cliente
         $cliente = new classCliente(
             null,
             $_POST['nombre'],
@@ -123,17 +109,12 @@ class Clientes extends Controller
     function order($param = [])
     {
 
-        # Obtengo el criterio de ordenación
         $criterio = $param[0];
 
-        # Creo la propiedad "title" de la vista
         $this->view->title = "Ordenar - Panel de Control Clientes";
 
-        # Creo la propiedad clientes dentro de la vista
-        # Del modelo asignado al controlador ejecuto el método get()
         $this->view->clientes = $this->model->order($criterio);
 
-        # Cargo la vista principal de clientes
         $this->view->render('clientes/main/index');
 
     }

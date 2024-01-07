@@ -4,10 +4,10 @@ require_once 'class/class.cuenta.php';
 class Cuentas extends Controller
 {
 
-    function constructor()
+    function __construct()
     {
 
-        parent::constructor();
+        parent::__construct();
 
 
     }
@@ -15,11 +15,8 @@ class Cuentas extends Controller
     function render()
     {
 
-        # Creo la propiedad title de la vista
         $this->view->title = "Tabla de cuentas";
 
-        # Creo la propiedad cuentas dentro de la vista
-        # Del modelo asignado al controlador ejecuto el método get();
         $this->view->cuentas = $this->model->get();
 
         $this->view->render('cuentas/main/index');
@@ -28,17 +25,14 @@ class Cuentas extends Controller
     function new()
     {
 
-        # etiqueta title de la vista
         $this->view->title = "Añadir - Gestión cuentas";
 
-        # cargo la vista con el formulario nuevo cliente
         $this->view->render('cuentas/new/index');
     }
 
     function create($param = [])
     {
 
-        # Cargamos los datos del formulario
         $cuenta = new classCuenta(
             null,
             $_POST['num_cuenta'],
@@ -49,43 +43,31 @@ class Cuentas extends Controller
             $_POST['saldo'],
         );
 
-        # Validación
-
-        # Añadir registro a la tabla
         $this->model->create($cuenta);
 
-        # Redirigimos al main de cuentas
         header('location:' . URL . 'cuentas');
     }
 
     function edit($param = [])
     {
 
-        # obtengo el id de la cuenta que voy a editar
-        // cuenta/edit/4
-
         $id = $param[0];
 
-        # asigno id a una propiedad de la vista
         $this->view->id = $id;
 
-        # title
         $this->view->title = "Editar - Panel de control cuentas";
 
-        # obtener objeto de la clase cuenta
         $this->view->cuentas = $this->model->read($id);
 
-        # cargo la vista
         $this->view->render('cuentas/edit/index');
 
     }
 
     function update($param = [])
     {
-        # Cargo id de la cuenta
+
         $id = $param[0];
 
-        # Con los detalles del formulario creo objeto cuenta
         $cuenta = new classCuenta(
             null,
             $_POST['num_cuenta'],
@@ -123,17 +105,12 @@ class Cuentas extends Controller
     function order($param = [])
     {
 
-        # Obtengo el criterio de ordenación
         $criterio = $param[0];
 
-        # Creo la propiedad "title" de la vista
         $this->view->title = "Ordenar - Panel de Control cuentas";
 
-        # Creo la propiedad cuentas dentro de la vista
-        # Del modelo asignado al controlador ejecuto el método get()
         $this->view->cuentas = $this->model->order($criterio);
 
-        # Cargo la vista principal de cuentas
         $this->view->render('cuentas/main/index');
 
     }

@@ -2,7 +2,7 @@
 
     class Controller {
 
-        function constructor() {
+        function __construct() {
 
             $this->view = new View();
 

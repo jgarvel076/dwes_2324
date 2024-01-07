@@ -2,9 +2,9 @@
 
     class Main Extends Controller {
 
-        function constructor() {
+        function __construct() {
 
-            parent ::constructor();
+            parent ::__construct();
             
             
         }

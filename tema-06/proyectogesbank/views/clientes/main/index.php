@@ -49,7 +49,7 @@
 							<th>Nombre</th>
 							<th>Apellidos</th>
 							<th>Email</th>
-							<th>Telefono</th>
+							<th>Teléfono</th>
 							<th>Ciudad</th>
 							<th>DNI</th>
 							<th>Acciones</th>

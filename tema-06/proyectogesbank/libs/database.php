@@ -8,7 +8,7 @@
         private $password;
         private $charset;
         
-        public function constructor() {
+        public function __construct() {
 
             $this->host = HOST;
             $this->db = DB;

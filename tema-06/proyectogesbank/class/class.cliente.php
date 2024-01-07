@@ -18,7 +18,7 @@ class classCliente
     public $ciudad;
     public $dni;
 
-    public function constructor(
+    public function __construct(
         $id = null,
         $nombre = null,
         $apellidos = null,

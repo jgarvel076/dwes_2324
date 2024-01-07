@@ -2,9 +2,9 @@
 
     class Ayuda extends Controller {
 
-        function constructor() {
+        function __construct() {
 
-            parent ::constructor();
+            parent ::__construct();
             
         }
 

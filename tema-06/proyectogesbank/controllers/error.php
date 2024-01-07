@@ -2,9 +2,9 @@
 
     class Errores extends Controller {
 
-        function constructor() {
+        function __construct() {
 
-            parent ::constructor();
+            parent ::__construct();
             $this->view->mensaje = "Error al cargar el recurso";
             $this->view->render('error/index');
         }
