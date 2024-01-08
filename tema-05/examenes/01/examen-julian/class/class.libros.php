@@ -156,51 +156,6 @@ class Libros extends Conexion
         }
     }
 
-
-/**
-         * Método order(int $criterio)
-         * Ordenamos la tabla de la vista principal por alguno de los campos de ella
-         */
-        public function order(int $criterio){
-            try {
-                // Creamos la consulta
-                $sql = 'SELECT 
-                libros.id,
-                libros.titulo,
-                autores.nombre AS autor,
-                editoriales.nombre AS editorial,
-                libros.stock AS unidades,
-                libros.precio_coste AS coste,
-                libros.precio_venta AS pvp,
-                num_pag as paginas
-            FROM
-                geslibros.libros
-                    INNER JOIN
-                autores ON autores.id = libros.autor_id
-                    INNER JOIN
-                editoriales ON editoriales.id = libros.editorial_id
-            ORDER BY :order ASC';
-
-            // Preparamos la sentencia
-            $pdostmt = $this->pdo->prepare($sql);
-
-            // Vinculamos la variable
-            $pdostmt->bindParam(':order',$criterio,PDO::PARAM_INT);
-
-            // Escogemos el tipo de fetch
-            $pdostmt->setFetchMode(PDO::FETCH_OBJ);
-
-            // Ejecutamos la consulta
-            $pdostmt->execute();
-
-            // Devolvemos el resultado (Objeto de la clase PDOStatement)
-            return $pdostmt;
-            } catch (\Throwable $th) {
-                include 'views/partials/partial.errorDB.php';
-                exit();
-            }
-        }
-    }
-
+}
 
 ?>
