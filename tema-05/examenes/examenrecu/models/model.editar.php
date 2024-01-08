@@ -10,7 +10,7 @@
     $id_editar = $_GET['id'];
 
 
-    $conexion = new $Libros();
+    $conexion = new Libros();
 
 
     $libros = $conexion->getLibros(); 
