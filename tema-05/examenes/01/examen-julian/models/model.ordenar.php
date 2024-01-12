@@ -1,9 +1,0 @@
-<?php
-
-   /*  
-        model.ordenar.php
-
-    */
-
-
-?>

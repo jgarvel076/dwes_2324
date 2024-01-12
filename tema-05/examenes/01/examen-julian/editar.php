@@ -1,13 +1,11 @@
 <?php
 
-/*
+    /*
 
-        index.php
-
-        Controlador que permite realizar una consulta de libros en geslibros y mostrarlos en
-        una vista a partir del diseño establecido
-
-*/
+        Controlador: editar.php
+        Descripción: mostrar un formulario con los detalles editables
+        del libro seleccionado
+    */
 
 //Cargamos configuración
 include('config/config.php');
@@ -18,7 +16,9 @@ include("class/class.libros.php");
 include("class/class.libro.php");
 
 //Cargamos el modelo
-include("models/model.index.php");
+include("models/model.editar.php");
 
 //Cargamos la vista
-include("views/view.index.php");
+include("views/view.editar.php");
+
+?>

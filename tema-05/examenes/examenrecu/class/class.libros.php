@@ -1,165 +1,163 @@
-    <?php
+<?php
 
-    /*
-        Clase libros 
+/*
+    Clase libros 
 
-        Aquí se definirán los métodos necesarios para completar el examen
-        
-    */
-    class Libros extends Conexion{
-        /**
-         * Método getLibros()
-         * Devuelve un objeto pdostatement con los detalles de los libros (tabla libros)
-         */
-        public function getLibros(){
-            try {
-                // Creamos la sentencia SQL
-                $sql = 'SELECT 
-                libros.id,
-                libros.titulo,
-                autores.nombre AS autor,
-                editoriales.nombre AS editorial,
-                libros.stock AS unidades,
-                libros.precio_coste AS coste,
-                libros.precio_venta AS pvp
-            FROM
-                geslibros.libros
-                    INNER JOIN
-                autores ON autores.id = libros.autor_id
-                    INNER JOIN
-                editoriales ON editoriales.id = libros.editorial_id
-            ORDER BY id';
+    Aquí se definirán los métodos necesarios para completar el examen
+    
+*/
 
-                // Preparamos la sentencia
-                $pdostmt = $this->pdo->prepare($sql);
+class Libros extends Conexion
+{
 
-                // Escogemos el tipo de fetch a usar, en este caso trabajaremos con objetos
-                $pdostmt->setFetchMode(PDO::FETCH_OBJ);
 
-                // Ejecutamos la consulta
-                $pdostmt->execute();
+    public function getLibros()
+    {
 
-                // Devolvemos el resultado (objeto PDOStatement)
-                return $pdostmt;
-            } catch (PDOException $e) {
-                include 'views/partials/partial.errorDB.php';
-                exit();
-            }
-        }
+        //Creamos la query de SQL
+        $sql = "SELECT 
+        libros.id,
+        libros.titulo,
+        autores.nombre as autor,
+        editoriales.nombre as editorial,
+        libros.stock as unidades,
+        libros.precio_coste as coste,
+        libros.precio_venta as pvp,
+        num_pag as paginas
+        FROM
+        libros
+            INNER JOIN
+        autores ON libros.autor_id = autores.id
+            INNER JOIN
+        editoriales ON libros.editorial_id = editoriales.id
+        ORDER BY id;";
 
-        /**
-         * Método getAutores
-         * Devolvemos el id y el nombre de los autores. Usado para las listas dinamicas de la vista view.nuevo.php
-         */
-        public function getAutores(){
-            try {
-                // Creamos la consulta
-                $sql = 'SELECT 
-                autores.id, autores.nombre
-            FROM
-                geslibros.autores
-                ORDER BY nombre';
+        //Preparamos el statement con un Objeto de la clase PDOstatement
+        $pdostmt = $this->pdo->prepare($sql);
 
-                // Preparamos la sentencia
-                $pdostmt = $this->pdo->prepare($sql);
+        //Establecemos tipo de fetch
+        $pdostmt->setFetchMode(PDO::FETCH_OBJ);
 
-                // Escogemos el tipo de fetch a usar
-                $pdostmt->setFetchMode(PDO::FETCH_OBJ);
+        //Se ejecuta
+        $pdostmt->execute();
 
-                // Ejecutamos la sentencia
-                $pdostmt->execute();
+        //Devolvemos el objeto que ahora será de tipo pdostatement
+        return $pdostmt;
+    }
 
-                // Devolvemos el resultado (objeto PDOStatement)
-                return $pdostmt;
-            } catch (PDOException $e) {
-                include 'views/partials/partial.errorDB.php';
-                exit();
-            }
-        }
 
-        /**
-         * Método getEditoriales
-         * Devolvemos el id y el nombre de la editoriales. Usado para las listas dinamicas de la vista view.nuevo.php
-         */
-        public function getEditoriales(){
-            try {
-                // Creamos la consulta
-                $sql = 'SELECT 
-                editoriales.id, editoriales.nombre
-            FROM
-                geslibros.editoriales
-                ORDER BY nombre';
+    public function getAutores()
+    {
+        //Creamos la query de SQL
+        $sql = "SELECT 
+        id,
+        nombre
+        FROM geslibros.autores";
 
-                // Preparamos la sentencia
-                $pdostmt = $this->pdo->prepare($sql);
+        //Preparamos el statement con un Objeto de la clase PDOstatement
+        $pdostmt = $this->pdo->prepare($sql);
 
-                // Escogemos el tipo de fetch a usar
-                $pdostmt->setFetchMode(PDO::FETCH_OBJ);
+        //Establecemos tipo de fetch
+        $pdostmt->setFetchMode(PDO::FETCH_OBJ);
 
-                // Ejecutamos la sentencia
-                $pdostmt->execute();
+        //Se ejecuta
+        $pdostmt->execute();
 
-                // Devolvemos el resultado (objeto PDOStatement)
-                return $pdostmt;
-            } catch (PDOException $e) {
-                include 'views/partials/partial.errorDB.php';
-                exit();
-            }
-        }
+        //Devolvemos el objeto que ahora será de tipo pdostatement
+        return $pdostmt;
+    }
 
-        /**
-         * Método insertarLibro(Libro $libro)
-         * Inserta en la base de datos un nuevo libro, a ráiz de un objeto de la clase Libro
-         */
-        public function insertarLibro(Libro $libro){
-            try {
-                // Creamos la sentencia
-                $sql="INSERT INTO geslibros.libros VALUES(
-                    null,
+    public function getEditoriales()
+    {
+        //Creamos la query de SQL
+        $sql = "SELECT 
+        id,
+        nombre
+        FROM geslibros.editoriales";
+
+        //Preparamos el statement con un Objeto de la clase PDOstatement
+        $pdostmt = $this->pdo->prepare($sql);
+
+        //Establecemos tipo de fetch
+        $pdostmt->setFetchMode(PDO::FETCH_OBJ);
+
+        //Se ejecuta
+        $pdostmt->execute();
+
+        //Devolvemos el objeto que ahora será de tipo pdostatement
+        return $pdostmt;
+    }
+
+    public function update_libro(Libro $libro, $id)
+    {
+        try {
+            // Prepare o plantilla sql
+            $sql = "
+                UPDATE INTO libros (
+                    id,
+                    isbn,
+                    ean,
+                    titulo,
+                    autor_id,
+                    editorial_id,
+                    precio_coste,
+                    precio_venta,
+                    stock,
+                    stock_min,
+                    stock_max,
+                    fecha_edicion,
+                    create_at,
+                    update_at,
+                    num_pag
+                ) VALUES (
+                    NULL,
                     :isbn,
-                    null,
+                    NULL,
                     :titulo,
                     :autor_id,
                     :editorial_id,
                     :precio_coste,
                     :precio_venta,
                     :stock,
-                    null,
-                    null,
+                    NULL,
+                    NULL,
                     :fecha_edicion,
-                    null,
-                    null
-                    )";
-                
-                // Preparamos la sentencia
-                $pdostmt = $this->pdo->prepare($sql);
+                    NULL,
+                    NULL,
+                    :num_pag
+                )
+            ";
 
-                // Vinculamos las variables
-                $pdostmt->bindParam(':isbn',$libro->isbn,PDO::PARAM_STR,13);
-                $pdostmt->bindParam(':titulo',$libro->titulo,PDO::PARAM_STR,80);
-                $pdostmt->bindParam(':autor_id',$libro->autor_id,PDO::PARAM_INT);
-                $pdostmt->bindParam(':editorial_id',$libro->editorial_id,PDO::PARAM_INT);
-                $pdostmt->bindParam(':precio_coste',$libro->precio_coste);
-                $pdostmt->bindParam(':precio_venta',$libro->precio_venta);
-                $pdostmt->bindParam(':stock',$libro->stock,PDO::PARAM_INT,10);
-                $pdostmt->bindParam(':fecha_edicion',$libro->fecha_edicion);
+            // Preparamos el pdostmt
+            $pdostmt = $this->pdo->prepare($sql);
 
-                // Ejecutamos la consulta
-                $pdostmt->execute();
+            // Vincular los parámetros con valores
+            $pdostmt->bindParam(':isbn', $libro->isbn, PDO::PARAM_STR, 13);
+            $pdostmt->bindParam(':titulo', $libro->titulo, PDO::PARAM_STR, 80);
+            $pdostmt->bindParam(':autor_id', $libro->autor_id, PDO::PARAM_INT, 10);
+            $pdostmt->bindParam(':editorial_id', $libro->editorial_id, PDO::PARAM_INT, 10);
+            $pdostmt->bindParam(':precio_coste', $libro->precio_coste);
+            $pdostmt->bindParam(':precio_venta', $libro->precio_venta);
+            $pdostmt->bindParam(':stock', $libro->stock, PDO::PARAM_INT, 10);
+            $pdostmt->bindParam(':fecha_edicion', $libro->fecha_edicion);
+            $pdostmt->bindValue(':num_pag', $libro->num_pag, PDO::PARAM_INT);
+            $pdostmt->bindParam(':id', $id, PDO::PARAM_INT);
+            # Execute the SQL statement
+            $pdostmt->execute();
 
-                // Liberamos los recursos
-                $pdostmt = null;
+            # Free the PDOStatement object
+            $pdostmt = null;
 
-                // Cerramos la conexion
-                $this->pdo = null;
-
-            } catch (PDOException $e) {
-                include 'views/partials/partial.errorDB.php';
-                exit();
-            }
+            # Close the connection
+            $this->pdo = null;
+        } catch (PDOException $e) {
+            include('views/partials/errorDB.php');
+            exit();
         }
+    }
 
-        /**
+
+/**
          * Método order(int $criterio)
          * Ordenamos la tabla de la vista principal por alguno de los campos de ella
          */
@@ -173,7 +171,8 @@
                 editoriales.nombre AS editorial,
                 libros.stock AS unidades,
                 libros.precio_coste AS coste,
-                libros.precio_venta AS pvp
+                libros.precio_venta AS pvp,
+                num_pag as paginas
             FROM
                 geslibros.libros
                     INNER JOIN

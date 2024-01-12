@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <!-- layout.head -->
-    <?php include 'views/lauyots.head.html';?>
+    <?php include 'views/layouts/layout.head.html' ?>
 
     <title>Gestión libros - Home </title>
 </head>
+
 <body>
     <!-- Capa Principal -->
     <div class="container">
 
         <!-- partial.header -->
-        <?php include 'views/partials/header.php';?>
-            
+        <?php include 'views/partials/partial.header.php' ?>
+
         <!-- partial.menu -->
-        <?php include 'views/partials/menu.php'; ?>
-       
+        <?php include 'views/partials/partial.menu.php' ?>
+
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -25,6 +27,7 @@
                         <th>Título</th>
                         <th>Autor</th>
                         <th>Editorial</th>
+                        <th>Paginas</th>
                         <th class="text-end">Unidades</th>
                         <th class="text-end">Coste</th>
                         <th class="text-end">PVP</th>
@@ -34,49 +37,45 @@
                 <tbody>
                     <!-- Mostramos cuerpo de la tabla -->
                     <!-- En el foreach incluyo un objeto de la clase pdostatement -->
-                    <?php foreach($libros as $libro):?>
-                    <?php  ?>
+                    <?php while ($libro = $libros->fetch()) : ?>
                         <tr>
-                            <!-- Detalles de artículos -->
-                            <th><?=$libro->id?></th>
-                            <td><?=$libro->autor?></td>
-                            <td><?=$libro->editorial?></td>
-                            <td class="text-end"><?=$libro->unidades?></td>
-                            <td class="text-end"><?=$libro->coste?></td>
-                            <td class="text-end"><?=$libro->PVR?></td>
-                            <td><?=$libro->acciones?></td>
-                            
+                            <!-- Mostrar datos del libro actual -->
+                            <td><?= $libro->id ?></td>
+                            <td><?= $libro->titulo ?></td>
+                            <td><?= $libro->autor ?></td>
+                            <td><?= $libro->editorial ?></td>
+                            <td><?= $libro->paginas ?></td>
+                            <td class="text-end"><?= $libro->unidades ?></td>
+                            <td class="text-end"><?= number_format($libro->coste, 2, ',', '.') ?> €</td>
+                            <td class="text-end"><?= number_format($libro->pvp, 2, ',', '.') ?> €</td>
+
+
                             <!-- Columna de acciones -->
                             <td>
-                                <a href="" title="Eliminar" ><i class="bi bi-trash-fill" onclick="return confirm('Confimar elimación del libro')"></i></a>
-                                <a href="" title="Editar"><i class="bi bi-pencil-fill"></i></a>
+                                <a href="" title="Eliminar"><i class="bi bi-trash-fill" onclick="return confirm('Confimar elimación del libro')"></i></a>
+                                <a href="editar.php" title="Editar"><i class="bi bi-pencil-fill"></i></a>
                                 <a href="" title="Mostrar"><i class="bi bi-eye-fill"></i></a>
                             </td>
                         </tr>
-                    <?php ?>  
-                <?php endforeach; ?> 
+                    <?php endwhile ?>
                 </tbody>
                 <tfoot>
-                    <tr><td colspan="6">Nº Registros </td></tr>
+                    <tr>
+                        <td colspan="6">Nº Libros: <?= $libros->rowCount() ?></td>
+                    </tr>
                 </tfoot>
             </table>
         </div>
     </div>
-     <!-- Cerramos la conexion -->
-     <?php $libros = null;$conexion->cerrarConexion()?>
-        <br>
-        <br>
-        <br>
-        <!-- Pie de documento -->
-        <?php include 'views/partials/footer.php';?>
-    </div>
+    <br><br><br>
 
     <!-- partial.footer -->
-    <?php include 'views/partials/footer.php';?>
+    <?php include 'views/partials/partial.footer.html' ?>
 
     <!-- layout.javascript -->
-    <?php include("layouts/layouts.javascript.html");?>
-    
- 
+    <?php include("layouts/layout.javascript.html"); ?>
+
+
 </body>
+
 </html>
