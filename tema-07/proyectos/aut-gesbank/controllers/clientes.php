@@ -14,7 +14,7 @@ class Clientes extends Controller
             // Añadimo el siguiente aviso al usuario: 
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
-            // Redireccionamos al login
+            // login
             header('location:' . URL . 'login');
         } else {
             # mostramos mensaje
