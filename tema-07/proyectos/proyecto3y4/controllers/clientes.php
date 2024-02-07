@@ -87,7 +87,7 @@ class Clientes extends Controller
     # Método create. 
     public function create($param = [])
     {
-        # 1. Inicio sesión
+        # Inicio sesión
         session_start();
 
         # Comprobamos si el usuario está autentificado
