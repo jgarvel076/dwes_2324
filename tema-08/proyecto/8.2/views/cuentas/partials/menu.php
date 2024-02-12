@@ -25,7 +25,9 @@
                                 <li><a class="dropdown-item" href="<?=URL?>cuentas/ordenar/7">saldo</a></li>
                             </ul>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link  <?=(in_array($_SESSION['id_rol'],$GLOBALS['cuentas']['new']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>cuentas/exportar">Exportar</a>
+                        </li>
                     </ul>
                     <form class="d-flex" method="get" action="<?=URL?>cuentas/buscar">
                         <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search" name="expresion">
