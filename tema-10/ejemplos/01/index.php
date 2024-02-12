@@ -15,3 +15,4 @@
     if (mail($destino, $asunto, $mensaje, $header)) {
         echo "Mensaje enviado correstamente";
     }
+?>
