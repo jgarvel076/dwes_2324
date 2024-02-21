@@ -26,8 +26,13 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  <?=(in_array($_SESSION['id_rol'],$GLOBALS['cuentas']['new']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>cuentas/exportar">Exportar</a>
+                            <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['import']) || in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['import'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#importarModal">Importar</button>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link 
+                            <?=(in_array($_SESSION['id_rol'],$GLOBALS['cuentas']['export']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>cuentas/exportar">Exportar</a>
+                        </li>
+
                     </ul>
                     <form class="d-flex" method="get" action="<?=URL?>cuentas/buscar">
                         <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search" name="expresion">

@@ -452,97 +452,111 @@ class Cuentas extends Controller
         }
     }
 
-    #Metodo importar
-    function importarCSV() {
-        // Iniciar la sesión
+    public function exportar()
+    {
         session_start();
-    
-        // Verificar que el usuario esté autenticado y tenga los privilegios necesarios
-        if (!isset($_SESSION['id']) || !in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['filter'])) {
-            // Si no está autenticado o no tiene permisos, redirigir al usuario
-            $_SESSION['mensaje'] = "Debe autenticarse y tener privilegios para realizar esta operación";
-            header('location:' . URL . 'login');
-            exit;
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['export']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'cuentas');
         }
-    
-        // Verificar que se haya subido un archivo CSV
-        if (isset($_FILES['csvfile']) && $_FILES['csvfile']['error'] == UPLOAD_ERR_OK) {
-            // Mover el archivo CSV a una carpeta temporal
-            $uploadPath = 'ruta/temporal/para/csvfiles/';
-            $tempFile = tempnam($uploadPath, 'csv');
-            move_uploaded_file($_FILES['csvfile']['tmp_name'], $tempFile);
-    
-            // Conectar a la base de datos MariaDB
-            $db = new mysqli('localhost', 'username', 'password', 'gesbank');
-            if ($db->connect_error) {
-                die("Error de conexión: " . $db->connect_error);
-            }
-    
-            // Importar los datos del CSV a la base de datos
-            $query = '';
-            if ($_SESSION['tablaActual'] === 'Clientes') {
-                $query = "LOAD DATA INFILE '{$tempFile}' INTO TABLE clientes FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' IGNORE  1 LINES";
-            } elseif ($_SESSION['tablaActual'] === 'Cuentas') {
-                $query = "LOAD DATA INFILE '{$tempFile}' INTO TABLE cuentas FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' IGNORE  1 LINES";
-            }
-    
-            if ($db->query($query)) {
-                $_SESSION['mensaje'] = "Importación de datos completada con éxito.";
-            } else {
-                $_SESSION['mensaje'] = "Error durante la importación de datos: " . $db->error;
-            }
-    
-            // Eliminar el archivo CSV temporal
-            unlink($tempFile);
-    
-            // Desconectar de la base de datos
-            $db->close();
-        } else {
-            $_SESSION['mensaje'] = "No se subió ningún archivo CSV válido.";
+
+        $cuentas = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
+
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="cuentas.csv"');
+
+        $ficheroExport = fopen('php://output', 'w');
+
+        // Iterar sobre las cuentas y escribir los datos en el archivo CSV
+        foreach ($cuentas as $cuenta) {
+
+            $fecha = date("Y-m-d H:i:s");
+
+            $cuenta['create_at'] = $fecha;
+            $cuenta['update_at'] = $fecha;
+
+            $cuenta = array(
+                'num_cuenta' => $cuenta['num_cuenta'],
+                'id_cliente' => $cuenta['id_cliente'],
+                'fecha_alta' => $cuenta['fecha_alta'],
+                'fecha_ul_mov' => $cuenta['fecha_ul_mov'],
+                'num_movtos' => $cuenta['num_movtos'],
+                'saldo' => $cuenta['saldo'],
+                'create_at' => $cuenta['create_at'],
+                'update_at' => $cuenta['update_at']
+            );
+
+            fputcsv($ficheroExport, $cuenta, ';');
         }
-    
-        // Redirigir a la página principal de clientes o cuentas, según corresponda
-        header('location:' . URL . 'clientes');
+
+        fclose($ficheroExport);
     }
 
-    function exportar() {
-        // Iniciar la sesión
+    public function importar()
+    {
         session_start();
-    
-        // Verificar que el usuario esté autenticado y tenga los privilegios necesarios
-        if (!isset($_SESSION['id']) || !in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['filter'])) {
-            // Si no está autenticado o no tiene permisos, redirigir al usuario
-            $_SESSION['mensaje'] = "Debe autenticarse y tener privilegios para realizar esta operación";
-            header('location:' . URL . 'login');
-            exit;
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['import']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'cuentas');
+            exit();
         }
-    
-        // Crear el archivo CSV
-        $fileName = 'exportacion_detalles_' . date('YmdHis') . '.csv';
-        $file = fopen($fileName, 'w');
-    
-        // Escribir los encabezados en el archivo CSV
-        fputcsv($file, array('ID', 'Apellidos', 'Nombre', 'Teléfono', 'Ciudad', 'DNI', 'Email'));
-        fputcsv($file, array('', '', '', '', '', 'Num Cuenta', 'ID Cliente', 'Fecha Alta', 'Fecha Último Movimiento', 'Número Movimientos', 'Saldo', 'Creado', 'Modificado'));
-    
-        // Obtener los datos de la tabla cuentas
-        $result = $db->query("SELECT * FROM cuentas");
-        while ($row = $result->fetch_assoc()) {
-            fputcsv($file, $row);
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
+            $file = $_FILES["archivo_csv"]["tmp_name"];
+
+            $handle = fopen($file, "r");
+
+            if ($handle !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $num_cuenta = $data[0];
+                    $id_cliente = $data[1];
+                    $fecha_alta = $data[2];
+                    $fecha_ul_mov = $data[3];
+                    $num_movtos = $data[4];
+                    $saldo = $data[5];
+
+                    //Método para verificar número de cuenta único.
+                    if ($this->model->validateUniqueNumCuenta($num_cuenta)) {
+                        // Si no existe, crear una nueva cuenta
+                        $cuenta = new classCuenta();
+                        $cuenta->num_cuenta = $num_cuenta;
+                        $cuenta->id_cliente = $id_cliente;
+                        $cuenta->fecha_alta = $fecha_alta;
+                        $cuenta->fecha_ul_mov = $fecha_ul_mov;
+                        $cuenta->num_movtos = $num_movtos;
+                        $cuenta->saldo = $saldo;
+
+                        //Usamos create para meter la cuenta en la base de datos
+                        $this->model->create($cuenta);
+                    } else {
+                        //Error de cuenta existente
+                        echo "Error, esta cuenta existente";
+                    }
+                }
+
+                fclose($handle);
+                $_SESSION['mensaje'] = "Importación realizada correctamente";
+                header('location:' . URL . 'cuentas');
+                exit();
+            } else {
+                $_SESSION['error'] = "Error con el archivo CSV";
+                header('location:' . URL . 'cuentas');
+                exit();
+            }
+        } else {
+            $_SESSION['error'] = "Seleccione un archivo CSV";
+            header('location:' . URL . 'cuentas');
+            exit();
         }
-    
-        // Cerrar la conexión a la base de datos
-        $db->close();
-    
-        // Cerrar el archivo CSV
-        fclose($file);
-    
-        // Descargar el archivo CSV
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($fileName) . '"');
-        readfile($fileName);
-    
-        // Eliminar el archivo CSV temporal
-        unlink($fileName);
     }
+
 }

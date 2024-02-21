@@ -370,4 +370,46 @@ class cuentasModel extends Model
         }
 
     }
+
+    public function getCSV()
+    {
+
+        try {
+
+            # comando sql
+            $sql = "SELECT 
+                        cuentas.id,
+                        cuentas.num_cuenta,
+                        cuentas.id_cliente,
+                        cuentas.fecha_alta,
+                        cuentas.fecha_ul_mov,
+                        cuentas.num_movtos,
+                        cuentas.saldo
+                    FROM
+                        cuentas
+                    ORDER BY 
+                        cuentas.id";
+
+
+            # conectamos con la base de datos
+
+            $conexion = $this->db->connect();
+
+            # ejecutamos mediante prepare
+            $pdost = $conexion->prepare($sql);
+
+            # establecemos  tipo fetch
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
+
+            #  ejecutamos 
+            $pdost->execute();
+
+            # devuelvo objeto pdostatement
+            return $pdost;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
 }

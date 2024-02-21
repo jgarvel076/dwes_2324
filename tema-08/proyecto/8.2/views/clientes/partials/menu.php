@@ -23,6 +23,12 @@
                                 <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/4">ciudad</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import']) || in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#importarModal">Importar</button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?=(in_array($_SESSION['id_rol'],$GLOBALS['clientes']['export']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>clientes/exportar">Exportar</a>
+                        </li>
 
                     </ul>
                     <form class="d-flex" method="get" action="<?=URL?>clientes/buscar">

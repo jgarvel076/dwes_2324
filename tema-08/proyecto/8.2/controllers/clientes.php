@@ -494,4 +494,111 @@ class Clientes extends Controller
         $this->view->render("clientes/main/index");
         }
     }
+
+    public function exportar()
+    {
+
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['export']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'clientes');
+        }
+
+        $clientes = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
+
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="clientes.csv"');
+
+        $ficheroExport = fopen('php://output', 'w');
+
+        foreach ($clientes as $cliente) {
+            $fecha = date("Y-m-d H:i:s");
+
+            $cliente['create_at'] = $fecha;
+            $cliente['update_at'] = $fecha;
+
+            $cliente = array(
+                'apellidos' => $cliente['apellidos'],
+                'nombre' => $cliente['nombre'],
+                'email' => $cliente['email'],
+                'telefono' => $cliente['telefono'],
+                'ciudad' => $cliente['ciudad'],
+                'dni' => $cliente['dni'],
+                'create_at' => $cliente['create_at'],
+                'update_at' => $cliente['update_at']
+            );
+
+            fputcsv($ficheroExport, $cliente, ';');
+        }
+
+        fclose($ficheroExport);
+    }
+
+    public function importar()
+    {
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'clientes');
+            exit();
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
+            $file = $_FILES["archivo_csv"]["tmp_name"];
+
+            $handle = fopen($file, "r");
+
+            if ($handle !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $apellidos = $data[0];
+                    $nombre = $data[1];
+                    $email = $data[2];
+                    $telefono = $data[3];
+                    $ciudad = $data[4];
+                    $dni = $data[5];
+
+                    //Método para verificar email y dni único.
+                    if ($this->model->validateUniqueEmail($email) && $this->model->validateDNI($dni)) {
+                        //Si no existe, crear un nuevo cliente
+                        $cliente = new classCliente();
+                        $cliente->apellidos = $apellidos;
+                        $cliente->nombre = $nombre;
+                        $cliente->email = $email;
+                        $cliente->telefono = $telefono;
+                        $cliente->ciudad = $ciudad;
+                        $cliente->dni = $dni;
+
+                        //Usamos create para meter el cliente en la base de datos
+                        $this->model->create($cliente);
+                    } else {
+                        //Error de cliente existente
+                        echo "Error, este cliente existente";
+                    }
+                }
+
+                fclose($handle);
+                $_SESSION['mensaje'] = "Importación realizada correctamente";
+                header('location:' . URL . 'clientes');
+                exit();
+            } else {
+                $_SESSION['error'] = "Error con el archivo CSV";
+                header('location:' . URL . 'clientes');
+                exit();
+            }
+        } else {
+            $_SESSION['error'] = "Seleccione un archivo CSV";
+            header('location:' . URL . 'clientes');
+            exit();
+        }
+    }
 }
