@@ -24,7 +24,8 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import']) || in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#importarModal">Importar</button>
+                            <a class="nav-link active <?= in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import']) ?: 'disabled' ?>"
+                            href="#" data-bs-toggle="modal" data-bs-target="#importar">Importar</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?=(in_array($_SESSION['id_rol'],$GLOBALS['clientes']['export']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>clientes/exportar">Exportar</a>
