@@ -544,7 +544,7 @@ class Clientes extends Controller
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "El usuario debe autenticarse";
             header("location:" . URL . "login");
             exit();
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import']))) {
@@ -582,7 +582,7 @@ class Clientes extends Controller
                         $this->model->create($cliente);
                     } else {
                         //Error de cliente existente
-                        echo "Error, este cliente existente";
+                        echo "Error, este cliente existe";
                     }
                 }
 
@@ -602,14 +602,14 @@ class Clientes extends Controller
         }
     }
 
-    //pdf
+    //PDF
 
     function pdf()
     {
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "El usuario debe autenticarse";
             header("location:" . URL . "login");
             exit();
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['pdf']))) {
@@ -618,10 +618,9 @@ class Clientes extends Controller
             exit();
         }
 
-        //Obtenemos los clientes con get
+        //Obtenemos los clientes
         $clientes = $this->model->get();
 
-        //Instanciamos la clase pdfClientes
         $pdf = new pdfClientes();
 
         //Escribimos en el PDF

@@ -18,6 +18,10 @@
          <?php include "template/partials/notify.php"?>
         <!-- Errores -->
         <?php include "template/partials/error.php"?>
+        <!--Modal-->
+        <?php include "views/cuentas/partials/modal.php" ?>
+        <!--PDF-->
+        <?php include "views/cuentas/class/pdfCuentas.php" ?>
         <!-- Menu principal -->
         <?php require_once "views/cuentas/partials/menu.php" ?>
         <table class="table">

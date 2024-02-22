@@ -28,6 +28,7 @@
     $GLOBALS['clientes']['export'] = [1,2,3];
     $GLOBALS['clientes']['import'] = [1,2];
     $GLOBALS['clientes']['export'] = [1,2];
+    $GLOBALS['clientes']['pdf'] = [1,2];
 
     // Permisos cuentas
     $GLOBALS['cuentas']['main'] = [1,2,3];
@@ -39,4 +40,5 @@
     $GLOBALS['cuentas']['order'] = [1,2,3];
     $GLOBALS['cuentas']['import'] = [1,2];
     $GLOBALS['cuentas']['export'] = [1,2,3];
+    $GLOBALS['cuentas']['pdf'] = [1,2];
 ?>

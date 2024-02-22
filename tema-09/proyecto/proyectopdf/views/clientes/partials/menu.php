@@ -24,16 +24,15 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import']) || in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#importarModal">Importar</button>
+                            <a class="nav-link active <?= in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import']) ?: 'disabled' ?>"
+                            href="#" data-bs-toggle="modal" data-bs-target="#importar">Importar</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?=(in_array($_SESSION['id_rol'],$GLOBALS['clientes']['export']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>clientes/exportar">Exportar</a>
                         </li>
-
-                        <!-- PDF -->
                         <li class="nav-item">
-                            <a class="nav-link <?=(in_array($_SESSION['id_rol'],$GLOBALS['clientes']['pdf']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>clientes/pdf">Generar PDF</a>
-                        </li>
+                            <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['pdf']) || in_array($_SESSION['id_rol'], $GLOBALS['clientes']['pdf'])) ? 'active' : 'disabled' ?>" aria-current="page" href="<?= URL ?>clientes/pdf">PDF</a>
+                         </li>
 
                     </ul>
                     <form class="d-flex" method="get" action="<?=URL?>clientes/buscar">

@@ -19,6 +19,8 @@
         <?php include "template/partials/error.php"?>
         <!-- Menu principal -->
         <?php require_once "views/clientes/partials/menu.php" ?>
+        <!--Modal-->
+        <?php include "views/clientes/partials/modal.php" ?>
         <!-- tabla clientes -->
         <table class="table">
             <thead>

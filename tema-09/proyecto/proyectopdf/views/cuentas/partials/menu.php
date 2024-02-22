@@ -26,18 +26,15 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['import']) || in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['import'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#importarModal">Importar</button>
+                            <a class="nav-link active <?= in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['import']) ?: 'disabled' ?>"
+                            href="#" data-bs-toggle="modal" data-bs-target="#importar">Importar</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link 
                             <?=(in_array($_SESSION['id_rol'],$GLOBALS['cuentas']['export']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>cuentas/exportar">Exportar</a>
                         </li>
-                        </li>
-
-                        <!-- PDF -->
                         <li class="nav-item">
-                            <a class="nav-link 
-                            <?=(in_array($_SESSION['id_rol'],$GLOBALS['cuentas']['pdf']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>cuentas/pdf">Generar PDF</a>
+                            <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['pdf']) || in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['pdf'])) ? 'active' : 'disabled' ?>" aria-current="page" href="<?= URL ?>cuentas/pdf">PDF</a>
                         </li>
 
                     </ul>

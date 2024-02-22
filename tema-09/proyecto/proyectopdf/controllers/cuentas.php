@@ -501,7 +501,7 @@ class Cuentas extends Controller
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "El usuario debe autenticarse";
             header("location:" . URL . "login");
             exit();
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['import']))) {
@@ -539,7 +539,7 @@ class Cuentas extends Controller
                         $this->model->create($cuenta);
                     } else {
                         //Error de cuenta existente
-                        echo "Error, esta cuenta existente";
+                        echo "Error, esta cuenta existe";
                     }
                 }
 
@@ -559,14 +559,14 @@ class Cuentas extends Controller
         }
     }
 
-    //pdf
+    //PDF
 
     function pdf()
     {
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "El usuario debe autenticarse";
             header("location:" . URL . "login");
             exit();
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['pdf']))) {
@@ -578,7 +578,6 @@ class Cuentas extends Controller
         //Obtenemos las cuentas con get
         $cuentas = $this->model->get();
 
-        //Instanciamos la clase pdfCuentas
         $pdf = new pdfCuentas();
 
         //Escribimos en el PDF
