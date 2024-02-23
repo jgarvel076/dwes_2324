@@ -8,12 +8,13 @@ require_once 'class/class.cliente.php';
 require_once 'class/class.cuenta.php';
 require_once 'class/class.movimiento.php';
 require_once 'class/class.user.php';
-//require_once 'class/class.pdfCuentas.php';
-//require_once 'class/class.pdfClientes.php';
+
 require_once "libs/lib.php";
 require_once 'libs/app.php';
 require_once 'config/config.php';
 require_once 'config/privilegios.php';
+require_once 'class/class.pdfCuentas.php';
+require_once 'class/class.pdfClientes.php';
 $app = new App();
 
 
