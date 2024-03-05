@@ -6,9 +6,8 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="5005000">
                     <label>Archivo</label>
-                    <input type="file" class="form-control" id="archivos" name="archivo" multiple="multiple">
+                    <input type="file" name="archivo" multiple="multiple">
                 </div>
             </div>
             <div class="modal-footer">

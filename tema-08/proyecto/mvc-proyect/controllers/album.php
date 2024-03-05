@@ -169,7 +169,7 @@ class Album extends Controller
             if(empty($carpeta)){
                 $errores['carpeta'] = 'El campo Carpeta es obligatorio';
             } else if(strpos($carpeta,' ')!== false){
-                $errores['carpeta'] = 'El nombre de carpeta no debe tener espacios';
+                $errores['carpeta'] = 'El nombre de carpeta no  tener espacios';
             }
 
             # 4. Comprobar  validación
@@ -293,8 +293,6 @@ class Album extends Controller
                 $lugar,
                 $categoria,
                 $etiquetas,
-                $num_fotos,
-                $num_visitas,
                 $carpeta
             );
 
@@ -304,8 +302,9 @@ class Album extends Controller
             # Obtengo el  objeto alumno original
             $album_orig = $this->model->read($id);
 
-            # 3. Validación (mismo que arriba)
-
+            # 3. Validación
+            // Sólo si es necesario
+            // Sólo en caso de modificación del campo
 
             $errores = [];
 
@@ -352,7 +351,7 @@ class Album extends Controller
             if(empty($carpeta)){
                 $errores['carpeta'] = 'El campo Carpeta es obligatorio';
             } else if(strpos($carpeta,' ')!== false){
-                $errores['carpeta'] = 'El nombre de carpeta no debe tener espacios';
+                $errores['carpeta'] = 'El nombre de carpeta no puede tener espacios';
             }
 
             # 4. Comprobar  validación
@@ -364,32 +363,21 @@ class Album extends Controller
                 $_SESSION['error'] = 'Formulario no ha sido validado';
                 $_SESSION['errores'] = $errores;
 
-            # redireccionamos a edit con el id del álbum
-            header('location:' . URL . 'album/edit/' . $id);
-            
-        } else {
-            # renombrar la carpeta en el sistema de archivos
-            $rutaCarpetaOriginal = 'images/' . $album_orig->carpeta;
-            $rutaCarpetaNueva = 'images/' . $carpeta;
-            if (rename($rutaCarpetaOriginal, $rutaCarpetaNueva)) {
-                # actualizamos el álbum en la base de datos con el nuevo nombre de la carpeta
-                $carpetaOrig = $album_orig->carpeta;
+                # redireccionamos a new
+                header('location:' . URL . 'album/edit/' . $id);
+
+
+            } else {
 
                 # Actualizo registro
-                $this->model->update($album, $id, $carpetaOrig);
+                $this->model->update($album, $id);
 
-                # mensaje de éxito
-                $_SESSION['mensaje'] = "Álbum actualizado correctamente";
+                # Mensaje
+                $_SESSION['mensaje'] = "Album actualizado correctamente";
 
-                # redirigimos al main de álbumes
+                # Redirigimos al main de alumnos
                 header('location:' . URL . 'album');
-            } else {
-                # Error al renombrar la carpeta
-                $errores['carpeta'] = "El nombre de la carpeta ya existe";
-                $_SESSION['error'] = "Formulario no ha sido validado";
-                $_SESSION['errores'] = $errores;
-                $_SESSION['album'] = serialize($album);
-                header('location:' . URL . 'album/edit/' . $id);
+
             }
 
         }
@@ -473,11 +461,8 @@ class Album extends Controller
             # obtenemos id del  alumno
             $id = $param[0];
 
-            # Añadimos el valor del objeto album según id
-            $carpeta = $this->model->read($id);
-
             # eliminar alumno
-            $this->model->delete($id,$carpeta->carpeta); //fallo?
+            $this->model->delete($id);
 
             # generar mensaje
             $_SESSION['mensaje'] = 'Album eliminado correctamente';
@@ -500,12 +485,37 @@ class Album extends Controller
             header("location:" . URL . "album");
         } else {
             $id = $param[0];
-            $album = $this->model->read($id);
             $this->view->title = "ALBUM";
-            $this->view->albumes = $album;
+            $this->view->albumes = $this->model->getAlbum($id);
 
             $this->view->render("album/show/index");
         }
+    }
+
+    function upload($param = []){
+
+        sec_session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['upload']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'album');
+        } else {
+
+        // Obtengo objeto de la clase album
+        $album = $this->model->read($param[0]);
+
+        $this->model->subirArchivo($_FILES['archivos'],$album->carpeta);
+
+        $numFotos = count(glob("images/" . $album->carpeta . "/*"));
+        
+        $this->model->contadorFotos($album->id, $numFotos);
+
+        header("location:" . URL . "album");}
+
+
     }
 
     public function add($param = []){
@@ -544,17 +554,6 @@ class Album extends Controller
 
             # cargo la vista con el formulario nuevo alumno
             $this->view->render('album/add/index');
-
-            #contador fotos
-            $album = $this->model->getAlbum($param[0]);
-
-            $this->model->subirArchivo($_FILES['archivos'], $album->carpeta);
-
-            $numFotos = count(glob("images/" . $album->carpeta . "/*"));
-
-            $this->model->contadorFotos($album->id, $numFotos);
-
-            header("location:" . URL . "album");
         }
 
 
