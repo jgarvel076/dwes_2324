@@ -20,7 +20,6 @@
         <?php include "template/partials/error.php"?>
         <!--Modal-->
         <?php include "views/cuentas/partials/modal.php" ?>
-        <!--PDF-->
         
         <!-- Menu principal -->
         <?php require_once "views/cuentas/partials/menu.php" ?>
@@ -62,6 +61,9 @@
                             <a href="<?= URL ?>cuentas/mostrar/<?= $cuenta->id ?>" title="Mostrar" Class="btn btn-primary
                                             <?= (!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['show'])) ?
                                                 'disabled' : null ?>"> <i class="bi bi-eye"></i> </a>
+                            <!-- botón mostrar movimientos -->
+							<a href="<?= URL ?>cuentas/tablaMovimientos/<?= $cuenta->id ?> ?>" title="Mostrar Movimientos"><i class="bi bi-bar-chart-line-fill"></i></a>
+									
                         </td>
                     </tr>
                 <?php endforeach; ?>
