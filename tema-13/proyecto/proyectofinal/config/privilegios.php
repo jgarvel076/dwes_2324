@@ -41,4 +41,23 @@
     $GLOBALS['cuentas']['import'] = [1,2];
     $GLOBALS['cuentas']['export'] = [1,2,3];
     $GLOBALS['cuentas']['pdf'] = [1,2];
+
+    //Permisos movientos
+    $GLOBALS['movimiento']['main'] = [1, 2, 3];
+    $GLOBALS['movimiento']['new'] = [1, 2];
+    $GLOBALS['movimiento']['edit'] = [1, 2];
+    $GLOBALS['movimiento']['delete'] = [1];
+    $GLOBALS['movimiento']['show'] = [1, 2, 3];
+    $GLOBALS['movimiento']['filter'] = [1, 2, 3];
+    $GLOBALS['movimiento']['order'] = [1, 2, 3];
+
+    //Permisos usuarios
+    $GLOBALS['user']['main'] = [1];
+    $GLOBALS['user']['new'] = [1];
+    $GLOBALS['user']['delete'] = [1];
+    $GLOBALS['user']['edit'] = [1];
+    $GLOBALS['user']['show'] = [1];
+    $GLOBALS['user']['filter'] = [1];
+    $GLOBALS['user']['order'] = [1];    
+
 ?>
