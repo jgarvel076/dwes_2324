@@ -10,7 +10,7 @@ class Album extends Controller
 
     }
 
-    function render()
+    public function render()
     {
 
         # inicio o continuo sesión
@@ -43,7 +43,7 @@ class Album extends Controller
 
     }
 
-    function new()
+    public function new()
     {
 
         # iniciar o continuar  sesión
@@ -91,7 +91,7 @@ class Album extends Controller
         }
     }
 
-    function create($param = [])
+    public function create($param = [])
     {
 
         # Iniciar sesión
@@ -203,7 +203,7 @@ class Album extends Controller
         }
     }
 
-    function edit($param = [])
+    public function edit($param = [])
     {
 
         # iniciamos sesión
@@ -367,31 +367,32 @@ class Album extends Controller
             # redireccionamos a edit con el id del álbum
             header('location:' . URL . 'album/edit/' . $id);
             
-        } else {
-            # renombrar la carpeta en el sistema de archivos
-            $rutaCarpetaOriginal = 'images/' . $album_orig->carpeta;
-            $rutaCarpetaNueva = 'images/' . $carpeta;
-            if (rename($rutaCarpetaOriginal, $rutaCarpetaNueva)) {
-                # actualizamos el álbum en la base de datos con el nuevo nombre de la carpeta
-                $carpetaOrig = $album_orig->carpeta;
-
-                # Actualizo registro
-                $this->model->update($album, $id, $carpetaOrig);
-
-                # mensaje de éxito
-                $_SESSION['mensaje'] = "Álbum actualizado correctamente";
-
-                # redirigimos al main de álbumes
-                header('location:' . URL . 'album');
             } else {
-                # Error al renombrar la carpeta
-                $errores['carpeta'] = "El nombre de la carpeta ya existe";
-                $_SESSION['error'] = "Formulario no ha sido validado";
-                $_SESSION['errores'] = $errores;
-                $_SESSION['album'] = serialize($album);
-                header('location:' . URL . 'album/edit/' . $id);
-            }
+                # renombrar la carpeta en el sistema de archivos
+                $rutaCarpetaOriginal = 'images/' . $album_orig->carpeta;
+                $rutaCarpetaNueva = 'images/' . $carpeta;
+                if (rename($rutaCarpetaOriginal, $rutaCarpetaNueva)) {
+                    # actualizamos el álbum en la base de datos con el nuevo nombre de la carpeta
+                    $carpetaOrig = $album_orig->carpeta;
 
+                    # Actualizo registro
+                    $this->model->update($album, $id, $carpetaOrig);
+
+                    # mensaje de éxito
+                    $_SESSION['mensaje'] = "Álbum actualizado correctamente";
+
+                    # redirigimos al main de álbumes
+                    header('location:' . URL . 'album');
+                } else {
+                    # Error al renombrar la carpeta
+                    $errores['carpeta'] = "El nombre de la carpeta ya existe";
+                    $_SESSION['error'] = "Formulario no ha sido validado";
+                    $_SESSION['errores'] = $errores;
+                    $_SESSION['album'] = serialize($album);
+                    header('location:' . URL . 'album/edit/' . $id);
+                }
+
+            }
         }
     }
 
@@ -561,4 +562,3 @@ class Album extends Controller
     }
 
 }
-

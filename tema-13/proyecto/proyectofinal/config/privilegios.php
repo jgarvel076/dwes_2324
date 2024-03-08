@@ -41,6 +41,7 @@
     $GLOBALS['cuentas']['import'] = [1,2];
     $GLOBALS['cuentas']['export'] = [1,2,3];
     $GLOBALS['cuentas']['pdf'] = [1,2];
+    $GLOBALS['cuentas']['tablaMovimientos'] = [1,2,3];
 
     //Permisos movientos
     $GLOBALS['movimiento']['main'] = [1, 2, 3];
