@@ -62,7 +62,9 @@
                                             <?= (!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['show'])) ?
                                                 'disabled' : null ?>"> <i class="bi bi-eye"></i> </a>
                             <!-- botón mostrar movimientos -->
-							<a href="<?= URL ?>cuentas/tablaMovimientos/<?= $cuenta->id ?> ?>" title="Mostrar Movimientos"><i class="bi bi-bar-chart-line-fill"></i></a>
+							<a href="<?= URL ?>cuentas/tablaMovimientos/<?= $cuenta->id ?>" title="TablaMovimientos" class="btn btn-info <?= (!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['tablaMovimientos'])) ? 'disabled' : '' ?>">
+                                <i class="bi bi-journal"></i>
+                            </a>
 									
                         </td>
                     </tr>
