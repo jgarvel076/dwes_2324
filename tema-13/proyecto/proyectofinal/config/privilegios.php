@@ -44,21 +44,21 @@
     $GLOBALS['cuentas']['tablaMovimientos'] = [1,2,3];
 
     //Permisos movientos
-    $GLOBALS['movimiento']['main'] = [1, 2, 3];
-    $GLOBALS['movimiento']['new'] = [1, 2];
-    $GLOBALS['movimiento']['edit'] = [1, 2];
-    $GLOBALS['movimiento']['delete'] = [1];
-    $GLOBALS['movimiento']['show'] = [1, 2, 3];
-    $GLOBALS['movimiento']['filter'] = [1, 2, 3];
-    $GLOBALS['movimiento']['order'] = [1, 2, 3];
+    $GLOBALS['movimientos']['main'] = [1, 2, 3];
+    $GLOBALS['movimientos']['new'] = [1, 2];
+    $GLOBALS['movimientos']['edit'] = [1, 2];
+    $GLOBALS['movimientos']['delete'] = [1];
+    $GLOBALS['movimientos']['show'] = [1, 2, 3];
+    $GLOBALS['movimientos']['filter'] = [1, 2, 3];
+    $GLOBALS['movimientos']['order'] = [1, 2, 3];
 
     //Permisos usuarios
-    $GLOBALS['user']['main'] = [1];
-    $GLOBALS['user']['new'] = [1];
-    $GLOBALS['user']['delete'] = [1];
-    $GLOBALS['user']['edit'] = [1];
-    $GLOBALS['user']['show'] = [1];
-    $GLOBALS['user']['filter'] = [1];
-    $GLOBALS['user']['order'] = [1];    
+    $GLOBALS['users']['main'] = [1];
+    $GLOBALS['users']['new'] = [1];
+    $GLOBALS['users']['delete'] = [1];
+    $GLOBALS['users']['edit'] = [1];
+    $GLOBALS['users']['show'] = [1];
+    $GLOBALS['users']['filter'] = [1];
+    $GLOBALS['users']['order'] = [1];    
 
 ?>

@@ -16,11 +16,8 @@
 
 class usersModel extends Model
 {
-
-    /*
-        Extrae los detalles  de los clientes
-    */
-    public function get()
+    # Método getMovimientos
+    public function getUsers()
     {
 
         try {
@@ -36,23 +33,10 @@ class usersModel extends Model
                     ORDER BY 
                         id";
 
-            # conectamos con la base de datos
-
-            // $this->db es un objeto de la clase database
-            // ejecuto el método connect de esa clase
-
             $conexion = $this->db->connect();
-
-            # ejecutamos mediante prepare
             $pdost = $conexion->prepare($sql);
-
-            # establecemos  tipo fetch
             $pdost->setFetchMode(PDO::FETCH_OBJ);
-
-            #  ejecutamos 
             $pdost->execute();
-
-            # devuelvo objeto pdostatement
             return $pdost;
 
         } catch (PDOException $e) {
@@ -77,12 +61,8 @@ class usersModel extends Model
                     WHERE
                         users.id = :id";
 
-            # Conectar con la base de datos
             $conexion = $this->db->connect();
-
-
             $pdoSt = $conexion->prepare($sql);
-
             $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
             $pdoSt->setFetchMode(PDO::FETCH_OBJ);
             $pdoSt->execute();
@@ -280,7 +260,7 @@ class usersModel extends Model
     }
 
     # Creo nuevo usuario a partir de los datos de formulario de registro
-    public function crear($name, $email, $pass, $rol)
+    public function create($name, $email, $pass, $rol)
     {
         try {
 

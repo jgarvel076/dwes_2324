@@ -1,8 +1,7 @@
 <?php
-require_once 'class/class.user.php';
 
 
-class Users extends Controller
+class users extends Controller
 {
 
     function __construct()
@@ -13,90 +12,83 @@ class Users extends Controller
 
     }
 
+    # Método render
     function render($param = [])
     {
 
-        # Inicio o continúo la sesión
+        # Iniciamos sesión
         session_start();
 
-        //Comprobar si el usuario está identificado
+        # Comprobamos si el usuario está autentificado
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario No Autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['main']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['main']))) {
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         } else {
 
-            # Comprobar si existe el mensaje
+            # Si existe un mensaje
             if (isset($_SESSION['mensaje'])) {
                 $this->view->mensaje = $_SESSION['mensaje'];
                 unset($_SESSION['mensaje']);
             }
             $this->view->model = $this->model;
-            # Creo la propiedad title de la vista
             $this->view->title = "Tabla Usuarios";
-
-            # Creo la propiedad users dentro de la vista
-            # Del modelo asignado al controlador ejecuto el método get();
-            $this->view->users = $this->model->get();
+            $this->view->users = $this->model->getUser();
             $this->view->render("users/main/index");
         }
     }
 
-    function new()
+    function nuevo()
     {
-        # Iniciar o continuar sesión
+        # Iniciamos sesión
         session_start();
 
-        //Comprobar si el usuario está identificado
+        # Comprobamos si el usuario está autentificado
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['new']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
 
-        // Obtener los roles
+        # Obtenemos los roles
         $roles = $this->model->getRoles();
-
-        // Pasar los roles a la vista
         $this->view->roles = $roles;
 
-        # Comprobar si vuelvo de un registro no validado
+            # Comprobamos si existen errores
         if (isset($_SESSION['error'])) {
-            # Mensaje de error
+            //Añadimos a la vista el mensaje de error
             $this->view->error = $_SESSION['error'];
 
-            # Autorrellenar el formulario con los detalles del usuario
+            //Autorellenamos el formulario
             $this->view->user = unserialize($_SESSION['user']);
 
-            # Recupero array de errores específicos
+            // Recuperamos el array con los errores
             $this->view->errores = $_SESSION['errores'];
 
             unset($_SESSION['error']);
             unset($_SESSION['errores']);
             unset($_SESSION['user']);
         }
-
-        # etiqueta title de la vista
+        
         $this->view->title = "Añadir - Gestión Usuarios";
-
-        # cargo la vista con el formulario nuevo user
         $this->view->render('users/new/index');
     }
 
 
+    //---------------------------------------------------------------------------------------------------------------
     public function validate()
     {
 
-        # Iniciamos o continuamos con la sesión
+        # Iniciamos sesión
         session_start();
 
-        # Saneamos el formulario
+        # datos del formulario
         $name = filter_var($_POST['name'], FILTER_SANITIZE_SPECIAL_CHARS);
         $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
         $password = filter_var($_POST['password'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -150,7 +142,7 @@ class Users extends Controller
         } else {
 
             # Añade nuevo usuario
-            $this->model->crear($name, $email, $password, $rol);
+            $this->model->create($name, $email, $password, $rol);
 
             $_SESSION['mensaje'] = "Usuario registrado correctamente";
 
@@ -160,29 +152,30 @@ class Users extends Controller
 
     }
 
+    //---------------------------------------------------------------------------------------------------------------
 
     function create($param = [])
     {
-        // Iniciar sesión
+        # Iniciamos sesión
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['new']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['new']))) {
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
 
-        // 1. Seguridad. Saneamos los datos del formulario
+        # datos del formulario
         $nombre = filter_var($_POST['nombre'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
         $email = filter_var($_POST['email'] ??= '', FILTER_SANITIZE_EMAIL);
         $password = filter_var($_POST['password'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
         $rol = filter_var($_POST['rol'] ??= '', FILTER_SANITIZE_NUMBER_INT);
 
         # Cargamos los datos del formulario
-        $user = new classUser(
+        $user = new classuser(
             null,
             $nombre,
             $email,
@@ -190,30 +183,28 @@ class Users extends Controller
             $rol
         );
 
-        // Validación
+        # validación
         $errores = [];
 
-        // Nombre
         if (empty($nombre)) {
-            $errores['nombre'] = 'Nombre del usuario obligatorio';
+            $errores['nombre'] = 'Nombre obligatorio';
         } elseif (strlen($nombre) > 20) {
             $errores['nombre'] = 'El nombre no puede tener más de 20 caracteres';
         }
 
-        // Email
         if (empty($email)) {
             $errores['email'] = 'Email obligatorio';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errores['email'] = 'Email inválido';
+            $errores['email'] = 'Email no valido';
         } elseif ($this->model->existeEmail($email, $user->id)) {
-            $errores['email'] = 'Este email ya está registrado';
+            $errores['email'] = 'Email ya registrado';
         }
 
-        // Password
+
         if (empty($password)) {
             $errores['password'] = 'Contraseña obligatoria';
         } elseif (!filter_var($password, FILTER_SANITIZE_SPECIAL_CHARS)) {
-            $errores['password'] = 'Contraseña inválida';
+            $errores['password'] = 'Contraseña no valida';
         }
 
         // Rol
@@ -221,26 +212,25 @@ class Users extends Controller
             $errores['rol'] = 'Rol obligatorio';
         }
 
-        // Comprobar validación
+        # comprobar validación
         if (!empty($errores)) {
             // Errores de validación
-            // Transforma el objeto user en un string
             $_SESSION['user'] = serialize($user);
             $_SESSION['error'] = 'Formulario no validado';
             $_SESSION['errores'] = $errores;
 
-            // Redireccionamos a new
+            // Redireccionamos de nuevo al formulario
             header('Location:' . URL . 'users/new');
             exit();
         } else {
 
             // Añadir registro a la tabla
-            $this->model->crear($user);
+            $this->model->create($user);
 
             // Añadimos a la variable de sesión un mensaje
             $_SESSION['mensaje'] = 'Usuario creado correctamente';
-
-            // Redirigimos al main de users
+                
+            // Redireccionamos a la vista principal de users
             header('location:' . URL . 'users');
         }
     }
@@ -248,14 +238,15 @@ class Users extends Controller
 
     function edit($param = [])
     {
+        # Iniciamos sesión
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['edit']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
 
@@ -283,10 +274,10 @@ class Users extends Controller
             # Mensaje de error
             $this->view->error = $_SESSION['error'];
 
-            # Recupero array de errores específicos
+            // Recuperamos el array con los errores
             $this->view->errores = $_SESSION['errores'];
 
-            // Deserializar el objeto classUser solo si no hay errores
+            // Deserializar el objeto classuser solo si no hay errores
             if (!isset($this->view->errores)) {
                 # Autorrellenar el formulario con los detalles del user
                 $this->view->user = unserialize($_SESSION['user']);
@@ -306,36 +297,35 @@ class Users extends Controller
 
     function update($param = [])
     {
-
+        # Iniciamos sesión
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['edit']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['edit']))) {
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
 
-        # Cargo id del user
+        # Cargo id
         $id = $param[0];
 
-        $userOG = $this->model->getUser($id);
+        $userOG = $this->model->getuser($id);
 
-        // 1. Seguridad. Saneamos los datos del formulario
+        # datos del formulario
         $nombre = filter_var($_POST['name'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
         $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
         $password = filter_Var($_POST['password'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
         $password_confirm = filter_Var($_POST['password_confirm'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
         $rol = filter_var($_POST['rol'] ?? '', FILTER_SANITIZE_NUMBER_INT);
 
-        // Validación
+        # validación
         $errores = [];
 
-        // Nombre
         if (empty($nombre)) {
-            $errores['nombre'] = 'Nombre del usuario obligatorio';
+            $errores['nombre'] = 'Nombre obligatorio';
         } elseif (strlen($nombre) > 20) {
             $errores['nombre'] = 'El nombre no puede tener más de 20 caracteres';
         }
@@ -344,9 +334,9 @@ class Users extends Controller
         if (empty($email)) {
             $errores['email'] = 'Email obligatorio';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errores['email'] = 'Email inválido';
+            $errores['email'] = 'Email no valido';
         } elseif ($this->model->validateEmailUnique($email, $id)) {
-            $errores['email'] = 'Este email ya está registrado';
+            $errores['email'] = 'Email ya registrado';
         }
 
         // Password
@@ -354,7 +344,7 @@ class Users extends Controller
             if (empty($password)) {
                 $errores['password'] = 'Contraseña obligatoria';
             } elseif ($password !== $password_confirm) {
-                $errores['password_confirm'] = 'Las contraseñas no coinciden';
+                $errores['password_confirm'] = 'Las contraseñas son iguales';
             }
         }
 
@@ -381,7 +371,7 @@ class Users extends Controller
             $passHash = $userOG->password;
         }
 
-        $user = new classUser(
+        $user = new classuser(
             null,
             $nombre,
             $email,
@@ -391,123 +381,102 @@ class Users extends Controller
 
         $this->model->update($id, $user, $rol);
 
-        $_SESSION['mensaje'] = 'Usuario actualizado correctamente';
+        $_SESSION['mensaje'] = 'Usuario actualizado';
 
         header("Location:" . URL . "users");
 
     }
 
-    function show($param = [])
+    function mostrar($param = [])
     {
 
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['show']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['show']))) {
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
 
-        // Obtengo la id del user que quiero mostrar
+        # id del usuario
         $id = $param[0];
 
-        // Obtengo los datos del user mediante el modelo
         $user = $this->model->read($id);
-
-        // Configuro las propiedades de la vista
         $this->view->title = "Detalles del Usuario";
         $this->view->user = $user;
 
-        // Cargo la vista de detalles del user
         $this->view->render('users/show/index');
 
     }
 
 
-    function order($param = [])
+    function ordenar($param = [])
     {
 
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['order']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['order']))) {
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
 
-        # Obtengo el criterio de ordenación
         $criterio = $param[0];
-
-        # Creo la propiedad "title" de la vista
         $this->view->title = "Ordenar - Panel de Control users";
-
-        # Creo la propiedad users dentro de la vista
-        # Del modelo asignado al controlador ejecuto el método get()
         $this->view->users = $this->model->order($criterio);
 
-        # Cargo la vista principal de users
         $this->view->render('users/main/index');
 
     }
 
-    function filter($param = [])
+    function buscar($param = [])
     {
 
         session_start();
 
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['filter']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['filter']))) {
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
 
-        //Obtengo la expresión de filtrado
         $expresion = $_GET['expresion'];
-
-        //Cambio la propiedad title de la vista
         $this->view->title = "Buscar - Gestión users";
-
-        //Creamos la variable users dentro de la vista
-        //Esta variable ejecuta el método get() del modelo usersModel
         $this->view->users = $this->model->filter($expresion);
 
-        //Cargo la vista index
         $this->view->render('users/main/index');
     }
 
     function delete($param = [])
     {
-        # Inicio o continúo la sesión
+        # Iniciamos sesión
         session_start();
 
-        //Comprobar si el usuario está identificado
+        # Comprobamos si el usuario está autentificado
         if (!isset($_SESSION['id'])) {
 
-            $_SESSION['mensaje'] = "Usuario No Autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
             header("location:" . URL . "login");
 
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['delete']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['delete']))) {
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
 
         } else {
 
-            //Obtenemos id del user
+            #id del user
             $iduser = $param[0];
 
-            // Eliminar el user
             $this->model->delete($iduser);
-
-            //Generar mensaje
             $_SESSION['notify'] = 'Usuario eliminado.';
 
             header("Location:" . URL . "users");

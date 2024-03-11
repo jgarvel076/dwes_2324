@@ -155,11 +155,9 @@ class Movimientos extends Controller
             } else {
 
                 //Actualizamos el saldo
-                //Si el tipo fue ingreso, le sumamos la cantidad
                 if ($tipo == 'I') {
                     $nuevoSaldo = $saldo + $cantidad;
                 }
-                //De lo contrario, se lo restamos
                 else {
                     $nuevoSaldo = $saldo - $cantidad;
                 }
