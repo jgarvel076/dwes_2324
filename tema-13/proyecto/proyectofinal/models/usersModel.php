@@ -17,7 +17,7 @@
 class usersModel extends Model
 {
     # Método getMovimientos
-    public function getUsers()
+    public function get()
     {
 
         try {
@@ -266,33 +266,27 @@ class usersModel extends Model
         }
     }
 
-    public function getUser($id)
+    public function getUsers()
     {
-        try {
-            $sql = "SELECT
-                        *
-                    FROM
-                        users
-                    WHERE
-                        id = :id";
-
-            $pdo = $this->db->connect();
-            $pdoSt = $pdo->prepare($sql);
-            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-
-            $pdoSt->execute();
-
-            return $pdoSt->fetch();
-
-        } catch (PDOException $e) {
-            require_once("template/partials/errorDB.php");
-            exit();
+        {
+            try {
+                $sql = "SELECT * FROM users WHERE id = :id";
+    
+                $pdo = $this->db->connect();
+                $pdoSt = $pdo->prepare($sql);
+                $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+                $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+                $pdoSt->execute();
+                return $pdoSt->fetch();
+            } catch (PDOException $e) {
+                require_once("template/partials/errorDB.php");
+                exit();
+            }
         }
     }
 
     // Obtener los roles para crear un nuevo usuario
-    public function getRoles()
+    public function getRol()
     {
         try {
             $sql = "SELECT 

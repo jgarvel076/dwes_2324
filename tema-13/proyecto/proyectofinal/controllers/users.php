@@ -36,7 +36,7 @@ class users extends Controller
             }
             $this->view->model = $this->model;
             $this->view->title = "Tabla Usuarios";
-            $this->view->users = $this->model->getUser();
+            $this->view->users = $this->model->get();
             $this->view->render("users/main/index");
         }
     }
@@ -57,7 +57,7 @@ class users extends Controller
         }
 
         # Obtenemos los roles
-        $roles = $this->model->getRoles();
+        $roles = $this->model->getRol();
         $this->view->roles = $roles;
 
             # Comprobamos si existen errores
@@ -171,7 +171,7 @@ class users extends Controller
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['edit']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['edit']))) {
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
@@ -188,7 +188,7 @@ class users extends Controller
         $this->view->user = $this->model->read($id);
 
         // Obtener los roles
-        $this->view->roles = $this->model->getRoles();
+        $this->view->roles = $this->model->getRol();
 
         // Obtener el rol actual del usuario
         $userRol = $this->model->userRol($id);
@@ -238,13 +238,12 @@ class users extends Controller
         # Cargo id
         $id = $param[0];
 
-        $userOG = $this->model->getuser($id);
+        $userOG = $this->model->getUser($id);
 
         # datos del formulario
         $nombre = filter_var($_POST['name'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
         $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
         $password = filter_Var($_POST['password'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $password_confirm = filter_Var($_POST['password_confirm'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
         $rol = filter_var($_POST['rol'] ?? '', FILTER_SANITIZE_NUMBER_INT);
 
         # validación
@@ -269,8 +268,6 @@ class users extends Controller
         if (!empty($password) || !empty($password_confirm)) {
             if (empty($password)) {
                 $errores['password'] = 'Contraseña obligatoria';
-            } elseif ($password !== $password_confirm) {
-                $errores['password_confirm'] = 'Las contraseñas son iguales';
             }
         }
 
@@ -318,6 +315,8 @@ class users extends Controller
 
         session_start();
 
+        $id = $param[0];
+
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
@@ -327,12 +326,9 @@ class users extends Controller
             header('location:' . URL . 'users');
         }
 
-        # id del usuario
-        $id = $param[0];
-
-        $user = $this->model->read($id);
-        $this->view->title = "Detalles del Usuario";
-        $this->view->user = $user;
+        $this->view->title = "Formulario Mostrar Usuario";
+        $this->view->usuario = $this->model->getUser($id);
+        $this->view->rol = $this->model->getRol($id);
 
         $this->view->render('users/show/index');
 
