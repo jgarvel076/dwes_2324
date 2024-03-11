@@ -1,6 +1,6 @@
 <?php
 
-class Movimiento
+class classMovimiento
 {
 
     public $id;

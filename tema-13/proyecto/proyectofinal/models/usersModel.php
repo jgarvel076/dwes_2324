@@ -170,7 +170,7 @@ class usersModel extends Model
                     WHERE
                         CONCAT_WS(', ', 
                                 users.id,
-                                users.name,
+                                users.name, 
                                 users.email,
                                 users.password) 
                         LIKE :expresion
@@ -215,48 +215,6 @@ class usersModel extends Model
             include_once('template/partials/errorDB.php');
             exit();
         }
-    }
-
-
-    public function validateName($username)
-    {
-        if ((strlen($username) < 5) || (strlen($username) > 50)) {
-            return false;
-        }
-        return true;
-    }
-
-    #Validar password
-    public function validatePass($pass)
-    {
-        if ((strlen($pass) < 5) || (strlen($pass) > 50)) {
-            return false;
-        }
-        return true;
-    }
-
-    #Validar email unique
-    public function validateEmailUnique($email)
-    {
-
-        try {
-
-            $selectSQL = "SELECT * FROM users WHERE email = :email";
-            $pdo = $this->db->connect();
-            $pdost = $pdo->prepare($selectSQL);
-            $pdost->bindParam(':email', $email, PDO::PARAM_STR, 50);
-            $pdost->execute();
-            if ($pdost->rowCount() > 0)
-                return false;
-            else
-                return true;
-        } catch (PDOException $e) {
-
-            include_once('template/partials/errorDB.php');
-            exit();
-
-        }
-
     }
 
     # Creo nuevo usuario a partir de los datos de formulario de registro

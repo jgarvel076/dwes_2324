@@ -24,14 +24,12 @@ class movimientosModel extends Model
             $sql = "
                 SELECT 
                 movimientos.id,
-                cuentas.num_cuenta as cuenta,
+                cuentas.num_cuenta,
                 movimientos.fecha_hora,
                 movimientos.concepto,
                 movimientos.tipo,
                 movimientos.cantidad,
                 movimientos.saldo
-                movimientos.create_at,
-                movimientos.update_at
                 FROM 
                     movimientos 
                     INNER JOIN cuentas ON movimientos.id_cuenta = cuentas.id 
@@ -62,9 +60,7 @@ class movimientosModel extends Model
                 concepto,
                 tipo,
                 cantidad,
-                saldo,
-                create_at,
-                update_at
+                saldo
             )
             VALUES (
                 :id_cuenta,
@@ -72,9 +68,7 @@ class movimientosModel extends Model
                 :concepto,
                 :tipo,
                 :cantidad,
-                :saldo,
-                :create_at,
-                :update_at
+                :saldo
             )
         ";
 
@@ -88,8 +82,6 @@ class movimientosModel extends Model
             $pdoSt->bindParam(":tipo", $movimiento->tipo, PDO::PARAM_STR);
             $pdoSt->bindParam(":cantidad", $movimiento->cantidad, PDO::PARAM_STR);
             $pdoSt->bindParam(":saldo", $movimiento->saldo, PDO::PARAM_STR);
-            $pdoSt->bindParam(':create_at', $movimiento->create_at, PDO::PARAM_STR);
-            $pdoSt->bindParam(':update_at', $movimiento->update_at, PDO::PARAM_STR);
 
             $pdoSt->execute();
         } catch (PDOException $e) {
@@ -161,8 +153,6 @@ class movimientosModel extends Model
             movimientos.tipo,
             movimientos.cantidad,
             movimientos.saldo
-            movimientos.create_at,
-            movimientos.update_at
             FROM 
                 movimientos 
                 INNER JOIN 
@@ -229,8 +219,6 @@ class movimientosModel extends Model
                 movimientos.tipo,
                 movimientos.cantidad,
                 movimientos.saldo,
-                movimientos.create_at,
-                movimientos.update_at
             FROM
                 movimientos
                 JOIN cuentas ON movimientos.id_cuenta = cuentas.id
@@ -260,8 +248,6 @@ class movimientosModel extends Model
                 movimientos.tipo,
                 movimientos.cantidad,
                 movimientos.saldo,
-                movimientos.create_at,
-                movimientos.update_at
             FROM
                 movimientos
             WHERE
@@ -272,9 +258,7 @@ class movimientosModel extends Model
                             movimientos.concepto,
                             movimientos.tipo,
                             movimientos.cantidad,
-                            movimientos.saldo,
-                            movimientos.create_at,
-                            movimientos.update_at) 
+                            movimientos.saldo) 
                 LIKE :expresion
             ORDER BY 
                 movimientos.id

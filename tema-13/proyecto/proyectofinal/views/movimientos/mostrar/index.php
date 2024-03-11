@@ -31,8 +31,8 @@
 
             <!-- ID de la Cuenta -->
             <div class="mb-3">
-                <label for="id_cuenta" class="form-label">ID de la Cuenta</label>
-                <input type="text" class="form-control" name="id_cuenta" value="<?= $this->movimiento->id_cuenta ?>" disabled>
+                <label for="cuenta" class="form-label">ID del Movimiento</label>
+                <input type="text" class="form-control" name="cuenta" value="<?= $this->movimiento->cuenta ?>" disabled>
             </div>
 
             <!-- Fecha y Hora -->
@@ -63,18 +63,6 @@
             <div class="mb-3">
                 <label for="saldo" class="form-label">Saldo</label>
                 <input type="text" class="form-control" name="saldo" value="<?= $this->movimiento->saldo ?>" disabled>
-            </div>
-
-            <!-- Fecha de Creación -->
-            <div class="mb-3">
-                <label for="create_at" class="form-label">Fecha de Creación</label>
-                <input type="text" class="form-control" name="create_at" value="<?= $this->movimiento->create_at ?>" disabled>
-            </div>
-
-            <!-- Fecha de Actualización -->
-            <div class="mb-3">
-                <label for="update_at" class="form-label">Fecha de Actualización</label>
-                <input type="text" class="form-control" name="update_at" value="<?= $this->movimiento->update_at ?>" disabled>
             </div>
 
             <!-- botones de acción -->

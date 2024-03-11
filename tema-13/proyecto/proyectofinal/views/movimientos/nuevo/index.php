@@ -25,22 +25,16 @@
 
             <!-- Id_cuenta -->
             <div class="mb-3">
-                <label class="form-label">Nombre cuenta</label>
-                <select class="form-select" name="id_cuenta" id="selectcuenta"
-                    value="<?= isset($this->cuenta->id_cuenta) ?>">
-                    <option value="" disabled selected>Seleccione un cuenta</option>
-                    <?php foreach ($this->cuentas as $cuenta => $nombreCompleto): ?>
-                        <option value="<?= $cuenta ?>">
-                            <?= $nombreCompleto ?>
-                        </option>
-                    <?php endforeach; ?>
-                    <?php if (isset($this->errores['id_cuenta'])): ?>
-                        <span class="form-text text-danger" role="alert">
-                            <?= $this->errores['id_cuenta'] ?>
-                        </span>
-                    <?php endif; ?>
-                </select>
-            </div>
+                    <label for="cuenta" class="form-label">Cuenta del Movimiento</label>
+                    <select class="form-select <?= (isset($this->errores['cuenta'])) ? 'is-invalid' : null ?>" name="cuenta" id="cuenta">
+                        <option selected disabled>Seleccione un cliente</option>
+                        <?php foreach ($this->cuentas as  $cuenta) : ?>
+                            <option value="<?= $cuenta->id ?>"  <?= ($cuenta->id == $this->movimiento->id_cuenta) ? 'selected' : null ?>>
+                                <?= $cuenta->num_cuenta ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
             <!-- Fecha y Hora -->
             <div class="mb-3">

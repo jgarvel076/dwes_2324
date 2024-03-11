@@ -14,17 +14,16 @@
                     <a class="nav-link <?= in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['order']) ? 'active' : 'disabled' ?> dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Ordenar
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/1">ID</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/2">Nº Cuenta</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/3">Fecha y Hora</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/4">Concepto</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/5">Tipo</a></li> 
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/6">Cantidad</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/7">Saldo</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/8">Fecha Creación</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/9">Fecha Actualización</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/1">ID</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/2">Nº Cuenta</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/3">Fecha Hora</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/4">Concepto</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/5">Tipo</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/6">Cantidad</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/7">Saldo</a></li>
                     </ul>
+
                 </li>
             </ul>
             <form class="d-flex" role="search" method="GET" action="<?= URL ?>movimientos/filter">
