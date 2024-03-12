@@ -16,13 +16,11 @@
 
 class usersModel extends Model
 {
-    # Método getMovimientos
     public function get()
     {
 
         try {
 
-            # comando sql
             $sql = "SELECT 
                         users.id,
                         users.name,
@@ -135,18 +133,15 @@ class usersModel extends Model
 
             $conexion = $this->db->connect();
 
-            # ejecutamos mediante prepare
             $pdost = $conexion->prepare($sql);
 
             $pdost->bindParam(':criterio', $criterio, PDO::PARAM_INT);
 
-            # establecemos  tipo fetch
+
             $pdost->setFetchMode(PDO::FETCH_OBJ);
 
-            #  ejecutamos 
             $pdost->execute();
 
-            # devuelvo objeto pdostatement
             return $pdost;
 
         } catch (PDOException $e) {
@@ -178,7 +173,6 @@ class usersModel extends Model
                         users.id
                     ";
 
-            # Conectar con la base de datos
             $conexion = $this->db->connect();
 
             $pdost = $conexion->prepare($sql);
@@ -217,54 +211,7 @@ class usersModel extends Model
         }
     }
 
-    # Creo nuevo usuario a partir de los datos de formulario de registro
-    public function create($name, $email, $pass, $rol)
-    {
-        try {
-
-            $password_encriptado = password_hash($pass, CRYPT_BLOWFISH);
-
-            $sql = "INSERT INTO users VALUES (
-                 null,
-                :nombre,
-                :email,
-                :pass,
-                default,
-                default)";
-
-            $pdo = $this->db->connect();
-            $stmt = $pdo->prepare($sql);
-
-            $stmt->bindParam(':nombre', $name, PDO::PARAM_STR, 50);
-            $stmt->bindParam(':email', $email, PDO::PARAM_STR, 50);
-            $stmt->bindParam(':pass', $password_encriptado, PDO::PARAM_STR, 60);
-
-            $stmt->execute();
-
-            # Asignamos rol de registrado
-            $sql = "INSERT INTO roles_users VALUES (
-                null,
-                :user_id,
-                :role_id,
-                default,
-                default)";
-
-            # Obtener id del último usuario insertado
-            $ultimo_id = $pdo->lastInsertId();
-
-            $stmt = $pdo->prepare($sql);
-
-            $stmt->bindParam(':user_id', $ultimo_id);
-            $stmt->bindParam(':role_id', $rol);
-            $stmt->execute();
-
-        } catch (PDOException $e) {
-
-            include_once('template/partials/errorDB.php');
-            exit();
-
-        }
-    }
+    
 
     public function getUsers()
     {
@@ -285,7 +232,6 @@ class usersModel extends Model
         }
     }
 
-    // Obtener los roles para crear un nuevo usuario
     public function getRol()
     {
         try {
@@ -306,8 +252,6 @@ class usersModel extends Model
         }
     }
 
-
-    // Obtener el rol de un usuario para editarlo
     public function userRol($id)
     {
         try {
@@ -341,6 +285,89 @@ class usersModel extends Model
         }
     }
 
+    public function validateEmail($email)
+    {
+
+        try {
+
+            $selectSQL = "SELECT * FROM users WHERE email = :email";
+            $pdo = $this->db->connect();
+            $pdost = $pdo->prepare($selectSQL);
+            $pdost->bindParam(':email', $email, PDO::PARAM_STR, 50);
+            $pdost->execute();
+            if ($pdost->rowCount() > 0)
+                return false;
+            else
+                return true;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+
+        }
+
+    }
+
+    public function validateName($username)
+    {
+        if ((strlen($username) < 5) || (strlen($username) > 50)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function validatePass($pass)
+    {
+        if ((strlen($pass) < 5) || (strlen($pass) > 50)) {
+            return false;
+        }
+        return true;
+    }
+    public function create($name, $email, $pass, $rol)
+        {
+            try {
+                
+                $password_encriptado = password_hash($pass, CRYPT_BLOWFISH);
+
+                $sql = "INSERT INTO users VALUES (
+                    null,
+                    :nombre,
+                    :email,
+                    :pass,
+                    default,
+                    default)";
+
+                $pdo = $this->db->connect();
+                $stmt = $pdo->prepare($sql);
+
+                $stmt->bindParam(':nombre', $name, PDO::PARAM_STR, 50);
+                $stmt->bindParam(':email', $email, PDO::PARAM_STR, 50);
+                $stmt->bindParam(':pass', $password_encriptado, PDO::PARAM_STR, 60);
+
+                $stmt->execute();
+
+                $sql = "INSERT INTO roles_users VALUES (
+                    null,
+                    :user_id,
+                    :role_id,
+                    default,
+                    default)";
+
+                $ultimo_id = $pdo->lastInsertId();
+
+                $stmt = $pdo->prepare($sql);
+
+                $stmt->bindParam(':user_id', $ultimo_id);
+                $stmt->bindParam(':role_id', $rol);
+                $stmt->execute();
+
+            } catch (PDOException $e) {
+
+                include_once('template/partials/errorDB.php');
+                exit();
+
+            }
+        }
 }
 
 ?>

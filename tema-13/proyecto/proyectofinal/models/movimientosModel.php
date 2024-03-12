@@ -211,29 +211,43 @@ class movimientosModel extends Model
     public function order(int $criterio)
     {
         try {
+
+            # comando sql
             $sql = "SELECT 
-                movimientos.id,
-                cuentas.num_cuenta,
-                movimientos.fecha_hora,
-                movimientos.concepto,
-                movimientos.tipo,
-                movimientos.cantidad,
-                movimientos.saldo,
-            FROM
-                movimientos
-                JOIN cuentas ON movimientos.id_cuenta = cuentas.id
-            ORDER BY 
-                :criterio";
+                        movimientos.id,
+                        cuentas.num_cuenta,
+                        movimientos.fecha_hora,
+                        movimientos.concepto,
+                        movimientos.tipo,
+                        movimientos.cantidad,
+                        movimientos.saldo
+                    FROM
+                        movimientos
+                        JOIN cuentas ON movimientos.id_cuenta = cuentas.id
+                    ORDER BY 
+                        :criterio";
 
             $conexion = $this->db->connect();
-            $pdoSt = $conexion->prepare($sql);
-            $pdoSt->bindParam(':criterio', $criterio, PDO::PARAM_INT);
-            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-            $pdoSt->execute();
-            return $pdoSt;
+
+            # ejecutamos mediante prepare
+            $pdost = $conexion->prepare($sql);
+
+            $pdost->bindParam(':criterio', $criterio, PDO::PARAM_INT);
+
+            # establecemos  tipo fetch
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
+
+            #  ejecutamos 
+            $pdost->execute();
+
+            # devuelvo objeto pdostatement
+            return $pdost;
+
         } catch (PDOException $e) {
-            require_once("template/partials/errorDB.php");
+
+            include_once('template/partials/errorDB.php');
             exit();
+
         }
     }
 

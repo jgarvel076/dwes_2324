@@ -51,7 +51,7 @@ class users extends Controller
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['new']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['users']['new']))) {
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'users');
         }
@@ -77,9 +77,8 @@ class users extends Controller
         }
         
         $this->view->title = "Añadir - Gestión Usuarios";
-        $this->view->render('users/new/index');
+        $this->view->render('users/nuevo/index');
     }
-
     function create($param = [])
     {
         # Iniciamos sesión
@@ -101,7 +100,7 @@ class users extends Controller
         $rol = filter_var($_POST['rol'] ??= '', FILTER_SANITIZE_NUMBER_INT);
 
         # Cargamos los datos del formulario
-        $user = new classuser(
+        $user = new classUser(
             null,
             $nombre,
             $email,
@@ -122,8 +121,6 @@ class users extends Controller
             $errores['email'] = 'Email obligatorio';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errores['email'] = 'Email no valido';
-        } elseif ($this->model->existeEmail($email, $user->id)) {
-            $errores['email'] = 'Email ya registrado';
         }
 
 
@@ -133,7 +130,6 @@ class users extends Controller
             $errores['password'] = 'Contraseña no valida';
         }
 
-        // Rol
         if (empty($rol)) {
             $errores['rol'] = 'Rol obligatorio';
         }
@@ -146,7 +142,7 @@ class users extends Controller
             $_SESSION['errores'] = $errores;
 
             // Redireccionamos de nuevo al formulario
-            header('Location:' . URL . 'users/new');
+            header('Location:' . URL . 'users');
             exit();
         } else {
 
@@ -195,7 +191,6 @@ class users extends Controller
         $this->view->rolActual = $userRol->id;
 
         //Comprobar si el formulario viene de una validación
-        //Comprobar si el formulario viene de una validación
         if (isset($_SESSION['error'])) {
             # Mensaje de error
             $this->view->error = $_SESSION['error'];
@@ -238,7 +233,7 @@ class users extends Controller
         # Cargo id
         $id = $param[0];
 
-        $userOG = $this->model->getUser($id);
+        $userOG = $this->model->getUsers($id);
 
         # datos del formulario
         $nombre = filter_var($_POST['name'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -255,23 +250,18 @@ class users extends Controller
             $errores['nombre'] = 'El nombre no puede tener más de 20 caracteres';
         }
 
-        // Email
         if (empty($email)) {
             $errores['email'] = 'Email obligatorio';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errores['email'] = 'Email no valido';
-        } elseif ($this->model->validateEmailUnique($email, $id)) {
+        } elseif ($this->model->validateEmail($email, $id)) {
             $errores['email'] = 'Email ya registrado';
         }
 
-        // Password
-        if (!empty($password) || !empty($password_confirm)) {
-            if (empty($password)) {
-                $errores['password'] = 'Contraseña obligatoria';
-            }
+        if (empty($password)) {
+            $errores['password'] = 'Contraseña obligatoria';
         }
 
-        // Rol
         if (empty($rol)) {
             $errores['rol'] = 'Rol obligatorio';
         }
@@ -294,7 +284,7 @@ class users extends Controller
             $passHash = $userOG->password;
         }
 
-        $user = new classuser(
+        $user = new classUser(
             null,
             $nombre,
             $email,
@@ -315,8 +305,6 @@ class users extends Controller
 
         session_start();
 
-        $id = $param[0];
-
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
@@ -326,16 +314,23 @@ class users extends Controller
             header('location:' . URL . 'users');
         }
 
-        $this->view->title = "Formulario Mostrar Usuario";
-        $this->view->usuario = $this->model->getUser($id);
-        $this->view->rol = $this->model->getRol($id);
+        // Obtengo la id del user que quiero mostrar
+        $id = $param[0];
 
-        $this->view->render('users/show/index');
+        // Obtengo los datos del user mediante el modelo
+        $user = $this->model->read($id);
+
+        // Configuro las propiedades de la vista
+        $this->view->title = "Detalles del Usuario";
+        $this->view->user = $user;
+
+        // Cargo la vista de detalles del user
+        $this->view->render('users/mostrar/index');
 
     }
 
 
-    function ordenar($param = [])
+    function order($param = [])
     {
 
         session_start();
@@ -405,6 +400,25 @@ class users extends Controller
         }
     }
 
+    public function validate()
+    {
+
+        session_start();
+
+        $name = filter_var($_POST['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        $password = filter_var($_POST['password'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $password_confirm = filter_var($_POST['password-confirm'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $rol = filter_var($_POST['rol'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $this->model->create($name, $email, $password, $rol);
+
+        $_SESSION['mensaje'] = "Usuario registrado correctamente";
+
+        header("location:" . URL . "users");
+        exit();
+
+    }
 
 }
 

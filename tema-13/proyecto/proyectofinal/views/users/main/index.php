@@ -47,7 +47,7 @@
 							<th>Id</th>
 							<th>Nombre</th>
 							<th>Email</th>
-							<th>Password</th>
+							<!--<th>Password</th>-->
 						</tr>
 					</thead>
 					<!-- Mostramos cuerpo de la tabla -->
@@ -69,9 +69,9 @@
 								<td>
 									<?= $user->email ?>
 								</td>
-								<td>
+								<!--<td>
 									<?= $user->password ?>
-								</td>
+								</td>-->
 
 								<!-- botones de acción -->
 								<td>
@@ -89,7 +89,7 @@
 									</a>
 
 									<!-- botón mostrar -->
-									<a href="<?= URL ?>users/show/<?= $user->id ?>" title="Mostrar"
+									<a href="<?= URL ?>users/mostrar/<?= $user->id ?>" title="Mostrar"
 										<?= (!in_array($_SESSION['id_rol'], $GLOBALS['users']['show'])) ? 'disabled' : '' ?>">
 										<i class="bi bi-card-text"></i>
 									</a>

@@ -212,7 +212,7 @@ class Movimientos extends Controller
     }
 
     # Método ordenar
-    function ordenar($param = [])
+    function order($param = [])
     {
         # Iniciamos sesión
         session_start();
