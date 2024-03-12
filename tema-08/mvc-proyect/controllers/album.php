@@ -9,34 +9,30 @@ class Album extends Controller
         parent::__construct();
     }
 
+    # Método render
     function render()
     {
 
-        # inicio o continuo sesión
+        # Iniciamos sesión
         session_start();
 
-        # compruebo usuario autentificado
+        # Comprobamos si el usuario está autentificado
         if (!isset($_SESSION['id'])) {
-            $_SESSION['notify'] = "Usuario sin autentificar";
+            $_SESSION['notify'] = "Usuario debe autentificarse";
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['main']))) {
             $_SESSION['mensaje'] = "Ha intentado realizar operación sin privilegios";
             header('location:' . URL . 'index');
         } else {
-
+            # Si existe un mensaje
             if (isset($_SESSION['mensaje'])) {
                 $this->view->mensaje = $_SESSION['mensaje'];
                 unset($_SESSION['mensaje']);
             }
 
 
-            # Creo la propiedad title de la vista
             $this->view->title = "Home - Panel Control Albumes";
-
-            # Creo la propiedad albums dentro de la vista
-            # Del modelo asignado al controlador ejecuto el método get();
             $this->view->albumes = $this->model->get();
-
             $this->view->render('album/main/index');
         }
     }
@@ -45,21 +41,20 @@ class Album extends Controller
     public function show($param = [])
     {
 
-        //Iniciar o continuar sesión
+        # Iniciamos sesión
         session_start();
 
-        //Comprobar si el usuario está identificado
+        # Comprobamos si el usuario está autentificado
         if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario No Autentificado";
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['show']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
 
             $id = $param[0];
 
-            //Incrementamos el campo num_visitas en la base de datos ya que se ha mostrado el álbum
             $this->model->incrementarVisitas($id);
 
             $this->view->title = "Formulario Álbum Mostar";
@@ -70,17 +65,18 @@ class Album extends Controller
 
     function create($param = [])
     {
-        # Iniciar sesión
+        # Iniciamos sesión
         session_start();
 
+        # Comprobamos si el usuario está autentificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['new']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
-            # Seguridad. Saneamos los datos del formulario
+            # datos del formulario
             $titulo = filter_var($_POST['titulo'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
             $descripcion = filter_var($_POST['descripcion'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
             $autor = filter_var($_POST['autor'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -90,7 +86,7 @@ class Album extends Controller
             $etiquetas = filter_var($_POST['etiquetas'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
             $carpeta = filter_var($_POST['carpeta'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
 
-            # Crear el objeto de álbum con los datos saneados
+            # Cargamos los datos del formulario
             $album = new classAlbum(
                 null,
                 $titulo,
@@ -105,44 +101,35 @@ class Album extends Controller
                 $carpeta
             );
 
-            # Validación
+            # validación
             $errores = [];
 
-            // Título: obligatorio y no más de 100 caracteres
             if (empty($titulo)) {
-                $errores['titulo'] = 'El campo Título es obligatorio';
+                $errores['titulo'] = 'Título es obligatorio';
             } else if (mb_strlen($titulo) > 100) {
-                $errores['titulo'] = 'El campo Título debe tener menos de 100 caracteres';
+                $errores['titulo'] = 'Este campo no puede superar 100 caracteres';
             }
 
-            // Descripción: obligatoria
             if (empty($descripcion)) {
-                $errores['descripcion'] = 'El campo Descripción es obligatorio';
+                $errores['descripcion'] = 'Descripción es obligatorio';
             }
 
-            // Autor: obligatorio
             if (empty($autor)) {
-                $errores['autor'] = 'El campo Autor es obligatorio';
+                $errores['autor'] = 'Autor es obligatorio';
             }
 
-            // Fecha: obligatoria. Además, comprobar si la fecha es válida
             if (empty($fecha)) {
                 $errores['fecha'] = 'El campo Fecha es obligatorio';
-            } else if (!$this->model->validateFecha($fecha)) {
-                $errores['fecha'] = 'Fecha no es válida';
             }
 
-            // Lugar: obligatorio
             if (empty($lugar)) {
                 $errores['lugar'] = 'El campo Lugar es obligatorio';
             }
 
-            // Categoría: obligatoria
             if (empty($categoria)) {
                 $errores['categoria'] = 'El campo Categoría es obligatorio';
             }
 
-            // Carpeta: obligatoria y no debe tener espacios
             if (empty($carpeta)) {
                 $errores['carpeta'] = 'El campo Carpeta es obligatorio';
             } else if (strpos($carpeta, ' ') !== false) {
@@ -160,7 +147,7 @@ class Album extends Controller
                 # Añadir registro a la tabla
                 $this->model->create($album);
 
-                //Crear carpeta en images
+                #Crear carpeta en images
                 $carpeta = $album->carpeta;
                 $rutaCarpeta = "images/$carpeta";
                 if (!file_exists($rutaCarpeta)) {
@@ -174,45 +161,34 @@ class Album extends Controller
     function new()
     {
 
-        # iniciar o continuar  sesión
+        # Iniciamos sesión
         session_start();
 
-        # compruebo usuario autentificado
+        # Comprobamos si el usuario está autentificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['notify'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['new']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
 
             # Crear un objeto album vacio
             $this->view->album = new classAlbum();
 
-            # Comprobar si vuelvo de  un registro no validado
+            # Comprobamos si existen errores
             if (isset($_SESSION['error'])) {
-
-                # Mensaje de error
                 $this->view->error = $_SESSION['error'];
-
-                # Autorrellenar formulario con los detalles del  album
                 $this->view->album = unserialize($_SESSION['album']);
-
-                # Recupero array errores  específicos
                 $this->view->errores = $_SESSION['errores'];
 
-                # Elimino las variables de sesión
                 unset($_SESSION['error']);
                 unset($_SESSION['album']);
                 unset($_SESSION['errores']);
             }
 
-            # etiqueta title de la vista
             $this->view->title = "Añadir - Gestión Album";
-
-
-            # cargo la vista con el formulario nuevo album
             $this->view->render('album/new/index');
         }
     }
@@ -222,15 +198,16 @@ class Album extends Controller
     function edit($param = [])
     {
 
-        # iniciamos sesión
+        # Iniciamos sesión
         session_start();
 
+        # Comprobamos si el usuario está autentificado        
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['edit']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
 
@@ -248,13 +225,8 @@ class Album extends Controller
             # Comprobar si el formulario viene de una no validación
             if (isset($_SESSION['error'])) {
 
-                # Mensaje de error
                 $this->view->error = $_SESSION['error'];
-
-                # Autorrellenar formulario con los detalles del  album
                 $this->view->album = unserialize($_SESSION['album']);
-
-                # Recupero array errores  específicos
                 $this->view->errores = $_SESSION['errores'];
 
                 # Elimino las variables de sesión
@@ -271,19 +243,20 @@ class Album extends Controller
     function update($param = [])
     {
 
-        # iniciar sesión
+        # Iniciamos sesión
         session_start();
 
+        # Comprobamos si el usuario está autentificado        
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['edit']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
 
-            # 1. Seguridad. Saneamos los  datos del formulario
+            # datos del formulario
             $titulo = filter_var($_POST['titulo'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
             $descripcion = filter_var($_POST['descripcion'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
             $autor = filter_var($_POST['autor'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -295,7 +268,7 @@ class Album extends Controller
             $num_visitas = filter_var($_POST['num_visitas'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
             $carpeta = filter_var($_POST['carpeta'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
 
-            # 2. Creamos el objeto album a partir de  los datos saneados del  formuario
+        # Cargamos los datos del formulario
             $album = new classAlbum(
                 null,
                 $titulo,
@@ -325,48 +298,41 @@ class Album extends Controller
             # Validación
             $errores = [];
 
-            // Título: obligatorio y no más de 100 caracteres
             if (empty($titulo)) {
-                $errores['titulo'] = 'El campo Título es obligatorio';
+                $errores['titulo'];
             } else if (mb_strlen($titulo) > 100) {
                 $errores['titulo'] = 'El campo Título debe tener menos de 100 caracteres';
             }
 
-            // Descripción: obligatoria
             if (empty($descripcion)) {
                 $errores['descripcion'] = 'El campo Descripción es obligatorio';
             }
 
-            // Autor: obligatorio
             if (empty($autor)) {
                 $errores['autor'] = 'El campo Autor es obligatorio';
             }
 
-            // Fecha: obligatoria. Además, comprobar si la fecha es válida
             if (empty($fecha)) {
                 $errores['fecha'] = 'El campo Fecha es obligatorio';
             } else if (!$this->model->validateFecha($fecha)) {
                 $errores['fecha'] = 'Fecha no es válida';
             }
 
-            // Lugar: obligatorio
             if (empty($lugar)) {
                 $errores['lugar'] = 'El campo Lugar es obligatorio';
             }
 
-            // Categoría: obligatoria
             if (empty($categoria)) {
                 $errores['categoria'] = 'El campo Categoría es obligatorio';
             }
 
-            // Carpeta: obligatoria y no debe tener espacios
             if (empty($carpeta)) {
                 $errores['carpeta'] = 'El campo Carpeta es obligatorio';
             } else if (strpos($carpeta, ' ') !== false) {
                 $errores['carpeta'] = 'El nombre de carpeta no debe tener espacios';
             }
 
-            # Comprobar validación
+            # comprobar validación
             if (!empty($errores)) {
                 # Errores de validación
                 $_SESSION['album'] = serialize($album);
@@ -385,12 +351,12 @@ class Album extends Controller
                     }
 
                     # Actualizar registro
-                    $this->model->update($album, $id, $carpetaOrig);
+                    $this->model->update($album, $id);
 
                     # Mensaje
                     $_SESSION['mensaje'] = "Álbum actualizado correctamente";
 
-                    # Redirigimos al main de álbumes
+                    # Redirigimos a la vista principal de álbumes
                     header('location:' . URL . 'album');
                 }
             }
@@ -400,29 +366,25 @@ class Album extends Controller
     function order($param = [])
     {
 
-        # inicio o continúo sesión
+        # Iniciamos sesión
         session_start();
 
+        # Comprobamos si el usuario está autentificado        
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['order']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
 
             # Obtengo criterio de ordenación
             $criterio = $param[0];
 
-            # Creo la propiedad title de la vista
+
             $this->view->title = "Ordenar - Panel Control Album";
-
-            # Creo la propiedad albumes dentro de la vista
-            # Del modelo asignado al controlador ejecuto el método get();
             $this->view->albumes = $this->model->order($criterio);
-
-            # Cargo la vista principal de albumes
             $this->view->render('album/main/index');
         }
     }
@@ -430,27 +392,23 @@ class Album extends Controller
     function filter($param = [])
     {
 
-        # inicio o continúo sesión
+        # Iniciamos sesión
         session_start();
 
+        # Comprobamos si el usuario está autentificado        
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['filter']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
 
             # Obtengo expresión de búsqueda
             $expresion = $_GET['expresion'];
 
-            # Creo la propiedad title de la vista
             $this->view->title = "Buscar - Panel de Albumes";
-
-            # Filtro a partir de la  expresión
             $this->view->albumes = $this->model->filter($expresion);
-
-            # Cargo la vista principal de albumes
             $this->view->render('album/main/index');
         }
     }
@@ -458,29 +416,25 @@ class Album extends Controller
     function add($param = [])
     {
 
-        # iniciar o continuar  sesión
+        # Iniciamos sesión
         session_start();
 
-        # compruebo usuario autentificado
+        # Comprobamos si el usuario está autentificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['notify'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['add']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
 
-            # Comprobar si vuelvo de  un registro no validado
+            # mensaje de error
             if (isset($_SESSION['error'])) {
 
-                # Mensaje de error
                 $this->view->error = $_SESSION['error'];
-
-                # Recupero array errores  específicos
                 $this->view->errores = $_SESSION['errores'];
 
-                # Elimino las variables de sesión
                 unset($_SESSION['error']);
                 unset($_SESSION['errores']);
             }
@@ -501,23 +455,23 @@ class Album extends Controller
     function delete($param = [])
     {
 
-        # inicar sesión
+        # Iniciamos sesión
         session_start();
 
+        # Comprobamos si el usuario está autentificado        
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario debe autentificarse";
 
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['delete']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
+            $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
             header('location:' . URL . 'album');
         } else {
 
             # obtenemos id del  album
             $id = $param[0];
 
-            //Para borrar la carpeta del album
-            //Obtenemos el nombre de la carpeta del álbum
+            # borrar la carpeta del album
             $album = $this->model->getAlbum($id);
             $carpeta = $album->carpeta;
             $rutaCarpeta = "images/$carpeta";
@@ -537,8 +491,6 @@ class Album extends Controller
             header('location:' . URL . 'album');
         }
     }
-
-    //Función para eliminar la carpeta recursivamente
     function deleteCarpeta($directorio)
     {
         $ficheros = array_diff(scandir($directorio), array('.', '..'));
