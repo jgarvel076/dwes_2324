@@ -36,7 +36,7 @@ class users extends Controller
             }
             $this->view->model = $this->model;
             $this->view->title = "Tabla Usuarios";
-            $this->view->users = $this->model->get();
+            $this->view->users = $this->model->getUser();
             $this->view->render("users/main/index");
         }
     }
@@ -181,7 +181,7 @@ class users extends Controller
         $this->view->title = "Edit - Panel de control users";
 
         # obtener objeto de la clase user
-        $this->view->user = $this->model->read($id);
+        $this->view->user = $this->model->readUser($id);
 
         // Obtener los roles
         $this->view->roles = $this->model->getRol();
@@ -233,7 +233,7 @@ class users extends Controller
         # Cargo id
         $id = $param[0];
 
-        $userOG = $this->model->getUsers($id);
+        $userOG = $this->model->getUserID($id);
 
         # datos del formulario
         $nombre = filter_var($_POST['name'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -302,7 +302,7 @@ class users extends Controller
 
     function mostrar($param = [])
     {
-
+        # Iniciamos sesión
         session_start();
 
         if (!isset($_SESSION['id'])) {
@@ -318,7 +318,7 @@ class users extends Controller
         $id = $param[0];
 
         // Obtengo los datos del user mediante el modelo
-        $user = $this->model->read($id);
+        $user = $this->model->readUser($id);
 
         // Configuro las propiedades de la vista
         $this->view->title = "Detalles del Usuario";
@@ -332,7 +332,7 @@ class users extends Controller
 
     function order($param = [])
     {
-
+        # Iniciamos sesión
         session_start();
 
         if (!isset($_SESSION['id'])) {
@@ -354,7 +354,7 @@ class users extends Controller
 
     function buscar($param = [])
     {
-
+         # Iniciamos sesión
         session_start();
 
         if (!isset($_SESSION['id'])) {

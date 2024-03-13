@@ -16,7 +16,7 @@
 
 class usersModel extends Model
 {
-    public function get()
+    public function getUser()
     {
 
         try {
@@ -45,7 +45,7 @@ class usersModel extends Model
         }
     }
 
-    public function read($id)
+    public function readUser($id)
     {
 
         try {
@@ -73,6 +73,77 @@ class usersModel extends Model
         }
 
     }
+    public function getUserID()
+        {
+            {
+                try {
+                    $sql = "SELECT * FROM users WHERE id = :id";
+        
+                    $pdo = $this->db->connect();
+                    $pdoSt = $pdo->prepare($sql);
+                    $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+                    $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+                    $pdoSt->execute();
+                    return $pdoSt->fetch();
+                } catch (PDOException $e) {
+                    require_once("template/partials/errorDB.php");
+                    exit();
+                }
+            }
+        }
+
+        public function getRol()
+        {
+            try {
+                $sql = "SELECT 
+                            roles.id, 
+                            roles.name 
+                        FROM 
+                            roles";
+
+                $conexion = $this->db->connect();
+                $pdost = $conexion->prepare($sql);
+                $pdost->execute();
+
+                return $pdost->fetchAll(PDO::FETCH_OBJ);
+            } catch (PDOException $e) {
+                include_once('template/partials/errorDB.php');
+                exit();
+            }
+        }
+
+        public function userRol($id)
+        {
+            try {
+                $sql = "SELECT
+                            roles.id, roles.name
+                        FROM
+                            roles
+                        INNER JOIN
+                            roles_users
+                        ON
+                            roles.id = roles_users.role_id
+                        INNER JOIN
+                            users
+                        ON
+                            roles_users.user_id = users.id
+                        WHERE
+                            users.id = :id";
+
+                $pdo = $this->db->connect();
+                $pdoSt = $pdo->prepare($sql);
+                $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+                $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+
+                $pdoSt->execute();
+
+                return $pdoSt->fetch();
+
+            } catch (PDOException $e) {
+                require_once("template/partials/errorDB.php");
+                exit();
+            }
+        }
 
     public function update(int $id, classUser $user, int $rol)
     {
@@ -213,78 +284,7 @@ class usersModel extends Model
 
     
 
-    public function getUsers()
-    {
-        {
-            try {
-                $sql = "SELECT * FROM users WHERE id = :id";
     
-                $pdo = $this->db->connect();
-                $pdoSt = $pdo->prepare($sql);
-                $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-                $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-                $pdoSt->execute();
-                return $pdoSt->fetch();
-            } catch (PDOException $e) {
-                require_once("template/partials/errorDB.php");
-                exit();
-            }
-        }
-    }
-
-    public function getRol()
-    {
-        try {
-            $sql = "SELECT 
-                        roles.id, 
-                        roles.name 
-                    FROM 
-                        roles";
-
-            $conexion = $this->db->connect();
-            $pdost = $conexion->prepare($sql);
-            $pdost->execute();
-
-            return $pdost->fetchAll(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            include_once('template/partials/errorDB.php');
-            exit();
-        }
-    }
-
-    public function userRol($id)
-    {
-        try {
-            $sql = "SELECT
-                        roles.id, roles.name
-                    FROM
-                        roles
-                    INNER JOIN
-                        roles_users
-                    ON
-                        roles.id = roles_users.role_id
-                    INNER JOIN
-                        users
-                    ON
-                        roles_users.user_id = users.id
-                    WHERE
-                        users.id = :id";
-
-            $pdo = $this->db->connect();
-            $pdoSt = $pdo->prepare($sql);
-            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-
-            $pdoSt->execute();
-
-            return $pdoSt->fetch();
-
-        } catch (PDOException $e) {
-            require_once("template/partials/errorDB.php");
-            exit();
-        }
-    }
-
     public function validateEmail($email)
     {
 
