@@ -25,3 +25,4 @@
     $GLOBALS['album']['filter'] = [1, 2, 3];
     $GLOBALS['album']['order'] = [1, 2, 3];
     $GLOBALS['album']['add'] = [1, 2];
+

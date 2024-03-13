@@ -2,15 +2,15 @@
 # Configuración básica aplicación MVC
 
 # Ruta absoluta
-define('URL', 'http://localhost/DWES/dwes_2324/tema-13/proyecto/proyectofinal/');
-//define('URL', 'http://localhost/DWES/tema-13\proyecto\proyectofinal/');
+
+define('URL', 'http://localhost/DWES/dwes_2324/tema-08/mvc-proyect/');
+//define('URL', 'http://localhost/DWES/tema-08/proyecto/8.1-Albumes/mvc-proyect/');
 
 # Constante de la Base de Datos
 define('HOST', 'localhost');
-define('DB', 'gesbank');
+define('DB', 'album');
 define('USER', 'root');
 define('PASSWORD', '');
 define('CHARSET', 'utf8mb4');
-
 
 ?>
