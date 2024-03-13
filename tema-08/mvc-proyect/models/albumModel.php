@@ -154,7 +154,7 @@ class albumModel extends Model
         }
     }
 
-    public function update(classAlbum $album, $id, $carpetaOrig)
+    public function update(classAlbum $album, $id)
     {
 
         try {
@@ -169,8 +169,7 @@ class albumModel extends Model
                         fecha = :fecha,
                         lugar = :lugar,
                         categoria = :categoria,
-                        etiquetas = :etiquetas,
-                        carpeta = :carpeta
+                        etiquetas = :etiquetas
                 WHERE
                         id = :id
                 LIMIT 1
@@ -192,12 +191,6 @@ class albumModel extends Model
             $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(':categoria', $album->categoria, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(':etiquetas', $album->etiquetas, PDO::PARAM_STR, 250);
-            $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_STR, 50);
-
-            // Cambiamos el nombre de la carpeta
-            $rutaOrigen = "imagenes/" . $carpetaOrig;
-            $rutaDest = "imagenes/" . $album->carpeta;
-            rename($rutaOrigen, $rutaDest);
 
             // Ejecutamos la consulta
             $pdoSt->execute();

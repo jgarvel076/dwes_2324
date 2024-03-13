@@ -119,21 +119,21 @@ class Album extends Controller
             }
 
             if (empty($fecha)) {
-                $errores['fecha'] = 'El campo Fecha es obligatorio';
+                $errores['fecha'] = 'Fecha es obligatorio';
             }
 
             if (empty($lugar)) {
-                $errores['lugar'] = 'El campo Lugar es obligatorio';
+                $errores['lugar'] = 'Lugar es obligatorio';
             }
 
             if (empty($categoria)) {
-                $errores['categoria'] = 'El campo Categoría es obligatorio';
+                $errores['categoria'] = 'Categoría es obligatorio';
             }
 
             if (empty($carpeta)) {
-                $errores['carpeta'] = 'El campo Carpeta es obligatorio';
+                $errores['carpeta'] = 'Carpeta es obligatorio';
             } else if (strpos($carpeta, ' ') !== false) {
-                $errores['carpeta'] = 'El nombre de carpeta no debe tener espacios';
+                $errores['carpeta'] = 'Incluya un nombre sin espacios';
             }
 
             # Comprobar validación
@@ -293,43 +293,37 @@ class Album extends Controller
             $rutaCarpetaOriginal = "images/" . $album_orig->carpeta;
 
             // Obtener la ruta de la nueva carpeta (si se especifica)
-            $nuevaRutaCarpeta = "images/" . $carpeta;
+            $rutaNuevaCarpeta = "images/" . $carpeta;
 
             # Validación
             $errores = [];
 
             if (empty($titulo)) {
-                $errores['titulo'];
+                $errores['titulo'] = 'Título es obligatorio';
             } else if (mb_strlen($titulo) > 100) {
-                $errores['titulo'] = 'El campo Título debe tener menos de 100 caracteres';
+                $errores['titulo'] = 'Este campo no puede superar 100 caracteres';
             }
 
             if (empty($descripcion)) {
-                $errores['descripcion'] = 'El campo Descripción es obligatorio';
+                $errores['descripcion'] = 'Descripción es obligatorio';
             }
 
             if (empty($autor)) {
-                $errores['autor'] = 'El campo Autor es obligatorio';
+                $errores['autor'] = 'Autor es obligatorio';
             }
 
             if (empty($fecha)) {
-                $errores['fecha'] = 'El campo Fecha es obligatorio';
+                $errores['fecha'] = 'Fecha es obligatorio';
             } else if (!$this->model->validateFecha($fecha)) {
                 $errores['fecha'] = 'Fecha no es válida';
             }
 
             if (empty($lugar)) {
-                $errores['lugar'] = 'El campo Lugar es obligatorio';
+                $errores['lugar'] = 'Lugar es obligatorio';
             }
 
             if (empty($categoria)) {
-                $errores['categoria'] = 'El campo Categoría es obligatorio';
-            }
-
-            if (empty($carpeta)) {
-                $errores['carpeta'] = 'El campo Carpeta es obligatorio';
-            } else if (strpos($carpeta, ' ') !== false) {
-                $errores['carpeta'] = 'El nombre de carpeta no debe tener espacios';
+                $errores['categoria'] = 'Categoría es obligatorio';
             }
 
             # comprobar validación
@@ -340,25 +334,15 @@ class Album extends Controller
                 $_SESSION['errores'] = $errores;
                 header('location:' . URL . 'album/edit/' . $id);
             } else {
-                if (!empty($carpeta) && is_dir($rutaCarpetaOriginal)) {
-                    //Renombramos la carpeta
-                    if (rename($rutaCarpetaOriginal, $nuevaRutaCarpeta)) {
-                        //Actualizamos el valor de la carpeta en el objeto del álbum
-                        $album->carpeta = $carpeta;
-                    } else {
-                        //Si no se puede renombrar la carpeta, agregar un mensaje de error
-                        $errores['carpeta'] = 'No se pudo cambiar el nombre de la carpeta';
-                    }
 
-                    # Actualizar registro
-                    $this->model->update($album, $id);
+                # Actualizar registro
+                $this->model->update($album, $id);
 
-                    # Mensaje
-                    $_SESSION['mensaje'] = "Álbum actualizado correctamente";
+                # Mensaje
+                $_SESSION['mensaje'] = "Álbum actualizado correctamente";
 
-                    # Redirigimos a la vista principal de álbumes
-                    header('location:' . URL . 'album');
-                }
+                # Redirigimos a la vista principal de álbumes
+                header('location:' . URL . 'album');
             }
         }
     }

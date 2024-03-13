@@ -62,7 +62,7 @@
 
 						<!-- Objeto clase pdostatement en foreach -->
 						<?php foreach ($this->albumes as $album) : ?>
-							<?php require('template/partials/modal.php'); ?>
+							<?php require('views/album/partials/modal.php'); ?>
 							<tr>
 								<!-- Formatos distintos para cada  columna -->
 
@@ -118,7 +118,7 @@
 
 			</div>
 			<div class="card-footer">
-				<small class="text-muted"> Albumes existentes:
+				<small class="text-muted"> Contador de Albumes:
 					<?= $this->albumes->rowCount(); ?>
 				</small>
 			</div>

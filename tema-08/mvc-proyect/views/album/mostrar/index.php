@@ -95,7 +95,7 @@
             <br><br>
 
             <!-- Imágenes -->
-            <h2>Álbum</h2>
+            <h2>Imagen</h2>
             <div class="row">
                 <?php
                 //Obtenemos la ruta de la carpeta de imágenes
@@ -108,7 +108,7 @@
                 $imagenes = array_filter($archivos, function ($archivo) {
                     //Especificamos la extension de los archivos que se pueden subir
                     $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
-                    return in_array($extension, ['jpg', 'jpeg', 'png', 'gif']);
+                    return in_array($extension, ['png', 'gif','jpg', 'jpeg']);
                 });
 
                 //Mostramos las imágenes
