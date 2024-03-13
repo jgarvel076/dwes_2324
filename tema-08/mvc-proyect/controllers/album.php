@@ -55,11 +55,11 @@ class Album extends Controller
 
             $id = $param[0];
 
-            $this->model->incrementarVisitas($id);
+            $this->model->numeroVisitas($id);
 
             $this->view->title = "Formulario Álbum Mostar";
             $this->view->album = $this->model->getAlbum($id);
-            $this->view->render("album/show/index");
+            $this->view->render("album/mostrar/index");
         }
     }
 
@@ -142,7 +142,7 @@ class Album extends Controller
                 $_SESSION['album'] = serialize($album);
                 $_SESSION['error'] = 'Formulario no ha sido validado';
                 $_SESSION['errores'] = $errores;
-                header('location:' . URL . 'album/new');
+                header('location:' . URL . 'album/nuevo');
             } else {
                 # Añadir registro a la tabla
                 $this->model->create($album);
@@ -189,7 +189,7 @@ class Album extends Controller
             }
 
             $this->view->title = "Añadir - Gestión Album";
-            $this->view->render('album/new/index');
+            $this->view->render('album/nuevo/index');
         }
     }
 
@@ -446,7 +446,7 @@ class Album extends Controller
 
             $numFotos = count(glob("images/" . $album->carpeta . "/*"));
 
-            $this->model->contadorFotos($album->id, $numFotos);
+            $this->model->numeroFotos($album->id, $numFotos);
 
             header("location:" . URL . "album");
         }

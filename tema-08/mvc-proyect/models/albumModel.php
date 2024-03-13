@@ -61,7 +61,6 @@ class albumModel extends Model
     }
 
     # Método getAlbum
-    # Obtiene los detalles de un álbum a partir del id
     public function getAlbum($id)
     {
         try {
@@ -370,7 +369,7 @@ class albumModel extends Model
     }
 
 
-    public function incrementarVisitas($id)
+    public function numeroVisitas($id)
     {
         try {
             $sql = "UPDATE albumes SET num_visitas = num_visitas + 1 WHERE id = :id";
@@ -384,7 +383,7 @@ class albumModel extends Model
         }
     }
 
-    public function contadorFotos($idAlbum, $numFotos)
+    public function numeroFotos($idAlbum, $numFotos)
     {
         try {
             $sql = "UPDATE albumes SET num_fotos = :numFotos WHERE id = :idAlbum";
@@ -406,13 +405,13 @@ class albumModel extends Model
 
         # genero array de error de fichero
         $FileUploadErrors = array(
-            0 => 'No hay error, fichero subido con éxito.',
-            1 => 'El fichero subido excede la directiva upload_max_filesize de php.ini.',
-            2 => 'El fichero subido excede la directiva MAX_FILE_SIZE especificada en el formulario HTML.',
-            3 => 'El fichero fue sólo parcialmente subido.',
-            4 => 'No se subió ningún fichero.',
-            6 => 'Falta la carpeta temporal.',
-            7 => 'No se pudo escribir el fichero en el disco.',
+            0 => 'Imagen subido con éxito.',
+            1 => 'La imagen subida excede la directiva upload_max_filesize.',
+            2 => 'La imagen subida excede la directiva MAX_FILE_SIZE especificada en el formulario HTML.',
+            3 => 'La imagen no ha terminado de subirse.',
+            4 => 'No se subió ninguna imagen.',
+            6 => 'Falta la carpeta.',
+            7 => 'No se pudo escribir la imagen en el disco.',
             8 => 'Una extensión de PHP detuvo la subida de ficheros.',
         );
 
@@ -422,15 +421,15 @@ class albumModel extends Model
             if ($ficheros['error'][$i] != UPLOAD_ERR_OK) {
                 $error = $FileUploadErrors[$ficheros['error'][$i]];
             } else {
-                $tamMaximo = 4194304;
+                $tamMaximo = 4200000;
                 if ($ficheros['size'][$i] > $tamMaximo) {
 
-                    $error = "Archivo excede tamaño maximo 4MB";
+                    $error = "Fichero excede tamaño maximo";
                 }
                 $info = new SplFileInfo($ficheros['name'][$i]);
-                $tipos_permitidos = ['JPG', 'JPEG', 'GIF', 'PNG'];
+                $tipos_permitidos = ['GIF', 'PNG','JPG', 'JPEG'];
                 if (!in_array(strtoupper($info->getExtension()), $tipos_permitidos)) {
-                    $error = "Archivo no permitido. Seleccione una imagen.";
+                    $error = "La extension debe ser .png .jpg .jpeg o .gif .";
                 }
             }
         }
@@ -441,7 +440,7 @@ class albumModel extends Model
                     move_uploaded_file($ficheros['tmp_name'][$i], "images/" . $carpeta . "/" . $ficheros['name'][$i]);
                 }
             }
-            $_SESSION['mensaje'] = "Los archivos se han subido correctamente";
+            $_SESSION['mensaje'] = "Ficheros subidos con exito";
         } else {
             $_SESSION['error'] = $error;
         }
