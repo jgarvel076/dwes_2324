@@ -334,8 +334,6 @@ class Perfil  extends Controller {
             }
     
         }
-
-    # Elimina definitivamente el perfil
     public function delete() {
 
         # Iniciamos sesión
@@ -369,7 +367,7 @@ class Perfil  extends Controller {
                  $remitente = USUARIO;
                  $asuntoMail = $asunto;
                  $asuntoMail = "Borrado de su perfil";
-                 $mensajeMail ="Su perfil ha sido eliminado. <br><br>"
+                 $mensajeMail ="Su perfil ha sido eliminado. <br><br>";
  
                  $mail->setFrom($remitente, $nombre);
                  $mail->addAddress($destinatario);

@@ -2,8 +2,8 @@
 # Configuración básica aplicación MVC
 
 # Ruta absoluta
-define('URL', 'http://localhost/DWES/dwes_2324/tema-10/proyecto/proyectomail/');
-//define('URL', 'http://localhost/DWES/tema-10/proyecto/proyectofinal/');
+//define('URL', 'http://localhost/DWES/dwes_2324/tema-10/proyecto/proyectomail/');
+define('URL', 'http://localhost/DWES/tema-10/proyecto/proyectomail/');
 
 # Constante de la Base de Datos
 define('HOST', 'localhost');

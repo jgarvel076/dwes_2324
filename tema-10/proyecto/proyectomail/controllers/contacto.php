@@ -2,7 +2,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Archivos necesarios
 require 'auth.php';
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
