@@ -2,66 +2,51 @@
 <html lang="es">
 
 <head>
+    <!-- bootstrap  -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Editar Cuenta - GESBANK</title>
 
+    <title>Editar Producto</title>
 </head>
 
 <body>
-    <!-- menu principal fijo superior -->
+    <!-- menú principal -->
     <?php require_once "template/partials/menu.php"; ?>
     <!-- capa principal -->
     <div class="container">
-        <!-- cabecera o título -->
-        <?php include "views/clientes/partials/header.php" ?>
-
-        <form action="<?= URL ?>cuentas/update/<?= $this->id ?>" method="POST">
-
-            <!-- Número de cuenta -->
+        <!-- cabecera  -->
+        <?php include "views/productos/partials/header.php" ?>
+        <!-- Formulario -->
+        <form action="<?= URL ?>productos/update/<?= $this->id ?>" method="POST">
+            <!-- Nombre -->
             <div class="mb-3">
-                <label for="" class="form-label">Numero de cuenta</label>
-                <input type="text" class="form-control" name="num_cuenta" value="<?= $this->cuenta->num_cuenta ?>" readonly>
+                <label for="" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" value="<?= $this->producto->nombre ?>">
             </div>
-            <!-- Cliente -->
+            <!-- descripcion -->
             <div class="mb-3">
-                <label for="" class="form-label">Cliente</label>
-                <select class="form-select" name="id_cliente" id="">
-                    <option selected disabled>Seleccione un cliente </option>
-                    <?php foreach ($this->clientes as  $cliente) : ?>
-                        <div class="form-check">
-                            <option value="<?= $cliente->id ?>" <?= ($this->cuenta->id_cliente == $cliente->id) ? "selected" : null; ?>>
-                                <?= $cliente->cliente ?>
-                            </option>
-                        </div>
-                    <?php endforeach; ?>
-                </select>
+                <label for="" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" name="descripcion" value="<?= $this->producto->descripcion ?>">
             </div>
-            <!-- Fecha -->
+            <!-- categoria -->
             <div class="mb-3">
-                <label for="" class="form-label">Fecha alta</label>
-                <input type="datetime-local" class="form-control" name="fecha_alta" value="<?= $this->cuenta->fecha_alta ?>" >
+                <label for="" class="form-label">Categoria</label>
+                <input type="text" class="form-control" name="categoria" value="<?= $this->producto->categoria ?>">
             </div>
-             <!-- Fecha ultimo movimiento -->
-             <div class="mb-3">
-                <label for="" class="form-label">Fecha último movimiento</label>
-                <input type="datetime-local" class="form-control" name="fecha_ul_mov" value="<?= $this->cuenta->fecha_ul_mov ?>">
-            </div>
-            <!-- Número de movimientos -->
+            <!-- precio_venta -->
             <div class="mb-3">
-                <label for="" class="form-label">Número de Movimientos</label>
-                <input type="number" class="form-control" name="num_movtos" id="" value="<?= $this->cuenta->num_movtos ?>" >
+                <label for="" class="form-label">Precio</label>
+                <input type="text" class="form-control" name="precio_venta" id="" value="<?= $this->producto->precio_venta ?>">
             </div>
-            <!-- saldo  -->
+            <!-- stock -->
             <div class="mb-3">
-                <label for="" class="form-label">Saldo</label>
-                <input type="number" class="form-control" name="saldo" id="" step="0.01" value="<?= $this->cuenta->saldo ?>">
+                <label for="" class="form-label">Stock</label>
+                <input type="stock" class="form-control" name="stock" id="" value="<?= $this->producto->stock ?>">
             </div>
             <!-- botones de acción -->
             <div class="mb-3">
-                <a name="" id="" class="btn btn-secondary" href="<?= URL ?>cuentas" role="button">Cancelar</a>
+                <a name="" id="" class="btn btn-secondary" href="<?= URL ?>productos" role="button">Cancelar</a>
                 <button type="button" class="btn btn-danger">Borrar</button>
                 <button type="submit" class="btn btn-primary">Actualizar</button>
-
             </div>
         </form>
     </div>
@@ -70,7 +55,6 @@
 
     <!-- footer -->
     <?php require_once "template/partials/footer.php" ?>
-
 
     <!-- Bootstrap JS y popper -->
     <?php require_once "template/partials/javascript.php" ?>

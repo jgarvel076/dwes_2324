@@ -4,7 +4,7 @@
 <head>
     <!-- bootstrap  -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Editar Cliente - Gesbank</title>
+    <title>Editar Cliente</title>
 </head>
 
 <body>
@@ -22,30 +22,35 @@
                 <label for="" class="form-label">Nombre</label>
                 <input type="text" class="form-control" name="nombre" value="<?= $this->cliente->nombre ?>" disabled>
             </div>
-            <!-- apellidos solo lectura -->
+            <!-- direccion solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" name="apellidos" value="<?= $this->cliente->apellidos ?>" disabled>
+                <label for="" class="form-label">Direccion</label>
+                <input type="text" class="form-control" name="direccion" value="<?= $this->cliente->direccion ?>" disabled>
             </div>
-            <!-- ciudad solo lectura -->
+            <!-- poblacion solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">Ciudad</label>
-                <input type="text" class="form-control" name="ciudad" value="<?= $this->cliente->ciudad ?>" disabled>
+                <label for="" class="form-label">Poblacion</label>
+                <input type="text" class="form-control" name="poblacion" value="<?= $this->cliente->poblacion ?>" disabled>
             </div>
-            <!-- email solo lectura -->
+            <!-- c_postal solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" id="" value="<?= $this->cliente->email ?>" disabled>
+                <label for="" class="form-label">Codigo postal</label>
+                <input type="c_postal" class="form-control" name="c_postal" id="" value="<?= $this->cliente->c_postal ?>" disabled>
             </div>
             <!-- telefono solo lectura -->
             <div class="mb-3">
                 <label for="" class="form-label">Telefono</label>
                 <input type="text" class="form-control" name="telefono" id="" value="<?= $this->cliente->telefono ?>" disabled>
             </div>
-            <!-- dni solo lectura -->
+            <!-- email solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">DNI</label>
-                <input type="text" class="form-control" name="dni" id="" value="<?= $this->cliente->dni ?>" disabled>
+                <label for="" class="form-label">Email</label>
+                <input type="text" class="form-control" name="email" id="" value="<?= $this->cliente->email ?>" disabled>
+            </div>
+            <!-- nif solo lectura -->
+            <div class="mb-3">
+                <label for="" class="form-label">NIF</label>
+                <input type="text" class="form-control" name="nif" id="" value="<?= $this->cliente->nif ?>" disabled>
             </div>
             <!-- botones acción -->
             <div class="mb-3">

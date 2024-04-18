@@ -3,7 +3,7 @@
 
 # Ruta absoluta
 
-define('URL', 'http://localhost/dwes/proyectorecuperacion/');
+define('URL', 'http://localhost/DWES_2324/proyectorecuperacion/');
 
 # Constante de la Base de Datos
 define('HOST', 'localhost');

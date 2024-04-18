@@ -2,52 +2,49 @@
 <html lang="es">
 
 <head>
-    <!-- bootstrap  -->
+    <!-- bootstrap -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Nueva Cuenta - GESBANK</title>
+    <title>Añadir Producto</title>
+
 </head>
 
 <body>
-    <!-- bootstrap -->
+    <!-- menu fijo superior -->
     <?php require_once "template/partials/menu.php"; ?>
     <!-- capa principal -->
     <div class="container">
-        <!-- Menú fijo principal -->
-        <?php include "views/clientes/partials/header.php" ?>
-        <!-- formulario -->
-        <form action="<?= URL ?>cuentas/create" method="POST">
-            <!-- Cuenta -->
+        <!-- cabecera -->
+        <?php include "views/productos/partials/header.php" ?>
+        <!-- formulario  -->
+        <form action="<?= URL ?>productos/create" method="POST">
+            <!-- nombre -->
             <div class="mb-3">
-                <label for="" class="form-label">Numero de cuenta</label>
-                <input type="text" class="form-control" name="num_cuenta" minlength="20" maxlength="20">
+                <label for="" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre">
             </div>
-            <!-- Cliente -->
+            <!-- descripcion -->
             <div class="mb-3">
-                <label for="" class="form-label">Cliente</label>
-                <select class="form-select" name="id_cliente" id="">
-                    <option selected disabled>Seleccione un cliente </option>
-                    <?php foreach ($this->clientes as  $cliente) : ?>
-                        <div class="form-check">
-                            <option value="<?= $cliente->id ?>">
-                                <?= $cliente->cliente ?>
-                            </option>
-                        </div>
-                    <?php endforeach; ?>
-                </select>
+                <label for="" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" name="descripcion">
             </div>
-            <!-- Fecha -->
+            <!-- categoria -->
             <div class="mb-3">
-                <label for="" class="form-label">Fecha alta</label>
-                <input type="datetime-local" class="form-control" name="fecha_alta">
+                <label for="" class="form-label">Categoria</label>
+                <input type="text" class="form-control" name="categoria">
             </div>
-            <!-- Saldo -->
+            <!-- precio_venta -->
             <div class="mb-3">
-                <label for="" class="form-label">Saldo</label>
-                <input type="text" class="form-control" name="saldo" id="" placeholder="0">
+                <label for="" class="form-label">Precio</label>
+                <input type="text" class="form-control" name="c_postal" id="">
+            </div>
+            <!-- stock -->
+            <div class="mb-3">
+                <label for="" class="form-label">Stock</label>
+                <input type="text" class="form-control" name="stock" id="">
             </div>
             <!-- botones de acción -->
             <div class="mb-3">
-                <a name="" id="" class="btn btn-secondary" href="<?= URL ?>cuentas" role="button">Cancelar</a>
+                <a name="" id="" class="btn btn-secondary" href="<?= URL ?>productos" role="button">Cancelar</a>
                 <button type="button" class="btn btn-danger">Borrar</button>
                 <button type="submit" class="btn btn-primary">Crear</button>
             </div>
@@ -58,7 +55,6 @@
 
     <!-- footer -->
     <?php require_once "template/partials/footer.php" ?>
-
 
     <!-- Bootstrap JS y popper -->
     <?php require_once "template/partials/javascript.php" ?>

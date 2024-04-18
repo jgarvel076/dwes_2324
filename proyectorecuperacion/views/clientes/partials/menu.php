@@ -16,10 +16,12 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/1">ID</a></li>
                                 <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/2">Cliente</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/6">Email</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/3">Telefono</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/5">dni</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/4">ciudad</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/3">Direccion</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/4">Poblacion</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/5">Codigo Postal</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/6">Telefono</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/7">Email</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/8">dni</a></li>
                             </ul>
                         </li>
 

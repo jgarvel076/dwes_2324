@@ -4,7 +4,7 @@
 <head>
     <!-- bootstrap -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Añadir Cliente - Gesbank</title>
+    <title>Añadir Cliente</title>
 
 </head>
 
@@ -22,30 +22,35 @@
                 <label for="" class="form-label">Nombre</label>
                 <input type="text" class="form-control" name="nombre">
             </div>
-            <!-- apellidos -->
+            <!-- direccion -->
             <div class="mb-3">
-                <label for="" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" name="apellidos">
+                <label for="" class="form-label">Direccion</label>
+                <input type="text" class="form-control" name="direccion">
             </div>
-            <!-- ciudad -->
+            <!-- poblacion -->
             <div class="mb-3">
-                <label for="" class="form-label">Ciudad</label>
-                <input type="text" class="form-control" name="ciudad">
+                <label for="" class="form-label">Poblacion</label>
+                <input type="text" class="form-control" name="poblacion">
             </div>
-            <!-- email -->
+            <!-- c_postal -->
             <div class="mb-3">
-                <label for="" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" id="">
+                <label for="" class="form-label">Codigo postal</label>
+                <input type="text" class="form-control" name="c_postal" id="">
             </div>
             <!-- telefono -->
             <div class="mb-3">
                 <label for="" class="form-label">Telefono</label>
                 <input type="text" class="form-control" name="telefono" id="">
             </div>
-            <!-- dni -->
+            <!-- email -->
             <div class="mb-3">
-                <label for="" class="form-label">DNI</label>
-                <input type="text" class="form-control" name="dni" id="">
+                <label for="" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="">
+            </div>
+            <!-- NIF -->
+            <div class="mb-3">
+                <label for="" class="form-label">NIF</label>
+                <input type="text" class="form-control" name="nif" id="">
             </div>
             <!-- botones de acción -->
             <div class="mb-3">

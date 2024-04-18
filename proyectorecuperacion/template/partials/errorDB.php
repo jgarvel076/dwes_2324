@@ -1,11 +1,11 @@
 <?php
 
-    echo "ERROR: ";
-    echo "<hr>";
-    echo "Mensaje:         " . $e->getMessage() . "<br>";
-    echo "Codigo de error: " . $e->getCode() . "<br>";
-    echo "Fichero:         " . $e->getFile() . "<br>";
-    echo "Linea:           " . $e->getLine() . "<br>";
-    echo "Trace:           " . $e->getTraceAsString() . "<br>";
+echo "ERROR BASE DE DATOS: ";
+echo "<HR>";
+echo "Mensaje:      ". $e->getMessage(). '<BR>';
+echo 'Código e:     '. $e->getCode(). '<BR>';
+echo 'Fichero:      '. $e->getFile(). '<BR>';
+echo 'Linea:        '. $e->getLine(). '<BR>';
+echo 'Trace:        '. $e->getTraceAsString(). '<BR>';
 
 ?>

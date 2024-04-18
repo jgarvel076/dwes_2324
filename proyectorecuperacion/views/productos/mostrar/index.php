@@ -2,69 +2,57 @@
 <html lang="es">
 
 <head>
+    <!-- bootstrap  -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Mostrar Cuenta - GESBANK</title>
+    <title>Editar Producto</title>
 </head>
 
 <body>
-    <!-- menú principal superior -->
+    <!-- menú principal fijo superior-->
     <?php require_once "template/partials/menu.php"; ?>
     <!-- capa principal -->
     <div class="container">
-        <!-- cabecera o título -->
-        <?php include "views/clientes/partials/header.php" ?>
+        <!-- cabecera -->
+        <?php include "views/productos/partials/header.php" ?>
         <!-- formulario solo lectura -->
         <form>
-            <!-- Número de cuenta -->
+
+            <!-- nombre solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">Numero de cuenta</label>
-                <input type="text" class="form-control" name="num_cuenta" value="<?= $this->cuenta->num_cuenta ?>" disabled>
+                <label for="" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" value="<?= $this->producto->nombre ?>" disabled>
             </div>
-            <!-- titular o cliente -->
+            <!-- descripcion solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">Cliente</label>
-                <input type="text" class="form-control" value="<?= $this->cliente->apellidos . ', ' . $this->cliente->nombre ?>" disabled>
+                <label for="" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" name="descripcion" value="<?= $this->producto->descripcion ?>" disabled>
             </div>
-            <!-- fecha alta -->
+            <!-- categoria solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">Fecha alta</label>
-                <input type="datetime" class="form-control" name="fecha_alta" value="<?= $this->cuenta->fecha_alta ?>" disabled>
+                <label for="" class="form-label">Categoria</label>
+                <input type="text" class="form-control" name="categoria" value="<?= $this->producto->categoria ?>" disabled>
             </div>
-            <!-- fecha utlimo movimiento -->
+            <!-- precio_venta solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">Fecha último movimiento</label>
-                <input type="datetime" class="form-control" name="fecha_ul_mov" value="<?= $this->cuenta->fecha_ul_mov ?>" disabled>
+                <label for="" class="form-label">Precio</label>
+                <input type="precio_venta" class="form-control" name="precio_venta" id="" value="<?= $this->producto->precio_venta ?>" disabled>
             </div>
-            <!-- Número de movimientos -->
+            <!-- stock solo lectura -->
             <div class="mb-3">
-                <label for="" class="form-label">Número de Movimientos</label>
-                <input type="number" class="form-control" name="num_movtos" id="" value="<?= $this->cuenta->num_movtos ?>" disabled>
+                <label for="" class="form-label">Stock</label>
+                <input type="text" class="form-control" name="stock" id="" value="<?= $this->producto->stock ?>" disabled>
             </div>
+            <!-- botones acción -->
             <div class="mb-3">
-
-                <label for="" class="form-label">Saldo</label>
-                <input type="text" class="form-control" name="saldo" id="" value="<?= $this->cuenta->saldo ?>" disabled>
+                <a name="" id="" class="btn btn-secondary" href="<?= URL ?>productos" role="button">Volver</a>
             </div>
-
-
-
-            <div class="mb-3">
-
-                <a name="" id="" class="btn btn-secondary" href="<?= URL ?>cuentas" role="button">Volver</a>
-
-
-            </div>
-
         </form>
-
-
     </div>
 
     <br><br><br>
 
     <!-- footer -->
     <?php require_once "template/partials/footer.php" ?>
-
 
     <!-- Bootstrap JS y popper -->
     <?php require_once "template/partials/javascript.php" ?>

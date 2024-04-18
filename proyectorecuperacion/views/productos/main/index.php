@@ -4,55 +4,52 @@
 <head>
     <!-- head -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Cuentas - GESBANK</title>
+    <title>Productos</title>
 </head>
 
 <body>
-    <!-- capa principal -->
     <div class="container" style="padding-top: 2%;">
         <!-- menu fijo superior -->
         <?php require_once "template/partials/menu.php"; ?>
-        <!-- cabecera o titulo -->
-        <?php include "views/cuentas/partials/header.php" ?>
+        <!-- cabecera  -->
+        <?php include "views/productos/partials/header.php" ?>
         <!-- Menu principal -->
-        <?php require_once "views/cuentas/partials/menu.php" ?>
+        <?php require_once "views/productos/partials/menu.php" ?>
+        <!-- tabla productos -->
         <table class="table">
             <thead>
                 <tr>
-
                     <th>Id </th>
-                    <th>Numero de cuenta</th>
-                    <th>Cliente</th>
-                    <th>Fecha Alta</th>
-                    <th>Fecha ultimo movimiento</th>
-                    <th class="text-end">Num_movtos</th>
-                    <th class="text-end">Saldo</th>
+                    <th>Producto</th>
+                    <th>Descripcion</th>
+                    <th>Categoria</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
                     <th>Acciones</th>
-
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($this->cuentas as $cuenta) : ?>
+                <?php foreach ($this->productos as $producto) : ?>
                     <tr>
-                        <td><?= $cuenta->id ?></td>
-                        <td><?= $cuenta->num_cuenta ?></td>
-                        <td><?= $cuenta->cliente ?></td>
-                        <td><?= $cuenta->fecha_alta ?></td>
-                        <td><?= $cuenta->fecha_ul_mov ?></td>
-                        <td class="text-end"><?= number_format($cuenta->num_movtos, 0, ',', '.')?></td>
-                        <td class="text-end"><?= number_format($cuenta->saldo, 2, ',', '.')?> €</td>
-                        <td style="display:flex; justify-content:space-between;">
-                            <a href="<?= URL ?>cuentas/delete/<?= $cuenta->id ?>" title="Eliminar" onclick="return confirm('Confirmar eliminación Cuenta')"> <i class="bi bi-trash"></i> </a>
-                            <a href="<?= URL ?>cuentas/editar/<?= $cuenta->id ?>" title="Editar"> <i class="bi bi-pencil"></i> </a>
-                            <a href="<?= URL ?>cuentas/mostrar/<?= $cuenta->id ?>" title="Mostrar"> <i class="bi bi-eye"></i> </a>
-                            <a href="#" title="Movimientos"> <i class="bi bi-list-task"></i></a>
+                        <td><?= $producto->id ?></td>
+                        <td><?= $producto->producto ?></td> 
+                        <td><?= $producto->descripcion ?></td>                        
+                        <td><?= $producto->stock ?></td>
+                        <td><?= $producto->precio_venta ?></td>
+
+                        <td><?= $producto->nif ?></td>
+                        <td>
+                            <!-- botones de acción -->
+                            <a href="<?= URL ?>productos/delete/<?= $producto->id ?>" title="Eliminar" onclick="return confirm('¿Quieres Borrar?')"> <i class="bi bi-trash"></i> </a>
+                            <a href="<?= URL ?>productos/editar/<?= $producto->id ?>" title="Editar"> <i class="bi bi-pencil"></i> </a>
+                            <a href="<?= URL ?>productos/mostrar/<?= $producto->id ?>" title="Mostrar"> <i class="bi bi-eye"></i> </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="9">Nº Registros: <?= $this->cuentas->rowCount() ?> </td>
+                    <td colspan="8">Nº productos: <?= $this->productos->rowCount() ?> </td>
                 </tr>
             </tfoot>
 
@@ -66,4 +63,5 @@
     <!-- Bootstrap JS y popper -->
     <?php require_once "template/partials/javascript.php" ?>
 </body>
+
 </html>

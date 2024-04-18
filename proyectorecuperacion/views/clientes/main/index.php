@@ -4,7 +4,7 @@
 <head>
     <!-- head -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Clientes - Gesbank</title>
+    <title>Clientes</title>
 </head>
 
 <body>
@@ -21,10 +21,12 @@
                 <tr>
                     <th>Id </th>
                     <th>Cliente</th>
-                    <th>Email</th>
+                    <th>Direccion</th>
+                    <th>Poblacion</th>
+                    <th>Codigo Postal</th>
                     <th>Telefono</th>
-                    <th>Ciudad</th>
-                    <th>DNI</th>
+                    <th>Email</th>
+                    <th>NIF</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -32,11 +34,14 @@
                 <?php foreach ($this->clientes as $cliente) : ?>
                     <tr>
                         <td><?= $cliente->id ?></td>
-                        <td><?= $cliente->cliente ?></td>
+                        <td><?= $cliente->cliente ?></td> 
+                        <td><?= $cliente->direccion ?></td>                        
+                        <td><?= $cliente->poblacion ?></td>
+                        <td><?= $cliente->c_postal ?></td>
                         <td><?= $cliente->email ?></td>
                         <td><?= $cliente->telefono ?></td>
-                        <td><?= $cliente->ciudad ?></td>
-                        <td><?= $cliente->dni ?></td>
+
+                        <td><?= $cliente->nif ?></td>
                         <td>
                             <!-- botones de acción -->
                             <a href="<?= URL ?>clientes/delete/<?= $cliente->id ?>" title="Eliminar" onclick="return confirm('¿Quieres Borrar?')"> <i class="bi bi-trash"></i> </a>
@@ -48,7 +53,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="8">Nº Registros: <?= $this->clientes->rowCount() ?> </td>
+                    <td colspan="8">Nº clientes: <?= $this->clientes->rowCount() ?> </td>
                 </tr>
             </tfoot>
 

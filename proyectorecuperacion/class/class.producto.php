@@ -50,8 +50,8 @@ class Producto
         $this->precio_venta = $precio_venta;
         $this->stock = $stock;
         $this->stock_min = $stock_min;
-        $this->stock_min = $stock_max;
-        $this->stock_min = $estado;
+        $this->stock_max = $stock_max;
+        $this->estado = $estado;
         
 
 
