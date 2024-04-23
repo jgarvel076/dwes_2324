@@ -21,6 +21,7 @@
                 <tr>
                     <th>Id </th>
                     <th>Producto</th>
+                    <th>ean_13</th>
                     <th>Descripcion</th>
                     <th>Categoria</th>
                     <th>Precio</th>
@@ -33,6 +34,7 @@
                     <tr>
                         <td><?= $producto->id ?></td>
                         <td><?= $producto->producto ?></td> 
+                        <td><?= $producto->ean_13 ?></td>
                         <td><?= $producto->descripcion ?></td>                        
                         <td><?= $producto->stock ?></td>
                         <td><?= $producto->precio_venta ?></td>

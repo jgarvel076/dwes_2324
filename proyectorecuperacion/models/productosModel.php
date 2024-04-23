@@ -12,6 +12,7 @@ class productosModel extends Model
                 SELECT 
                     productos.id,
                     productos.nombre,
+                    productos.ean_13,
                     productos.descripcion,
                     productos.categoria,
                     productos.precio_venta,
@@ -47,6 +48,7 @@ class productosModel extends Model
             $sql = "
                     INSERT INTO productos (
                         nombre,
+                        ean_13,
                         descripcion,
                         categoria,
                         precio_venta,
@@ -54,6 +56,7 @@ class productosModel extends Model
                     )
                     VALUES (
                         :nombre,
+                        :ean_13,
                         :descripcion,
                         :categoria,
                         :precio_venta,
@@ -65,6 +68,7 @@ class productosModel extends Model
             $pdostmt = $conexion->prepare($sql);
 
             $pdostmt->bindParam(':nombre', $producto->nombre, PDO::PARAM_STR, 30);
+            $pdostmt->bindParam(':ean_13', $producto->ean_13, PDO::PARAM_STR, 13);
             $pdostmt->bindParam(':descripcion', $producto->descripcion, PDO::PARAM_STR, 50);
             $pdostmt->bindParam(':categoria', $producto->categoria, PDO::PARAM_STR, 30);
             $pdostmt->bindParam('precio_venta', $producto->precio_venta, PDO::PARAM_STR, 10);
@@ -87,6 +91,7 @@ class productosModel extends Model
                         SELECT 
                                 id,
                                 nombre,
+                                ean_13,
                                 descripcion,
                                 categoria,
                                 precio_venta,
@@ -125,6 +130,7 @@ class productosModel extends Model
                 UPDATE productos
                 SET
                         nombre = :nombre,
+                        ean_13 = ean_13,
                         descripcion = :descripcion,
                         categoria = :categoria,
                         precio_venta = :precio_venta,
@@ -139,6 +145,7 @@ class productosModel extends Model
             $pdostmt = $conexion->prepare($sql);
 
             $pdostmt->bindParam(':nombre', $producto->nombre, PDO::PARAM_STR, 30);
+            $pdostmt->bindParam(':ean_13', $producto->ean_13, PDO::PARAM_STR, 13);
             $pdostmt->bindParam(':descripcion', $producto->descripcion, PDO::PARAM_STR, 50);
             $pdostmt->bindParam(':categoria', $producto->categoria, PDO::PARAM_STR, 30);
             $pdostmt->bindParam('precio_venta', $producto->precio_venta, PDO::PARAM_STR, 10);
@@ -185,6 +192,7 @@ class productosModel extends Model
                 SELECT 
                     productos.id,
                     productos.nombre,
+                    productos.ean_13,
                     productos.descripcion,
                     productos.categoria,
                     productos.precio_venta,
@@ -223,6 +231,7 @@ class productosModel extends Model
                 SELECT 
                     productos.id,
                     productos.nombre,
+                    productos.ean_13,
                     productos.descripcion,
                     productos.categoria,
                     productos.precio_venta,
@@ -235,6 +244,7 @@ class productosModel extends Model
                     CONCAT_WS(  ', ', 
                     productos.id,
                     productos.nombre,
+                    productos.ean_13,
                     productos.descripcion,
                     productos.categoria,
                     productos.precio_venta,

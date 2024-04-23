@@ -22,6 +22,11 @@
                 <label for="" class="form-label">Nombre</label>
                 <input type="text" class="form-control" name="nombre" value="<?= $this->producto->nombre ?>">
             </div>
+            <!-- Ean_13 -->
+            <div class="mb-3">
+                <label for="" class="form-label">Ean_13</label>
+                <input type="text" class="form-control" name="ean_13" value="<?= $this->producto->ean_13 ?>">
+            </div>
             <!-- descripcion -->
             <div class="mb-3">
                 <label for="" class="form-label">Descripcion</label>

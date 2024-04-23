@@ -42,6 +42,7 @@ class Productos extends Controller
         $producto = new Producto(
             null,
             $_POST['nombre'],
+            $_POST['ean_13'],
             $_POST['descripcion'],
             $_POST['categoria'],
             $_POST['precio_venta'],
@@ -87,6 +88,7 @@ class Productos extends Controller
         $producto = new producto(
             null,
             $_POST['nombre'],
+            $_POST['ean_13'],
             $_POST['descripcion'],
             $_POST['categoria'],
             $_POST['precio_venta'],
