@@ -17,7 +17,7 @@
         <div class="row justify-content-center">
 
             <div class="col-md-8">
-                <?php require_once("template/partials/notify.php") ?>
+                <?php require_once("template/partials/mensaje.php") ?>
                 <?php require_once("template/partials/error.php") ?>
                 <div class="card">
                     <div class="card-header">LOGIN</div>

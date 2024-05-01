@@ -1,5 +1,4 @@
 <?php
-require_once 'class/class.cliente.php';
 
 class Clientes extends Controller
 {
