@@ -9,6 +9,7 @@ require_once 'class/class.producto.php';
 
 require_once 'libs/app.php';
 require_once 'config/config.php';
+require_once 'config/privilegios.php';
 $app = new App();
 
 
