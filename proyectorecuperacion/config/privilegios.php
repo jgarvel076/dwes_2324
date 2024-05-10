@@ -24,6 +24,8 @@
     $GLOBALS['clientes']['show'] = [1,2,3];
     $GLOBALS['clientes']['filter'] = [1,2,3];
     $GLOBALS['clientes']['order'] = [1,2,3];
+    $GLOBALS['clientes']['exportar'] = [1];
+    $GLOBALS['clientes']['importar'] = [1];
 
     // Permisos productos
     $GLOBALS['productos']['main'] = [1,2,3];
@@ -33,4 +35,6 @@
     $GLOBALS['productos']['show'] = [1,2,3];
     $GLOBALS['productos']['filter'] = [1,2,3];
     $GLOBALS['productos']['order'] = [1,2,3];
+    $GLOBALS['productos']['exportar'] = [1];
+    $GLOBALS['productos']['importar'] = [1];
 ?>
