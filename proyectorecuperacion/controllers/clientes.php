@@ -535,6 +535,114 @@ class Clientes extends Controller
         header("Location:" . URL . "clientes");
     }
     }
+
+    public function export()
+    {
+
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['export']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'clientes');
+        }
+
+        $clientes = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
+
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="clientes.csv"');
+
+        $ficheroExport = fopen('php://output', 'w');
+
+        foreach ($clientes as $cliente) {
+            $fecha = date("Y-m-d H:i:s");
+
+            $cliente['create_at'] = $fecha;
+            $cliente['update_at'] = $fecha;
+
+            $cliente = array(
+                'nombre' => $cliente['nombre'],
+                'direccion' => $cliente['direccion'],
+                'poblacion' => $cliente['poblacion'],
+                'c_postal' => $cliente['c_postal'],
+                'telefono' => $cliente['telefono'],
+                'email' => $cliente['email'],
+                'nif' => $cliente['nif']
+            );
+
+            fputcsv($ficheroExport, $cliente, ';');
+        }
+
+        fclose($ficheroExport);
+    }
+
+    public function import()
+    {
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['import']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'clientes');
+            exit();
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
+            $file = $_FILES["archivo_csv"]["tmp_name"];
+
+            $handle = fopen($file, "r");
+
+            if ($handle !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $nombre = $data[1];
+                    $direccion = $data[2];
+                    $poblacion = $data[3];
+                    $c_postal = $data[4];
+                    $telefono = $data[5];
+                    $email = $data[6];
+                    $nif = $data[7];
+
+                    //Método para verificar email y dni único.
+                    if ($this->model->validateUniqueEmail($email) && $this->model->validateUniquenif($nif)) {
+                        //Si no existe, crear un nuevo cliente
+                        $cliente = new classCliente();
+                        $cliente->nombre = $nombre;
+                        $cliente->direccion = $direccion;
+                        $cliente->poblacion = $poblacion;
+                        $cliente->c_postal = $c_postal;
+                        $cliente->telefono = $telefono;
+                        $cliente->email = $email;
+                        $cliente->nif = $nif;
+
+                        //Usamos create para meter el cliente en la base de datos
+                        $this->model->create($cliente);
+                    } else {
+                        //Error de cliente existente
+                        echo "Error, este cliente existente";
+                    }
+                }
+
+                fclose($handle);
+                $_SESSION['mensaje'] = "Importación realizada correctamente";
+                header('location:' . URL . 'clientes');
+                exit();
+            } else {
+                $_SESSION['error'] = "Error con el archivo CSV";
+                header('location:' . URL . 'clientes');
+                exit();
+            }
+        } else {
+            $_SESSION['error'] = "Seleccione un archivo CSV";
+            header('location:' . URL . 'clientes');
+            exit();
+        }
+    }
 }
 
 ?>
