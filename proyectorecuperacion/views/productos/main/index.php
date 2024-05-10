@@ -23,7 +23,6 @@
                     <th>Producto</th>
                     <th>ean_13</th>
                     <th>Descripcion</th>
-                    <th>Categoria</th>
                     <th>Precio</th>
                     <th>Stock</th>
                     <th>Acciones</th>
@@ -33,18 +32,16 @@
                 <?php foreach ($this->productos as $producto) : ?>
                     <tr>
                         <td><?= $producto->id ?></td>
-                        <td><?= $producto->producto ?></td> 
-                        <td><?= $producto->ean_13 ?></td>
-                        <td><?= $producto->descripcion ?></td>                        
+                        <td><?= $producto->nombre ?></td> 
+                        <td><?= $producto->ean_13 ?></td> 
+                        <td><?= $producto->descripcion ?></td>                  
                         <td><?= $producto->stock ?></td>
                         <td><?= $producto->precio_venta ?></td>
-
-                        <td><?= $producto->nif ?></td>
                         <td>
                             <!-- botones de acción -->
                             <a href="<?= URL ?>productos/delete/<?= $producto->id ?>" title="Eliminar" onclick="return confirm('¿Quieres Borrar?')"> <i class="bi bi-trash"></i> </a>
-                            <a href="<?= URL ?>productos/editar/<?= $producto->id ?>" title="Editar"> <i class="bi bi-pencil"></i> </a>
-                            <a href="<?= URL ?>productos/mostrar/<?= $producto->id ?>" title="Mostrar"> <i class="bi bi-eye"></i> </a>
+                            <a href="<?= URL ?>productos/edit/<?= $producto->id ?>" title="Editar"> <i class="bi bi-pencil"></i> </a>
+                            <a href="<?= URL ?>productos/show/<?= $producto->id ?>" title="Mostrar"> <i class="bi bi-eye"></i> </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

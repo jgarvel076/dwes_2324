@@ -89,7 +89,7 @@ class Clientes extends Controller
         $this->view->title = "Añadir - Gestión clientes";
 
         # cargo la vista con el formulario nuevo cliente
-        $this->view->render('clientes/new/index');
+        $this->view->render('clientes/nuevo/index');
         }
     }
 
@@ -266,7 +266,7 @@ class Clientes extends Controller
             unset($_SESSION['errores']);
         }
         # cargo la vista
-        $this->view->render('clientes/edit/index');
+        $this->view->render('clientes/editar/index');
     }
     }
 
@@ -441,7 +441,7 @@ class Clientes extends Controller
            $this->view->cliente = $this->model->getCliente($id);
 
         // Cargo la vista de detalles del cliente
-        $this->view->render('clientes/show/index');
+        $this->view->render('clientes/mostrar/index');
 
     }
     }

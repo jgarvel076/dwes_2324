@@ -14,7 +14,6 @@ class productosModel extends Model
                     productos.nombre,
                     productos.ean_13,
                     productos.descripcion,
-                    productos.categoria,
                     productos.precio_venta,
                     productos.stock
                 FROM
@@ -41,7 +40,7 @@ class productosModel extends Model
         }
     }
 
-    public function create(ClassProducto $producto)
+    public function create(Producto $producto)
     {
 
         try {
@@ -50,7 +49,6 @@ class productosModel extends Model
                         nombre,
                         ean_13,
                         descripcion,
-                        categoria,
                         precio_venta,
                         stock
                     )
@@ -58,7 +56,6 @@ class productosModel extends Model
                         :nombre,
                         :ean_13,
                         :descripcion,
-                        :categoria,
                         :precio_venta,
                         :stock
                     )
@@ -70,7 +67,6 @@ class productosModel extends Model
             $pdostmt->bindParam(':nombre', $producto->nombre, PDO::PARAM_STR, 30);
             $pdostmt->bindParam(':ean_13', $producto->ean_13, PDO::PARAM_STR, 13);
             $pdostmt->bindParam(':descripcion', $producto->descripcion, PDO::PARAM_STR, 50);
-            $pdostmt->bindParam(':categoria', $producto->categoria, PDO::PARAM_STR, 30);
             $pdostmt->bindParam('precio_venta', $producto->precio_venta, PDO::PARAM_STR, 10);
             $pdostmt->bindParam(':stock', $producto->stock, PDO::PARAM_STR, 10);
             
@@ -93,7 +89,6 @@ class productosModel extends Model
                                 nombre,
                                 ean_13,
                                 descripcion,
-                                categoria,
                                 precio_venta,
                                 stock
                         FROM 
@@ -120,7 +115,7 @@ class productosModel extends Model
 
     }
 
-    public function update(ClassProducto $producto, $id)
+    public function update(Producto $producto, $id)
     {
 
         try {
@@ -132,7 +127,6 @@ class productosModel extends Model
                         nombre = :nombre,
                         ean_13 = ean_13,
                         descripcion = :descripcion,
-                        categoria = :categoria,
                         precio_venta = :precio_venta,
                         stock = :stock
                 WHERE
@@ -147,7 +141,6 @@ class productosModel extends Model
             $pdostmt->bindParam(':nombre', $producto->nombre, PDO::PARAM_STR, 30);
             $pdostmt->bindParam(':ean_13', $producto->ean_13, PDO::PARAM_STR, 13);
             $pdostmt->bindParam(':descripcion', $producto->descripcion, PDO::PARAM_STR, 50);
-            $pdostmt->bindParam(':categoria', $producto->categoria, PDO::PARAM_STR, 30);
             $pdostmt->bindParam('precio_venta', $producto->precio_venta, PDO::PARAM_STR, 10);
             $pdostmt->bindParam(':stock', $producto->stock, PDO::PARAM_STR, 10);
 
@@ -194,7 +187,6 @@ class productosModel extends Model
                     productos.nombre,
                     productos.ean_13,
                     productos.descripcion,
-                    productos.categoria,
                     productos.precio_venta,
                     productos.stock
                 FROM
@@ -233,7 +225,6 @@ class productosModel extends Model
                     productos.nombre,
                     productos.ean_13,
                     productos.descripcion,
-                    productos.categoria,
                     productos.precio_venta,
                     productos.stock
                 FROM
@@ -246,7 +237,6 @@ class productosModel extends Model
                     productos.nombre,
                     productos.ean_13,
                     productos.descripcion,
-                    productos.categoria,
                     productos.precio_venta,
                     productos.stock) 
                     like :expresion

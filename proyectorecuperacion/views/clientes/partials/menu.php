@@ -7,26 +7,26 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="<?=URL?>clientes/nuevo">Nuevo</a>
+                            <a class="nav-link active" aria-current="page" href="<?=URL?>clientes/new">Nuevo</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ordenar
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/1">ID</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/2">Cliente</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/3">Direccion</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/4">Poblacion</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/5">Codigo Postal</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/6">Telefono</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/7">Email</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>clientes/ordenar/8">dni</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/order/1">ID</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/order/2">Cliente</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/order/3">Direccion</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/order/4">Poblacion</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/order/5">Codigo Postal</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/order/6">Telefono</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/order/7">Email</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>clientes/order/8">dni</a></li>
                             </ul>
                         </li>
 
                     </ul>
-                    <form class="d-flex" method="get" action="<?=URL?>clientes/buscar">
+                    <form class="d-flex" method="get" action="<?=URL?>clientes/filter">
                         <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search" name="expresion">
                         <button class="btn btn-outline-secondary" type="submit">Buscar</button>
                     </form>

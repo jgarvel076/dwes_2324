@@ -78,7 +78,7 @@ class Productos extends Controller
 
         $this->view->title = "Formulario añadir producto";
 
-        $this->view->clientes= $this->model->getClientes();
+        //$this->view->clientes= $this->model->getClientes();
 
         $this->view->render("productos/new/index");
     }
@@ -249,10 +249,9 @@ class Productos extends Controller
 
         $this->view->title = "Formulario edit producto";
 
-        $this->view->clientes = $this->model->getClientes();
         $this->view->producto = $this->model-getProducto($id);
         
-        $this->view->render("productos/edit/index");
+        $this->view->render("productos/editar/index");
     }
     }
 
@@ -387,10 +386,10 @@ class Productos extends Controller
 
         $this->view->title = "Formulario producto Mostar";
         $this->view->producto = $this->model->getProducto($id);
-        $this->view->cliente = $this->model->getCliente($this->view->producto->ean_13);
+        //$this->view->cliente = $this->model->getCliente($this->view->producto->ean_13);
        
 
-        $this->view->render("productos/show/index");
+        $this->view->render("productos/mostrar/index");
         }
     }
 
@@ -422,7 +421,7 @@ class Productos extends Controller
     }
 
     # Método buscar
-    function buscar($param=[])
+    function filter($param=[])
     {
         # Iniciamos sesión
         session_start();

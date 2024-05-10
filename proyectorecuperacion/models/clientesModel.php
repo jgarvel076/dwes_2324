@@ -21,7 +21,7 @@ class clientesModel extends Model
                 FROM
                     clientes
                 ORDER BY 
-                    clientes.id
+                    id
                 ";
 
             $conexion = $this->db->connect();
@@ -42,7 +42,38 @@ class clientesModel extends Model
         }
     }
 
-    public function create(ClassCliente $cliente)
+    public function getCliente($id)
+    {
+        try {
+            $sql = " 
+                    SELECT     
+                        id,
+                        nombre,
+                        direccion,
+                        poblacion,
+                        c_postal,
+                        telefono,
+                        email,
+                        nif
+                    FROM  
+                        clientes  
+                    WHERE
+                        id = :id";
+
+            $conexion = $this->db->connect();
+            $pdoSt = $conexion->prepare($sql);
+            $pdoSt->bindParam(":id", $id, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+            return $pdoSt->fetch();
+
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
+        }
+    }
+
+    public function create(Cliente $cliente)
     {
 
         try {
@@ -125,7 +156,7 @@ class clientesModel extends Model
 
     }
 
-    public function update(ClassCliente $cliente, $id)
+    public function update(Cliente $cliente, $id)
     {
 
         try {

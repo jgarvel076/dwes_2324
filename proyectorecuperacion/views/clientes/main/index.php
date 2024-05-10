@@ -34,7 +34,7 @@
                 <?php foreach ($this->clientes as $cliente) : ?>
                     <tr>
                         <td><?= $cliente->id ?></td>
-                        <td><?= $cliente->cliente ?></td> 
+                        <td><?= $cliente->nombre ?></td> 
                         <td><?= $cliente->direccion ?></td>                        
                         <td><?= $cliente->poblacion ?></td>
                         <td><?= $cliente->c_postal ?></td>
@@ -45,8 +45,8 @@
                         <td>
                             <!-- botones de acción -->
                             <a href="<?= URL ?>clientes/delete/<?= $cliente->id ?>" title="Eliminar" onclick="return confirm('¿Quieres Borrar?')"> <i class="bi bi-trash"></i> </a>
-                            <a href="<?= URL ?>clientes/editar/<?= $cliente->id ?>" title="Editar"> <i class="bi bi-pencil"></i> </a>
-                            <a href="<?= URL ?>clientes/mostrar/<?= $cliente->id ?>" title="Mostrar"> <i class="bi bi-eye"></i> </a>
+                            <a href="<?= URL ?>clientes/edit/<?= $cliente->id ?>" title="Editar"> <i class="bi bi-pencil"></i> </a>
+                            <a href="<?= URL ?>clientes/show/<?= $cliente->id ?>" title="Mostrar"> <i class="bi bi-eye"></i> </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
