@@ -19,7 +19,7 @@ class productosModel extends Model
                 FROM
                     productos
                 ORDER BY 
-                    productos.id
+                    id
                 ";
 
             $conexion = $this->db->connect();
@@ -37,6 +37,35 @@ class productosModel extends Model
             include_once('template/partials/errorDB.php');
             exit();
 
+        }
+    }
+
+    public function getProducto($id)
+    {
+        try {
+            $sql = " 
+                    SELECT 
+                        id,
+                        nombre,
+                        ean_13,
+                        descripcion,
+                        precio_venta,
+                        stock
+                    FROM
+                        productos  
+                    WHERE
+                        id = :id";
+
+            $conexion = $this->db->connect();
+            $pdoSt = $conexion->prepare($sql);
+            $pdoSt->bindParam(":id", $id, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+            return $pdoSt->fetch();
+
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
         }
     }
 

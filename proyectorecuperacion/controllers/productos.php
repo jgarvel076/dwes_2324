@@ -251,7 +251,7 @@ class Productos extends Controller
 
         $this->view->producto = $this->model-getProducto($id);
         
-        $this->view->render("productos/editar/index");
+        $this->view->render("productos/edit/index");
     }
     }
 
@@ -389,7 +389,7 @@ class Productos extends Controller
         //$this->view->cliente = $this->model->getCliente($this->view->producto->ean_13);
        
 
-        $this->view->render("productos/mostrar/index");
+        $this->view->render("productos/show/index");
         }
     }
 
