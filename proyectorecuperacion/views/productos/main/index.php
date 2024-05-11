@@ -15,6 +15,8 @@
         <?php include "views/productos/partials/header.php" ?>
         <!-- Menu principal -->
         <?php require_once "views/productos/partials/menu.php" ?>
+        <!-- Modal -->
+        <?php require "views/productos/partials/modal.php" ?>
         <!-- tabla productos -->
         <table class="table">
             <thead>

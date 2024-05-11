@@ -9,6 +9,14 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="<?=URL?>productos/new">Nuevo</a>
                         </li>
+                        <!-- Agregar opción para exportar CSV -->
+                        <li class="nav-item">
+                            <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['productos']['export']) || in_array($_SESSION['id_rol'], $GLOBALS['productos']['export'])) ? 'active' : 'disabled' ?>"" href=" <?= URL ?>productos/export">Exportar CSV</a>
+                        </li>
+                        <!-- Agregar opción para importar CSV -->
+                        <li class="nav-item">
+                            <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['productos']['import']) || in_array($_SESSION['id_rol'], $GLOBALS['productos']['import'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#importModal">Importar CSV</button>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ordenar

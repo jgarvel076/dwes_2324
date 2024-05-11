@@ -1,4 +1,4 @@
-<form action="<?= URL . 'clientes/import/' ?>" method="POST" enctype="multipart/form-data">
+<form action="<?= URL . 'productos/import/' ?>" method="POST" enctype="multipart/form-data">
   <div id="import" class="modal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">

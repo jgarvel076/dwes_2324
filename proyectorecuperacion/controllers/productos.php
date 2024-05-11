@@ -20,7 +20,7 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes 
+            // Reean_13amos a la vista de clientes 
             header('location:'.URL.'index');
         } else {
 
@@ -52,7 +52,7 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes 
+            // Reean_13amos a la vista de clientes 
             header('location:'.URL.'productos');
         } else {
 
@@ -102,7 +102,7 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes 
+            // Reean_13amos a la vista de clientes 
             header('location:'.URL.'productos');
         } else {
 
@@ -142,6 +142,8 @@ class Productos extends Controller
 
         if (!empty($ean_13) && !filter_var($ean_13, FILTER_VALIDATE_REGEXP, $ean)) {
             $errores['ean_13'] = "Debe ser numerico y tener 5 caracteres";
+        } else if (!$this->model->validateUniqueNumEan($ean_13)){
+            $errores['ean_13'] = "El número de ean ya está registrado";
         }
 
         if (empty($descripcion)) {
@@ -163,7 +165,7 @@ class Productos extends Controller
             $_SESSION['error'] = 'Formulario no validado';
             $_SESSION['errores'] = $errores;
 
-            // Redireccionamos de new al formulario
+            // Reean_13amos de new al formulario
             header('location:'.URL.'productos/new/index');
         } else{
             # Añadimos el registro a la tabla
@@ -172,7 +174,7 @@ class Productos extends Controller
             // Crearemos un mensaje, indicando que se ha realizado dicha acción
             $_SESSION['mensaje']="Se ha creado la producto bancaria correctamente.";
 
-            // Redireccionamos a la vista principal de productos
+            // Reean_13amos a la vista principal de productos
             header("Location:" . URL . "productos");
         }
     }
@@ -195,7 +197,7 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes 
+            // Reean_13amos a la vista de clientes 
             header('location:'.URL.'productos');
         } else {
         $id=$param[0];
@@ -222,7 +224,7 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes
+            // Reean_13amos a la vista de clientes
             header('location:'.URL.'productos');
         } else {
         # Obtengo el id 
@@ -272,7 +274,7 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes 
+            // Reean_13amos a la vista de clientes 
             header('location:'.URL.'productos');
         } else {
 
@@ -321,9 +323,11 @@ class Productos extends Controller
                 ]
             ];
     
-        if (!empty($ean_13) && !filter_var($ean_13, FILTER_VALIDATE_REGEXP, $ean)) {
-            $errores['ean_13'] = "Debe ser numerico y tener 5 caracteres";
-        }
+            if (!empty($ean_13) && !filter_var($ean_13, FILTER_VALIDATE_REGEXP, $ean)) {
+                $errores['ean_13'] = "Debe ser numerico y tener 5 caracteres";
+            } else if (!$this->model->validateUniqueNumEan($ean_13)){
+                $errores['ean_13'] = "El número de ean ya está registrado";
+            }
         }
 
         if(strcmp($descripcion,$original->descripcion) !==0){
@@ -378,7 +382,7 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes
+            // Reean_13amos a la vista de clientes
             header('location:'.URL.'productos');
         } else {
         # id de la producto
@@ -410,7 +414,7 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes
+            // Reean_13amos a la vista de clientes
             header('location:'.URL.'productos');
         } else {
         $criterio=$param[0];
@@ -437,13 +441,112 @@ class Productos extends Controller
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
-            // Redireccionamos a la vista de clientes
+            // Reean_13amos a la vista de clientes
             header('location:'.URL.'productos');
         } else {
         $expresion=$_GET["expresion"];
         $this->view->title = "Tabla productos";
         $this->view->productos= $this->model->filter($expresion);
         $this->view->render("productos/main/index");
+        }
+    }
+
+    public function export()
+    {
+
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['productos']['export']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'productos');
+        }
+
+        $productos = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
+
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="productos.csv"');
+
+        $ficheroExport = fopen('php://output', 'w');
+
+        foreach ($productos as $producto) {
+
+            $producto = array(
+                'nombre' => $producto['nombre'],
+                'ean_13' => $producto['ean_13'],
+                'descripcion' => $producto['descripcion'],
+                'precio_venta' => $producto['precio_venta'],
+                'stock' => $producto['stock'],
+
+            );
+
+            fputcsv($ficheroExport, $producto, ';');
+        }
+
+        fclose($ficheroExport);
+    }
+
+    public function import()
+    {
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['productos']['import']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'productos');
+            exit();
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
+            $file = $_FILES["archivo_csv"]["tmp_name"];
+
+            $handle = fopen($file, "r");
+
+            if ($handle !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $nombre = $data[1];
+                    $ean_13 = $data[2];
+                    $descripcion = $data[3];
+                    $precio_venta = $data[4];
+                    $stock = $data[5];
+
+                    //Método para verificar email y dni único.
+                    if ($this->model->validateUniqueNumEan($ean_13)) {
+                        //Si no existe, crear un nuevo cliente
+                        $producto = new classProducto();
+                        $producto->nombre = $nombre;
+                        $producto->ean_13 = $ean_13;
+                        $producto->descripcion = $descripcion;
+                        $producto->precio_venta = $precio_venta;
+                        $producto->stock = $stock;
+
+                        //Usamos create para meter el cliente en la base de datos
+                        $this->model->create($producto);
+                    } else {
+                        //Error de cliente existente
+                        echo "Error, este cliente existente";
+                    }
+                }
+
+                fclose($handle);
+                $_SESSION['mensaje'] = "Importación realizada correctamente";
+                header('location:' . URL . 'productos');
+                exit();
+            } else {
+                $_SESSION['error'] = "Error con el archivo CSV";
+                header('location:' . URL . 'productos');
+                exit();
+            }
+        } else {
+            $_SESSION['error'] = "Seleccione un archivo CSV";
+            header('location:' . URL . 'productos');
+            exit();
         }
     }
 }
