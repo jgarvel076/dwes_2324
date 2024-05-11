@@ -296,6 +296,33 @@ class productosModel extends Model
 
     }
 
+    public function validateUniqueNumEan($ean_13)
+    {
+        try {
+            $sql = "SELECT * FROM productos 
+                    WHERE ean_13 = :ean_13";
+
+
+            //Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':ean_13', $ean_13, PDO::PARAM_STR);
+
+            $pdost->execute();
+
+            if ($pdost->rowCount() != 0) {
+                return false;
+            }
+
+            return true;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
     function getCSV()
     {
 

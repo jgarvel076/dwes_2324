@@ -195,7 +195,7 @@ class Clientes extends Controller
             $errores['nif'] = "Campo obligatorio";
         } else if (!filter_var($nif, FILTER_VALIDATE_REGEXP, $nifRegexp)) {
             $errores['nif'] = "Formato nif incorrecto";
-        } else if (!$this->model->validateUniquenif($nif)) {
+        } else if (!$this->model->validateUniqueNif($nif)) {
             $errores['nif'] = "El nif introducido ya ha sido registrado";
         }
 
@@ -389,7 +389,7 @@ class Clientes extends Controller
                 $errores['nif'] = "Campo obligatorio";
             } else if (!filter_var($nif, FILTER_VALIDATE_REGEXP, $nifRegexp)) {
                 $errores['nif'] = "Formato nif incorrecto";
-            } else if (!$this->model->validateUniquenif($nif)) {
+            } else if (!$this->model->validateUniqueNif($nif)) {
                 $errores['nif'] = "El nif introducido ya ha sido registrado";
             }
         }
@@ -609,7 +609,7 @@ class Clientes extends Controller
                     $nif = $data[7];
 
                     //Método para verificar email y dni único.
-                    if ($this->model->validateUniqueEmail($email) && $this->model->validateUniquenif($nif)) {
+                    if ($this->model->validateUniqueEmail($email) && $this->model->N($nif)) {
                         //Si no existe, crear un nuevo cliente
                         $cliente = new classCliente();
                         $cliente->nombre = $nombre;

@@ -318,6 +318,62 @@ class clientesModel extends Model
 
     }
 
+    public function validateUniqueEmail($email)
+    {
+        try {
+            $sql = "SELECT * FROM clientes 
+                    WHERE email = :email";
+
+
+            //Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':email', $email, PDO::PARAM_STR);
+
+            $pdost->execute();
+
+            if ($pdost->rowCount() != 0) {
+                return false;
+            }
+
+            return true;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
+
+    public function validateUniqueNif($nif)
+    {
+        try {
+            $sql = "SELECT * FROM clientes 
+                     WHERE nif = :nif";
+
+
+            //Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':nif', $nif, PDO::PARAM_STR);
+
+            $pdost->execute();
+
+            if ($pdost->rowCount() != 0) {
+                return false;
+            }
+
+            return true;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
+
     function getCSV()
     {
 
