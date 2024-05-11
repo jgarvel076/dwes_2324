@@ -249,7 +249,7 @@ class Productos extends Controller
 
         $this->view->title = "Formulario edit producto";
 
-        $this->view->producto = $this->model-getProducto($id);
+        $this->view->producto = $this->model->getProducto($id);
         
         $this->view->render("productos/edit/index");
     }
