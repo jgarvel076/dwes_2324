@@ -12,11 +12,9 @@ class Cliente
     public $direccion;
     public $poblacion;
     public $c_postal;
-    public $provincia;
-    public $nif;
     public $telefono;
-    public $movil;
     public $email;
+    public $nif;
     
 
 
@@ -26,11 +24,10 @@ class Cliente
         $direccion = null,
         $poblacion = null,
         $c_postal = null,
-        $provincia = null,
-        $nif = null,
         $telefono = null,
-        $movil = null,
         $email = null,
+        $nif = null
+
         
 
     ) {
@@ -39,11 +36,10 @@ class Cliente
         $this->direccion = $direccion;
         $this->poblacion = $poblacion;
         $this->c_postal = $c_postal;
-        $this->provincia = $provincia;
-        $this->nif = $nif;
         $this->telefono = $telefono;
-        $this->movil = $movil;
         $this->email = $email;
+        $this->nif = $nif;
+
         
 
 

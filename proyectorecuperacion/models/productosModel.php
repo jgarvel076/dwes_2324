@@ -154,7 +154,7 @@ class productosModel extends Model
                 UPDATE productos
                 SET
                         nombre = :nombre,
-                        ean_13 = ean_13,
+                        ean_13 = :ean_13,
                         descripcion = :descripcion,
                         precio_venta = :precio_venta,
                         stock = :stock
@@ -167,6 +167,7 @@ class productosModel extends Model
 
             $pdostmt = $conexion->prepare($sql);
 
+            $pdostmt->bindParam(":id", $id, PDO::PARAM_INT);
             $pdostmt->bindParam(':nombre', $producto->nombre, PDO::PARAM_STR, 30);
             $pdostmt->bindParam(':ean_13', $producto->ean_13, PDO::PARAM_STR, 13);
             $pdostmt->bindParam(':descripcion', $producto->descripcion, PDO::PARAM_STR, 50);

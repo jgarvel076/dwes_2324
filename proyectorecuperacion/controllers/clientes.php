@@ -137,8 +137,6 @@ class Clientes extends Controller
         // Creamos el array de errores
         $errores = [];
 
-        
-
         if (empty($nombre)) {
             $errores['nombre'] = "Campo obligatorio";
         } else if (strlen($nombre) > 20) {
@@ -187,7 +185,7 @@ class Clientes extends Controller
 
         $nifRegexp = [
             'options' => [
-                'regexp' => '/^[0-9]{8}[A-Z]$/'
+                'regexp' => '/^[0-9]{8}$/'
             ]
         ];
 
@@ -197,9 +195,11 @@ class Clientes extends Controller
             $errores['nif'] = "Formato nif incorrecto";
         } else if (!$this->model->validateUniqueNif($nif)) {
             $errores['nif'] = "El nif introducido ya ha sido registrado";
-        }
+        }  
 
-        
+        //print_r($errores);
+        //var_dump($cliente);
+        //exit();
 
         # comprobar validación
         if (!empty($errores)) {
@@ -209,7 +209,7 @@ class Clientes extends Controller
             $_SESSION['errores'] = $errores;
 
             // Redireccionamos nuevamente al formulario nuevo
-            header('Location:' . URL . 'clientes/nuevo');
+            header('Location:' . URL . 'clientes/new');
         } else {
             // Añadimos el registro a la base de datos
             $this->model->create($cliente);
@@ -381,7 +381,7 @@ class Clientes extends Controller
         if (strcmp($nif, $clienteOriginal->nif) !== 0) {
             $nifRegexp = [
                 'options' => [
-                    'regexp' => '/^[0-9]{8}[A-Z]$/'
+                    'regexp' => '/^[0-9]{8}$/'
                 ]
             ];
 
@@ -403,7 +403,7 @@ class Clientes extends Controller
             $_SESSION['error'] = 'Formulario no validado';
             $_SESSION['errores'] = $errores;
 
-            header('location:' . URL . 'clientes/editar/' . $id);
+            header('location:' . URL . 'clientes/edit/' . $id);
         } else {
             // Actualizamos el registro
             $this->model->update($cliente, $id);
@@ -558,10 +558,6 @@ class Clientes extends Controller
         $ficheroExport = fopen('php://output', 'w');
 
         foreach ($clientes as $cliente) {
-            $fecha = date("Y-m-d H:i:s");
-
-            $cliente['create_at'] = $fecha;
-            $cliente['update_at'] = $fecha;
 
             $cliente = array(
                 'nombre' => $cliente['nombre'],
@@ -609,9 +605,9 @@ class Clientes extends Controller
                     $nif = $data[7];
 
                     //Método para verificar email y dni único.
-                    if ($this->model->validateUniqueEmail($email) && $this->model->N($nif)) {
+                    if ($this->model->validateUniqueEmail($email) && $this->model->validateUniqueNif($nif)) {
                         //Si no existe, crear un nuevo cliente
-                        $cliente = new classCliente();
+                        $cliente = new cliente();
                         $cliente->nombre = $nombre;
                         $cliente->direccion = $direccion;
                         $cliente->poblacion = $poblacion;

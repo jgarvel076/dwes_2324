@@ -181,6 +181,7 @@ class clientesModel extends Model
 
             $pdostmt = $conexion->prepare($sql);
 
+            $pdostmt->bindParam(":id", $id, PDO::PARAM_INT);
             $pdostmt->bindParam(':nombre', $cliente->nombre, PDO::PARAM_STR, 30);
             $pdostmt->bindParam(':direccion', $cliente->direccion, PDO::PARAM_STR, 50);
             $pdostmt->bindParam(':poblacion', $cliente->poblacion, PDO::PARAM_STR, 30);
@@ -418,7 +419,7 @@ class clientesModel extends Model
 
             include_once('template/partials/errorDB.php');
             exit();
-        }
+        } 
     }
 
 }

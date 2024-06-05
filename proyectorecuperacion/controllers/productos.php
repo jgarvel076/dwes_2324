@@ -98,7 +98,7 @@ class Productos extends Controller
 
            // login
            header('location:' . URL . 'login');
-        } else if(!in_array($_SESSION['id_rol'],$GLOBALS['productos']['new'])){
+        } if(!in_array($_SESSION['id_rol'],$GLOBALS['productos']['new'])){
 
             $_SESSION['mensaje'] = "No tienes privilegios para realizar dicha operación";
 
@@ -301,7 +301,7 @@ class Productos extends Controller
         $id = $param[0];
 
         # Obtenemos el objeto 
-        $original = $this->model-getProducto($id);
+        $original = $this->model->getProducto($id);
        
 
         # validación
@@ -519,7 +519,7 @@ class Productos extends Controller
                     //Método para verificar email y dni único.
                     if ($this->model->validateUniqueNumEan($ean_13)) {
                         //Si no existe, crear un nuevo cliente
-                        $producto = new classProducto();
+                        $producto = new producto();
                         $producto->nombre = $nombre;
                         $producto->ean_13 = $ean_13;
                         $producto->descripcion = $descripcion;

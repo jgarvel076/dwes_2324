@@ -32,11 +32,6 @@
                 <label for="" class="form-label">Descripcion</label>
                 <input type="text" class="form-control" name="descripcion">
             </div>
-            <!-- categoria -->
-            <div class="mb-3">
-                <label for="" class="form-label">Categoria</label>
-                <input type="text" class="form-control" name="categoria">
-            </div>
             <!-- precio_venta -->
             <div class="mb-3">
                 <label for="" class="form-label">Precio</label>

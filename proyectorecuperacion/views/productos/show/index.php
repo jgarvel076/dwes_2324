@@ -32,11 +32,7 @@
                 <label for="" class="form-label">Descripcion</label>
                 <input type="text" class="form-control" name="descripcion" value="<?= $this->producto->descripcion ?>" disabled>
             </div>
-            <!-- categoria solo lectura -->
-            <div class="mb-3">
-                <label for="" class="form-label">Categoria</label>
-                <input type="text" class="form-control" name="categoria" value="<?= $this->producto->categoria ?>" disabled>
-            </div>
+
             <!-- precio_venta solo lectura -->
             <div class="mb-3">
                 <label for="" class="form-label">Precio</label>
