@@ -15,6 +15,8 @@
     <div class="container">
         <!-- cabecera -->
         <?php include "views/productos/partials/header.php" ?>
+        <!-- Mensaje en caso de error -->
+        <?php include("template/partials/error.php") ?>
         <!-- formulario  -->
         <form action="<?= URL ?>productos/create" method="POST">
             <!-- nombre -->
