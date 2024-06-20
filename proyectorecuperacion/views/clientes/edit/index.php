@@ -19,40 +19,82 @@
         <?php include "template/partials/error.php"?>
         <!-- Formulario -->
         <form action="<?= URL ?>clientes/update/<?= $this->id ?>" method="POST">
-            <!-- Nombre -->
+            <!-- nombre -->
             <div class="mb-3">
                 <label for="" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre" value="<?= $this->cliente->nombre ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['nombre']))? 'is-invalid': null ?>" name="nombre" value="<?=$this->cliente->nombre?>">
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['nombre'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['nombre'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
             <!-- direccion -->
             <div class="mb-3">
                 <label for="" class="form-label">Direccion</label>
-                <input type="text" class="form-control" name="direccion" value="<?= $this->cliente->direccion ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['direccion']))? 'is-invalid': null ?>" name="direccion" value="<?=$this->cliente->direccion?>">
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['direccion'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['direccion'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
             <!-- poblacion -->
             <div class="mb-3">
                 <label for="" class="form-label">Poblacion</label>
-                <input type="text" class="form-control" name="poblacion" value="<?= $this->cliente->poblacion ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['poblacion']))? 'is-invalid': null ?>" name="poblacion" value="<?=$this->cliente->poblacion?>">
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['poblacion'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['poblacion'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
             <!-- c_postal -->
             <div class="mb-3">
                 <label for="" class="form-label">Codigo postal</label>
-                <input type="text" class="form-control" name="c_postal" id="" value="<?= $this->cliente->c_postal ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['c_postal']))? 'is-invalid': null ?>" name="c_postal" value="<?=$this->cliente->c_postal?>">
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['c_postal'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['c_postal'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
             <!-- telefono -->
             <div class="mb-3">
                 <label for="" class="form-label">Telefono</label>
-                <input type="text" class="form-control" name="telefono" id="" value="<?= $this->cliente->telefono ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['telefono']))? 'is-invalid': null ?>" name="telefono" value="<?=$this->cliente->telefono?>">
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['telefono'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['telefono'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
             <!-- email -->
             <div class="mb-3">
                 <label for="" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" id="" value="<?= $this->cliente->email ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['email']))? 'is-invalid': null ?>" name="email" value="<?=$this->cliente->email?>">
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['email'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['email'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
-            <!-- nif -->
+            <!-- NIF -->
             <div class="mb-3">
                 <label for="" class="form-label">NIF</label>
-                <input type="text" class="form-control" name="nif" id="" value="<?= $this->cliente->nif ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['nif']))? 'is-invalid': null ?>" name="nif" value="<?=$this->cliente->nif?>">
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['nif'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['nif'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
             <!-- botones de acción -->
             <div class="mb-3">

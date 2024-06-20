@@ -26,6 +26,7 @@
     $GLOBALS['clientes']['order'] = [1,2,3];
     $GLOBALS['clientes']['export'] = [1];
     $GLOBALS['clientes']['import'] = [1];
+    $GLOBALS['clientes']['pdf'] = [1,2];
 
     // Permisos productos
     $GLOBALS['productos']['main'] = [1,2,3];
@@ -37,4 +38,14 @@
     $GLOBALS['productos']['order'] = [1,2,3];
     $GLOBALS['productos']['export'] = [1];
     $GLOBALS['productos']['import'] = [1];
+    $GLOBALS['productos']['pdf'] = [1,2];
+
+        // Permisos ventas
+        $GLOBALS['ventas']['main'] = [1,2,3];
+        $GLOBALS['ventas']['new'] = [1,2];
+        $GLOBALS['ventas']['edit'] = [1,2];
+        $GLOBALS['ventas']['delete'] = [1];
+        $GLOBALS['ventas']['show'] = [1,2,3];
+        $GLOBALS['ventas']['filter'] = [1,2,3];
+        $GLOBALS['ventas']['order'] = [1,2,3];
 ?>

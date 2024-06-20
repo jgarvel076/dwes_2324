@@ -10,14 +10,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<?= URL ?>index">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<?= URL ?>cuentas">Productos</a>
+      <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="<?= URL ?>productos">Productos</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="<?= URL ?>clientes">Clientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="<?= URL ?>ventas">Ventas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="<?= URL ?>lineasventas">Lineas</a>
         </li>
       </ul>
       <div class="d-flex">

@@ -15,6 +15,8 @@
         <?php include "views/productos/partials/header.php" ?>
         <!-- Menu principal -->
         <?php require_once "views/productos/partials/menu.php" ?>
+        <!-- Mensajes -->
+        <?php include "template/partials/mensaje.php"?>
         <!-- Modal -->
         <?php require "views/productos/partials/modal.php" ?>
         <!-- tabla productos -->
@@ -25,8 +27,8 @@
                     <th>Producto</th>
                     <th>ean_13</th>
                     <th>Descripcion</th>
-                    <th>Precio</th>
                     <th>Stock</th>
+                    <th>Precio</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -41,9 +43,21 @@
                         <td><?= $producto->precio_venta ?></td>
                         <td>
                             <!-- botones de acción -->
-                            <a href="<?= URL ?>productos/delete/<?= $producto->id ?>" title="Eliminar" onclick="return confirm('¿Quieres Borrar?')"> <i class="bi bi-trash"></i> </a>
-                            <a href="<?= URL ?>productos/edit/<?= $producto->id ?>" title="Editar"> <i class="bi bi-pencil"></i> </a>
-                            <a href="<?= URL ?>productos/show/<?= $producto->id ?>" title="Mostrar"> <i class="bi bi-eye"></i> </a>
+                            <a href="<?= URL ?>productos/delete/<?= $producto->id ?>" title="Eliminar"
+                                onclick="return confirm('¿Quieres Borrar?')" class="btn btn-danger
+                                    <?= (!in_array($_SESSION['id_rol'], $GLOBALS['productos']['delete'])) ? 'disabled' : '' ?>">
+                                <i class="bi bi-trash"></i>
+                            </a>
+
+                            <a href="<?= URL ?>productos/edit/<?= $producto->id ?>" title="Editar" class="btn btn-primary
+                                    <?= (!in_array($_SESSION['id_rol'], $GLOBALS['productos']['edit'])) ? 'disabled' : '' ?>">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <a href="<?= URL ?>productos/show/<?= $producto->id ?>" title="Mostrar" class="btn btn-primary
+                                    <?= (!in_array($_SESSION['id_rol'], $GLOBALS['productos']['show'])) ? 'disabled' : '' ?>">
+                                <i class="bi bi-eye"></i>
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

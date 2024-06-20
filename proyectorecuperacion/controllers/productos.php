@@ -130,7 +130,7 @@ class Productos extends Controller
 
         if (empty($nombre)) {
             $errores['nombre'] = "Campo obligatorio";
-        } else if (strlen($descripcion) > 20) {
+        } else if (strlen($descripcion) > 40) {
             $errores['nombre'] = "Superaste el limite de caracteres";
         }
 
@@ -141,7 +141,7 @@ class Productos extends Controller
         ];
 
         if (!empty($ean_13) && !filter_var($ean_13, FILTER_VALIDATE_REGEXP, $ean)) {
-            $errores['ean_13'] = "Debe ser numerico y tener 5 caracteres";
+            $errores['ean_13'] = "Debe ser numerico y tener 13 caracteres";
         } else if (!$this->model->validateUniqueNumEan($ean_13)){
             $errores['ean_13'] = "El número de ean ya está registrado";
         }
@@ -150,12 +150,6 @@ class Productos extends Controller
             $errores['descripcion'] = "Campo obligatorio";
         } else if (strlen($descripcion) > 80) {
             $errores['descripcion'] = "Superaste el limite de caracteres";
-        }
-
-        if (empty($categoria)) {
-            $errores['categoria'] = "Campo obligatorio";
-        } else if (strlen($categoria) > 20) {
-            $errores['categoria'] = "Superaste el limite de caracteres";
         }
 
         # comprobar validación
@@ -478,8 +472,8 @@ class Productos extends Controller
                 'nombre' => $producto['nombre'],
                 'ean_13' => $producto['ean_13'],
                 'descripcion' => $producto['descripcion'],
-                'precio_venta' => $producto['precio_venta'],
                 'stock' => $producto['stock'],
+                'precio_venta' => $producto['precio_venta'],
 
             );
 
@@ -510,11 +504,11 @@ class Productos extends Controller
 
             if ($handle !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
-                    $nombre = $data[1];
-                    $ean_13 = $data[2];
-                    $descripcion = $data[3];
+                    $nombre = $data[0];
+                    $ean_13 = $data[1];
+                    $descripcion = $data[2];
+                    $stock = $data[3];
                     $precio_venta = $data[4];
-                    $stock = $data[5];
 
                     //Método para verificar email y dni único.
                     if ($this->model->validateUniqueNumEan($ean_13)) {
@@ -523,8 +517,8 @@ class Productos extends Controller
                         $producto->nombre = $nombre;
                         $producto->ean_13 = $ean_13;
                         $producto->descripcion = $descripcion;
-                        $producto->precio_venta = $precio_venta;
                         $producto->stock = $stock;
+                        $producto->precio_venta = $precio_venta;
 
                         //Usamos create para meter el cliente en la base de datos
                         $this->model->create($producto);
@@ -548,5 +542,31 @@ class Productos extends Controller
             header('location:' . URL . 'productos');
             exit();
         }
+    }
+
+    function pdf()
+    {
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "El usuario debe autenticarse";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['productos']['pdf']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'productos');
+            exit();
+        }
+
+        //Obtenemos los productos
+        $productos = $this->model->get();
+
+        $pdf = new pdfProductos();
+
+        //Escribimos en el PDF
+        $pdf->contenido($productos);
+
+        // Salida del PDF
+        $pdf->Output();
     }
 }

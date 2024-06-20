@@ -107,7 +107,7 @@ class clientesModel extends Model
             $pdostmt->bindParam(':c_postal', $cliente->c_postal, PDO::PARAM_STR, 6);
             $pdostmt->bindParam(':telefono', $cliente->telefono, PDO::PARAM_STR, 13);
             $pdostmt->bindParam(':email', $cliente->email, PDO::PARAM_STR, 50);
-            $pdostmt->bindParam(':nif', $cliente->nif, PDO::PARAM_STR, 9);
+            $pdostmt->bindParam(':nif', $cliente->nif, PDO::PARAM_STR, 9); 
             
             $pdostmt->execute();
 

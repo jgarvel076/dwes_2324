@@ -596,13 +596,14 @@ class Clientes extends Controller
 
             if ($handle !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
-                    $nombre = $data[1];
-                    $direccion = $data[2];
-                    $poblacion = $data[3];
-                    $c_postal = $data[4];
-                    $telefono = $data[5];
-                    $email = $data[6];
-                    $nif = $data[7];
+                    
+                    $nombre = $data[0];
+                    $direccion = $data[1];
+                    $poblacion = $data[2];
+                    $c_postal = $data[3];
+                    $telefono = $data[4];
+                    $email = $data[5];
+                    $nif = $data[6];
 
                     //Método para verificar email y dni único.
                     if ($this->model->validateUniqueEmail($email) && $this->model->validateUniqueNif($nif)) {
@@ -638,6 +639,32 @@ class Clientes extends Controller
             header('location:' . URL . 'clientes');
             exit();
         }
+    }
+
+    function pdf()
+    {
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "El usuario debe autenticarse";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['pdf']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'clientes');
+            exit();
+        }
+
+        //Obtenemos los clientes
+        $clientes = $this->model->get();
+
+        $pdf = new pdfClientes();
+
+        //Escribimos en el PDF
+        $pdf->contenido($clientes);
+
+        // Salida del PDF
+        $pdf->Output();
     }
 }
 

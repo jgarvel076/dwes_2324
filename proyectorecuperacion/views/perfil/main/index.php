@@ -17,7 +17,7 @@
             
             <div class="col-md-8">
             <!-- mensaje -->
-            <?php require_once("template/partials/notify.php") ?>
+            <?php require_once("template/partials/mensaje.php") ?>
             <!-- error -->
             <?php require_once("template/partials/error.php") ?>
                 <div class="card">

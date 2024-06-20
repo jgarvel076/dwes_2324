@@ -1,27 +1,24 @@
 <!doctype html>
 <html lang="es">
 
-<head>
-    <?php require_once("template/partials/head.php") ?>
-    <title><?= $this->title ?></title>
-</head>
-
+<?php require_once("template/partials/head.php") ?>
 
 <body>
-    <!-- menu con autentificación -->
+    <br><br><br>
+    <!-- Menu Aut -->
     <?php require_once("template/partials/menuAut.php") ?>
 
     <!-- Page Content -->
     <div class="container">
-        <br><br><br>
+        <br>
 
         <div class="row justify-content-center">
 
             <div class="col-md-8">
-                <?php require_once("template/partials/notify.php") ?>
+                <?php require_once("template/partials/mensaje.php") ?>
                 <?php require_once("template/partials/error.php") ?>
                 <div class="card">
-                    <div class="card-header">Modificar Password <?= $_SESSION['name_user']?></div>
+                    <div class="card-header">Modificar Password</div>
                     <div class="card-body">
                         <form method="POST" action="<?= URL ?>perfil/valpass">
 
@@ -29,10 +26,9 @@
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">Password Actual</label>
                                 <div class="col-sm-7">
-                                    <input type="password" class="form-control" name="password_actual" required
-                                        autocomplete="current-password">
+                                    <input type="password" class="form-control" name="password_form" required autocomplete="current-password">
                                     <span class="form-text text-danger" role="alert">
-                                        <?= $this->erroresVal['password_actual'] ??= null ?>
+                                        <?= $this->erroresVal['password_form'] ??= null ?>
                                     </span>
                                 </div>
 
@@ -42,8 +38,7 @@
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">Nuevo Password</label>
                                 <div class="col-sm-7">
-                                    <input type="password" class="form-control" name="password" required
-                                        autocomplete="current-password">
+                                    <input type="password" class="form-control" name="password" required autocomplete="current-password">
                                     <span class="form-text text-danger" role="alert">
                                         <?= $this->erroresVal['password'] ??= null ?>
                                     </span>
@@ -55,8 +50,7 @@
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">Confirmación Nuevo Password</label>
                                 <div class="col-sm-7">
-                                    <input type="password" class="form-control" name="password_confirm" required
-                                        autocomplete="current-password">
+                                    <input type="password" class="form-control" name="password_confirm" required autocomplete="current-password">
                                 </div>
                             </div>
 

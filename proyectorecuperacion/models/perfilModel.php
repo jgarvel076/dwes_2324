@@ -1,4 +1,4 @@
-<?php 
+<?php  
     class PerfilModel extends Model {
 
     public function getUserId($id) {

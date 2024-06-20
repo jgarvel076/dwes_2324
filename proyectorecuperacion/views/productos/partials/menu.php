@@ -7,7 +7,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="<?=URL?>productos/new">Nuevo</a>
+                        <a class="nav-link <?=(in_array($_SESSION['id_rol'],$GLOBALS['productos']['new']))?'activate':'disabled'?>" aria-current="page" href="<?=URL?>productos/new">Nuevo</a>
                         </li>
                         <!-- Agregar opción para exportar CSV -->
                         <li class="nav-item">
@@ -17,6 +17,10 @@
                         <li class="nav-item">
                             <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['productos']['import']) || in_array($_SESSION['id_rol'], $GLOBALS['productos']['import'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#import">Importar CSV</button>
                         </li>
+                        <!-- Agregar opción para PDF -->
+                        <li class="nav-item">
+                            <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['productos']['pdf']) || in_array($_SESSION['id_rol'], $GLOBALS['productos']['pdf'])) ? 'active' : 'disabled' ?>" aria-current="page" href="<?= URL ?>productos/pdf">PDF</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ordenar
@@ -25,8 +29,8 @@
                                 <li><a class="dropdown-item" href="<?=URL?>productos/order/1">ID</a></li>
                                 <li><a class="dropdown-item" href="<?=URL?>productos/order/2">Producto</a></li>
                                 <li><a class="dropdown-item" href="<?=URL?>productos/order/3">Descripcion</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>productos/order/4">Precio</a></li>
-                                <li><a class="dropdown-item" href="<?=URL?>productos/order/5">Stock</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>productos/order/4">Stock</a></li>
+                                <li><a class="dropdown-item" href="<?=URL?>productos/order/5">Precio</a></li>
                             </ul>
                         </li>
 
